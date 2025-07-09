@@ -1,60 +1,58 @@
 import ErrorCliente from "../utiles/error.js"
-import { validarLlamado } from "../validadores/llamado.js"
+import { validarSolicitud } from "../validadores/llamado.js" // Asume que el validador será adaptado luego
 
-class LlamadoControlador {
-    constructor({ llamadoServicio }) {
-        this.llamadoServicio = llamadoServicio
+class SolicitudControlador {
+    constructor({ solicitudServicio }) {
+        this.solicitudServicio = solicitudServicio
     }
 
-    obtenerTodos = async (req, res, next) => {
-        const { usuarioId } = req.query
-
+    obtenerTodas = async (req, res, next) => {
+        const { id_empleado, id_soporte } = req.query
         try {
-            const resultado = await this.llamadoServicio.obtenerTodos({ usuarioId })
-            res.status(200).json(resultado)
-        } catch(err) {
-            next(err)
-        }
-    }
-    
-    obtenerLlamadoPorId = async (req, res, next) => {
-        const { id } = req.params
-
-        try {
-            const resultado = await this.llamadoServicio.obtenerLlamadoPorId({ id })
+            const resultado = await this.solicitudServicio.obtenerTodas({ id_empleado, id_soporte })
             res.status(200).json(resultado)
         } catch(err) {
             next(err)
         }
     }
 
-    crearLlamado = async (req, res, next) => {
-        const { id_preceptor, id_emisor, id_curso, numero_nivel, mensaje } = req.body || {}
-
-        try {
-            const resultado = await this.llamadoServicio.crearLlamado({ id_preceptor, id_emisor, id_curso, numero_nivel, mensaje })
-            res.status(200).json({ mensaje: 'llamado creado', data: { id: resultado.insertId } }) 
-        } catch(err) {
-            next(err)
-        }
-    }
-
-    eliminarLlamado = async (req, res, next) => {
+    obtenerSolicitudPorId = async (req, res, next) => {
         const { id } = req.params
-
         try {
-            const resultado = await this.llamadoServicio.eliminarLlamado({ id })
+            const resultado = await this.solicitudServicio.obtenerSolicitudPorId({ id })
             res.status(200).json(resultado)
         } catch(err) {
             next(err)
         }
     }
 
-    actualizarLlamado = async (req, res, next) => {
-        const { id } = req.params
-
+    crearSolicitud = async (req, res, next) => {
+        const { id_empleado, tipo, ubicacion, id_prioridad, mensaje } = req.body || {}
         try {
-            const resultado = await this.llamadoServicio.actualizarLlamado({ id_llamado: id, ...req.body })
+            // Validar datos (asume que el validador será adaptado)
+            // const { valido, errores } = validarSolicitud({ id_empleado, tipo, ubicacion, id_prioridad, mensaje })
+            // if (!valido) throw new ErrorCliente(Object.values(errores)[0], 400)
+            const resultado = await this.solicitudServicio.crearSolicitud({ id_empleado, tipo, ubicacion, id_prioridad, mensaje })
+            res.status(200).json({ mensaje: 'Solicitud creada', data: { id: resultado.insertId } })
+        } catch(err) {
+            next(err)
+        }
+    }
+
+    eliminarSolicitud = async (req, res, next) => {
+        const { id } = req.params
+        try {
+            const resultado = await this.solicitudServicio.eliminarSolicitud({ id })
+            res.status(200).json(resultado)
+        } catch(err) {
+            next(err)
+        }
+    }
+
+    actualizarSolicitud = async (req, res, next) => {
+        const { id } = req.params
+        try {
+            const resultado = await this.solicitudServicio.actualizarSolicitud({ id_solicitud: id, ...req.body })
             res.status(200).json(resultado)
         } catch(err) {
             next(err)
@@ -62,4 +60,4 @@ class LlamadoControlador {
     }
 }
 
-export default LlamadoControlador
+export default SolicitudControlador

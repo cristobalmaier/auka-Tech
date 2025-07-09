@@ -32,7 +32,7 @@ class UsuarioControlador {
     }
 
     crearUsuario = async (req, res, next) => {
-        const  { nombre, apellido, email, contrasena, tipo_usuario = 'profesor' } = req.body || {}
+        const  { nombre, apellido, email, contrasena, tipo_usuario = 'empleado' } = req.body || {}
         
         try {
             await this.usuarioServicio.crearUsuario({ nombre, apellido, email, contrasena, tipo_usuario })

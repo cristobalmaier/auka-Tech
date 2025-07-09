@@ -25,7 +25,7 @@
             <div class="formulario-llamado">
                 <form action="" method="GET" id="formulario" data-mensaje="<%= typeof llamado !== 'undefined' && llamado.data.finalizado == 0 ? llamado.data.mensaje : '' %>" data-id_llamado="<%= typeof llamado !== 'undefined' ? llamado.data.id : '' %>">
                     <div class="formulario-cabecera">
-                        <h2>Realizar llamado</h2>
+                        <h2>Realizar solicitud</h2>
                     </div>
                     <!-- <label for="">Seleccionar preceptor</label>
                     <select name="preceptor" id="">
@@ -43,7 +43,7 @@
                         </p>
                     </div>
                     <div class="formulario-curso">
-                        <label for="curso">Curso</label>
+                        <label for="curso">Área</label>
                         <select name="curso" id="curso">
                             <% llamado.cursos.forEach(curso => { %>
                                 <option value="<%= curso.id_curso %>"><%= curso.curso %></option>
@@ -53,17 +53,17 @@
                     <div class="formulario-columna">
                         <label for="nivel">Nivel de importancia</label>
                         <div class="botones-niveles">
-                            <button <%= typeof llamado !== 'undefined' && llamado.data.finalizado == 0 ? 'disabled' : '' %> type="button" class="boton-select nivel-leve selected" data-nivel="1">Leve</button>
-                            <button <%= typeof llamado !== 'undefined' && llamado.data.finalizado == 0 ? 'disabled' : '' %> type="button" class="boton-select nivel-moderado" data-nivel="2">Moderado</button>
-                            <button <%= typeof llamado !== 'undefined' && llamado.data.finalizado == 0 ? 'disabled' : '' %> type="button" class="boton-select nivel-urgente" data-nivel="3">Urgente</button>
+                            <button <%= typeof llamado !== 'undefined' && llamado.data.finalizado == 0 ? 'disabled' : '' %> type="button" class="boton-select nivel-baja selected" data-nivel="1">Baja</button>
+                            <button <%= typeof llamado !== 'undefined' && llamado.data.finalizado == 0 ? 'disabled' : '' %> type="button" class="boton-select nivel-media" data-nivel="2">Media</button>
+                            <button <%= typeof llamado !== 'undefined' && llamado.data.finalizado == 0 ? 'disabled' : '' %> type="button" class="boton-select nivel-alta" data-nivel="3">Alta</button>
                             <input type="hidden" name="nivel" id="nivel-input" value="1">
                         </div>
                     </div>
 
                     <% if(typeof llamado !== 'undefined' && llamado.data.finalizado == 0) { %>
-                        <button type="button" id="boton-llamado" disabled>Llamar preceptor</button>
+                        <button type="button" id="boton-llamado" disabled>Mandar solicitud</button>
                     <% } else { %>
-                        <button type="button" id="boton-llamado">Llamar preceptor</button>
+                        <button type="button" id="boton-llamado">Mandar solicitud</button>
                     <% } %>
 
 		        </form>
@@ -76,7 +76,7 @@
                             <h3>Respuesta del preceptor</h3>
                         <% } %>
 
-                        <span class="texto-muted">Estado de tu llamado</span>
+                        <span class="texto-muted">Estado de tu solicitud</span>
                     </div>
                     <div class="estado-llamado-preceptor <%= typeof llamado.respuesta.id == 'undefined' ? 'esconder' : '' %>">
                         <div class="estado-preceptor-info">
@@ -135,7 +135,7 @@
                                 <% } %>
                             </div>
                             <div>
-                                <p>Llamado finalizado</p>
+                                <p>Solicitud finalizada</p>
                             </div>
                         </div>
                     </div>
@@ -171,7 +171,7 @@
             -->
         <div class="columna columna-derecha">
             <div class="preceptores">
-                <p class="preceptores-titulo">Preceptores disponibles</p>
+                <p class="preceptores-titulo">Personal de soporte disponible</p>
 
                 <div class="preceptores-contenedor">
                     <% if((typeof turnos !== 'undefined' && turnos !== null) && turnos.length > 0) { %>
@@ -182,7 +182,7 @@
                             </div>
                         <% }) %>
                     <% } else { %>
-                        <p class="no-hay-preceptores">No hay preceptores disponibles.</p>
+                        <p class="no-hay-preceptores">No hay Personal de soporte disponible.</p>
                     <% } %>
                 </div>
                 

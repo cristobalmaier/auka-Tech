@@ -1,17 +1,17 @@
 import { Router } from 'express'
-const llamadoRutas = new Router()
+const solicitudRutas = new Router()
 
 // Modelo para obtener datos
-import LlamadoServicio from "../servicios/llamado.servicios.js"
+import SolicitudServicio from "../servicios/llamado.servicios.js" // Renombrar archivo luego
 
 // Controlador
-import LlamadoControlador from "../controladores/llamado.controlador.js"
-const llamadoControlador = new LlamadoControlador({ llamadoServicio: LlamadoServicio })
+import SolicitudControlador from "../controladores/llamado.controlador.js" // Renombrar archivo luego
+const solicitudControlador = new SolicitudControlador({ solicitudServicio: SolicitudServicio })
 
-llamadoRutas.get("/", llamadoControlador.obtenerTodos)
-llamadoRutas.get("/:id", llamadoControlador.obtenerLlamadoPorId)
-llamadoRutas.post("/crear", llamadoControlador.crearLlamado)
-llamadoRutas.delete("/eliminar/:id", llamadoControlador.eliminarLlamado)
-llamadoRutas.put("/actualizar/:id", llamadoControlador.actualizarLlamado)
+solicitudRutas.get("/", solicitudControlador.obtenerTodas)
+solicitudRutas.get("/:id", solicitudControlador.obtenerSolicitudPorId)
+solicitudRutas.post("/crear", solicitudControlador.crearSolicitud)
+solicitudRutas.delete("/eliminar/:id", solicitudControlador.eliminarSolicitud)
+solicitudRutas.put("/actualizar/:id", solicitudControlador.actualizarSolicitud)
 
-export default llamadoRutas
+export default solicitudRutas

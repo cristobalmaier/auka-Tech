@@ -404,7 +404,6 @@ hr {
   align-items: flex-start;
   height: calc(100vh - 140px);
   gap: 20px;
-  padding: 20px;
   margin: 20px 320px 20px 20px;
 }
 
@@ -430,8 +429,9 @@ hr {
   flex-direction: column;
   border-radius: 15px;
   box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.25);
-  background-color: var(--color-fondo-llamado);
+  background-color: var(--color-fondo-secundario);
   max-width: 490px;
+  border: 1px solid #e5e7eb;
   width: 100%;
   max-height: 700px;
   padding: 20px;
@@ -508,19 +508,19 @@ hr {
   font-size: 14px;
 }
 
-.formulario-llamado .nivel-leve.selected {
-  box-shadow: inset 0 0 0 2px var(--color-leve-boton-select);
-  color: var(--color-leve-boton-select);
+.formulario-llamado .nivel-baja.selected {
+  box-shadow: inset 0 0 0 2px #4CAF50;
+  color: #4CAF50;
 }
 
-.formulario-llamado .nivel-moderado.selected {
-  box-shadow: inset 0 0 0 2px var(--color-moderado-boton-select);
-  color: var(--color-moderado-boton-select);
+.formulario-llamado .nivel-media.selected {
+  box-shadow: inset 0 0 0 2px #ddc703;
+  color: #ddc703;
 }
 
-.formulario-llamado .nivel-urgente.selected {
-  box-shadow: inset 0 0 0 2px var(--color-urgente-boton-select);
-  color: var(--color-urgente-boton-select);
+.formulario-llamado .nivel-alta.selected {
+  box-shadow: inset 0 0 0 2px #F44336;
+  color: #F44336;
 }
 
 .formulario-llamado .boton-select:disabled {

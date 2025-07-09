@@ -26,7 +26,7 @@
                 <h1>AukaTech</h1>
             </div>
             <div class="historial">
-                <p class="historial-titulo">Historial de llamados</p>
+                <p class="historial-titulo">Historial de solicitudes</p>
 
                 <div class="historial-contenedor">
 
@@ -115,17 +115,17 @@
                     <% } %>
                 <% }) %>
                 <div class="no-hay-llamados esconder">
-                    <h1>No hay llamados pendientes.</h1>
+                    <h1>No hay solicitudes pendientes.</h1>
                 </div>
             <% } else { %>
                 <div class="no-hay-llamados">
-                    <h1>No hay llamados pendientes.</h1>
+                    <h1>No hay solicitudes pendientes.</h1>
                 </div>
             <% } %>
         </div>
         <div class="columna columna-derecha">
             <div class="preceptores">
-                <p class="preceptores-titulo">Preceptores disponibles</p>
+                <p class="preceptores-titulo">Personal de soporte disponible</p>
 
                 <div class="preceptores-contenedor">
                     <% if((typeof turnos !== 'undefined' && turnos !== null) && turnos.length > 0) { %>
@@ -136,7 +136,7 @@
                             </div>
                         <% }) %>
                     <% } else { %>
-                        <p class="no-hay-preceptores">No hay preceptores disponibles.</p>
+                        <p class="no-hay-preceptores">No hay Personal de soporte disponible.</p>
                     <% } %>
                 </div>
             </div>
