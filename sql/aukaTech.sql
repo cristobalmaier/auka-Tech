@@ -1,18 +1,18 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.3
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-07-2025 a las 02:03:18
+-- Tiempo de generación: 16-07-2025 a las 00:10:24
 -- Versión del servidor: 10.4.24-MariaDB
--- Versión de PHP: 8.1.6
+-- Versión de PHP: 7.4.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
 --
--- Base de datos: `auka`
+-- Base de datos: `aukatech`
 --
 
 -- --------------------------------------------------------
@@ -173,6 +173,17 @@ INSERT INTO `turnos_asignaciones` (`id_asignacion`, `id_turno`, `id_preceptor`) 
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `ubicacion`
+--
+
+CREATE TABLE `ubicacion` (
+  `id_ubicacion` int(11) NOT NULL,
+  `ubicacion` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `usuarios`
 --
 
@@ -182,7 +193,7 @@ CREATE TABLE `usuarios` (
   `apellido` varchar(64) NOT NULL,
   `email` varchar(64) NOT NULL,
   `contrasena` varchar(255) NOT NULL,
-  `tipo_usuario` enum('preceptor','profesor','directivo','') NOT NULL DEFAULT 'profesor',
+  `tipo_usuario` enum('empleado','soporte','administrador','') NOT NULL DEFAULT 'empleado',
   `autorizado` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -191,12 +202,12 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_usuario`, `nombre`, `apellido`, `email`, `contrasena`, `tipo_usuario`, `autorizado`) VALUES
-(8, 'Lucas', 'Fernández', 'lucasfernandez@gmail.com', '$2b$05$j007.4grrUBOvurQc4tpBu86J6XjG09flrwfTA1xlwNUjewZx/Fjq', 'preceptor', 1),
-(9, 'Carlos Alberto', 'Robello', 'robello@gmail.com', '$2b$05$FHPuGgstOyFL6LLtP/829e./zEEx4agJNoRsh1YMIj6zxDh3GFaT.', 'profesor', 1),
-(14, 'cristobal', 'maier', 'cristobalmaier1@gmail.com', '$2b$05$ggMTF3jCdBFBtPXUvhEvL.8bqAdA5gQtseg0RC/PDHxqNRmRt9hou', 'profesor', 1),
-(15, 'alejandra', 'fernandez', 'alejandrafernandez@gmail.com', '$2b$05$sBA1337.YQVeSDOO87RKSea9b4Hrw3yaTnC17JS6HMP.yokGrIw8y', 'preceptor', 1),
-(16, 'tito', 'calderon', 'titocalderon@gmail.com', '$2b$05$0VfTUvCLwTNUyQ28zIcQWO6gWUHvq4PFfEfSVQ2qio6sve15qGBe6', 'preceptor', 1),
-(17, 'mario', 'bene', 'mariobene@gmail.com', '$2b$05$RDidrQL/BgyeZ2bUcVrTzOXhwSuIbBgo6YaeBliY.nkcbHn6XC8vi', 'directivo', 1);
+(8, 'Lucas', 'Fernández', 'lucasfernandez@gmail.com', '$2b$05$j007.4grrUBOvurQc4tpBu86J6XjG09flrwfTA1xlwNUjewZx/Fjq', 'empleado', 1),
+(9, 'Carlos Alberto', 'Robello', 'robello@gmail.com', '$2b$05$FHPuGgstOyFL6LLtP/829e./zEEx4agJNoRsh1YMIj6zxDh3GFaT.', 'soporte', 1),
+(14, 'cristobal', 'maier', 'cristobalmaier1@gmail.com', '$2b$05$ggMTF3jCdBFBtPXUvhEvL.8bqAdA5gQtseg0RC/PDHxqNRmRt9hou', 'soporte', 1),
+(15, 'alejandra', 'fernandez', 'alejandrafernandez@gmail.com', '$2b$05$sBA1337.YQVeSDOO87RKSea9b4Hrw3yaTnC17JS6HMP.yokGrIw8y', 'empleado', 1),
+(16, 'tito', 'calderon', 'titocalderon@gmail.com', '$2b$05$0VfTUvCLwTNUyQ28zIcQWO6gWUHvq4PFfEfSVQ2qio6sve15qGBe6', 'soporte', 1),
+(17, 'mario', 'bene', 'mariobene@gmail.com', '$2b$05$RDidrQL/BgyeZ2bUcVrTzOXhwSuIbBgo6YaeBliY.nkcbHn6XC8vi', 'empleado', 1);
 
 --
 -- Índices para tablas volcadas
@@ -248,6 +259,12 @@ ALTER TABLE `turnos_asignaciones`
   ADD KEY `id_preceptor` (`id_preceptor`);
 
 --
+-- Indices de la tabla `ubicacion`
+--
+ALTER TABLE `ubicacion`
+  ADD PRIMARY KEY (`id_ubicacion`);
+
+--
 -- Indices de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
@@ -286,6 +303,12 @@ ALTER TABLE `turnos`
 --
 ALTER TABLE `turnos_asignaciones`
   MODIFY `id_asignacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT de la tabla `ubicacion`
+--
+ALTER TABLE `ubicacion`
+  MODIFY `id_ubicacion` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
