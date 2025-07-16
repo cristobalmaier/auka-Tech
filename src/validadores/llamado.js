@@ -95,7 +95,7 @@ export function validarActualizacionLlamado(data) {
 }
 
 // Función para validar un nuevo llamado
-export function validarLlamado(data) {
+export function validarSolicitud(data) {
     const resultado = llamadoSchema.safeParse(data);
     if (!resultado.success) {
         return {
