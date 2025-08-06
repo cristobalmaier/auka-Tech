@@ -20,16 +20,13 @@
     
     <div class="panel-contenedor">
         <div class="navbar">
-            <h1>Auka</h1>
-            <div>
-                <p>Parrafo 1</p>
-                <p>Parrafo 2</p>
-            </div>
+            <h1>AukaTech</h1>
+            
         </div>
             <div class="formulario-llamado">
                 <form action="" method="GET" id="formulario" data-mensaje="<%= typeof llamado !== 'undefined' && llamado.data.finalizado == 0 ? llamado.data.mensaje : '' %>" data-id_llamado="<%= typeof llamado !== 'undefined' ? llamado.data.id : '' %>">
                     <div class="formulario-cabecera">
-                        <h2>Realizar llamado</h2>
+                        <h2>Realizar solicitud</h2>
                     </div>
                     <!-- <label for="">Seleccionar preceptor</label>
                     <select name="preceptor" id="">
@@ -39,7 +36,7 @@
                     </select> -->
                     <div class="formulario-columna">
                         <label for="mensaje">Mensaje</label>
-                        <textarea name="mensaje" id="mensaje" placeholder="Necesito un preceptor en L1..." name="mensaje"></textarea>
+                        <textarea name="mensaje" id="mensaje" placeholder="Necesito ayuda con la impresora..." name="mensaje"></textarea>
                         <p class="limite-caracteres">
                             <span id="caracteres-restantes">0</span>
                             <span>/</span>
@@ -47,7 +44,7 @@
                         </p>
                     </div>
                     <div class="formulario-curso">
-                        <label for="curso">Curso</label>
+                        <label for="curso">Área</label>
                         <select name="curso" id="curso">
                             <% llamado.cursos.forEach(curso => { %>
                                 <option value="<%= curso.id_curso %>"><%= curso.curso %></option>
@@ -65,9 +62,9 @@
                     </div>
 
                     <% if(typeof llamado !== 'undefined' && llamado.data.finalizado == 0) { %>
-                        <button type="button" id="boton-llamado" disabled>Llamar preceptor</button>
+                        <button type="button" id="boton-llamado" disabled>Llamar soporte</button>
                     <% } else { %>
-                        <button type="button" id="boton-llamado">Llamar preceptor</button>
+                        <button type="button" id="boton-llamado">Llamar soporte</button>
                     <% } %>
 
 		        </form>
@@ -77,18 +74,18 @@
                         <% if(typeof llamado.respuesta.id === 'undefined' || llamado.data.finalizado == 1) { %>
                             <h3>Esperando respuesta...</h3>
                         <% } else { %>
-                            <h3>Respuesta del preceptor</h3>
+                            <h3>Respuesta del soporte</h3>
                         <% } %>
 
-                        <span class="texto-muted">Estado de tu llamado</span>
+                        <span class="texto-muted">Estado de tu solicitud</span>
                     </div>
                     <div class="estado-llamado-preceptor <%= typeof llamado.respuesta.id == 'undefined' ? 'esconder' : '' %>">
                         <div class="estado-preceptor-info">
                             <p class="estado-preceptor-nombre"><%= llamado.respuesta.usuario.nombre %> <%= llamado.respuesta.usuario.apellido %></p>
-                            <p class="estado-preceptor-rol texto-muted">Preceptor - Turno Manana</p>
+                            <p class="estado-preceptor-rol texto-muted">Soporte - Turno Manana</p>
                         </div>
                         <div class="estado-preceptor-mensaje">
-                            <span><i class="fa-regular fa-message"></i> Mensaje del preceptor</span>
+                            <span><i class="fa-regular fa-message"></i> Mensaje del soporte</span>
                             <p class="preceptor-mensaje-texto"><%= llamado.respuesta.mensaje %></p>
                         </div>
                     </div>
@@ -119,7 +116,7 @@
                                 <% } %>
                             </div>
                             <div>
-                                <p>Preceptor en camino</p>
+                                <p>Soporte en camino</p>
                                 <span class="texto-muted hora_respuesta">
                                     <%
                                         const fecha_respuesta = new Date(llamado.respuesta.fecha)
@@ -139,13 +136,13 @@
                                 <% } %>
                             </div>
                             <div>
-                                <p>Llamado finalizado</p>
+                                <p>solicitud finalizada</p>
                             </div>
                         </div>
                     </div>
 
                     <button class="boton-cerrar <%= typeof llamado.respuesta.id != 'undefined' && llamado.data.finalizado == 1 ? '' : 'esconder' %>">Cerrar llamado</button>
-                    <button class="boton-cancelar <%= typeof llamado.respuesta.id == 'undefined' ? '' : 'esconder' %>">Cancelar llamado</button>
+                    <button class="boton-cancelar <%= typeof llamado.respuesta.id == 'undefined' ? '' : 'esconder' %>">Cancelar solicitud</button>
                 </div>
             </div>    
             
@@ -175,7 +172,7 @@
             -->
         <div class="columna columna-derecha">
             <div class="preceptores">
-                <p class="preceptores-titulo">Preceptores disponibles</p>
+                <p class="preceptores-titulo">Soportes disponibles</p>
 
                 <div class="preceptores-contenedor">
                     <% if((typeof turnos !== 'undefined' && turnos !== null) && turnos.length > 0) { %>
@@ -186,7 +183,7 @@
                             </div>
                         <% }) %>
                     <% } else { %>
-                        <p class="no-hay-preceptores">No hay preceptores disponibles.</p>
+                        <p class="no-hay-preceptores">No hay soportes disponibles.</p>
                     <% } %>
                 </div>
                 

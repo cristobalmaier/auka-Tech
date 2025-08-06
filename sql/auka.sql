@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-05-2025 a las 00:59:14
+-- Tiempo de generación: 07-08-2025 a las 01:57:49
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 8.1.6
 
@@ -179,7 +179,8 @@ INSERT INTO `usuarios` (`id_usuario`, `nombre`, `apellido`, `email`, `contrasena
 (8, 'Alejandro Ariel', 'Manrique', 'alejandro@gmail.com', '$2b$05$j007.4grrUBOvurQc4tpBu86J6XjG09flrwfTA1xlwNUjewZx/Fjq', 'preceptor', 1),
 (9, 'Carlos Alberto', 'Robello', 'robello@gmail.com', '$2b$05$FHPuGgstOyFL6LLtP/829e./zEEx4agJNoRsh1YMIj6zxDh3GFaT.', 'profesor', 1),
 (14, 'cristobal', 'maier', 'cristobalmaier1@gmail.com', '$2b$05$ggMTF3jCdBFBtPXUvhEvL.8bqAdA5gQtseg0RC/PDHxqNRmRt9hou', 'profesor', 1),
-(15, 'alejandra', 'fernandez', 'alejandrafernandez@gmail.com', '$2b$05$sBA1337.YQVeSDOO87RKSea9b4Hrw3yaTnC17JS6HMP.yokGrIw8y', 'preceptor', 1);
+(15, 'alejandra', 'fernandez', 'alejandrafernandez@gmail.com', '$2b$05$sBA1337.YQVeSDOO87RKSea9b4Hrw3yaTnC17JS6HMP.yokGrIw8y', 'preceptor', 1),
+(16, 'tito', 'calderon', 'titocalderon@gmail.com', '$2b$05$JqHtLpaIgDyL3rioLwXvzuEk5UWK1xv536IEICpcTFIPUbuKkPVvW', 'preceptor', 1);
 
 --
 -- Índices para tablas volcadas
@@ -274,7 +275,7 @@ ALTER TABLE `turnos_asignaciones`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- Restricciones para tablas volcadas

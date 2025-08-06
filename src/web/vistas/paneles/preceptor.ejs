@@ -23,10 +23,10 @@
     <div class="panel-contenedor">
         <div class="columna columna-izquierda">
             <div class="titulo">
-                <h1>Auka</h1>
+                <h1>AukaTech</h1>
             </div>
             <div class="historial">
-                <p class="historial-titulo">Historial de llamados</p>
+                <p class="historial-titulo">Historial de solicitudes</p>
 
                 <div class="historial-contenedor">
 
@@ -87,7 +87,7 @@
                             </div>
                             <hr>
                             <div class="llamado-cuerpo">
-                                <p><span class="llamado-cuerpo-texto">Llamado - <span class="fecha-envio" datetime="<%= llamado.fecha_envio %>"><%= formato(llamado.fecha_envio) %></span></span></p>
+                                <p><span class="llamado-cuerpo-texto">Solicitud - <span class="fecha-envio" datetime="<%= llamado.fecha_envio %>"><%= formato(llamado.fecha_envio) %></span></span></p>
                             </div>
                             <% if(llamado.id_preceptor === null || typeof llamado.id_preceptor == 'undefined') { %>
                                 <div class="llamado-respuestas">
@@ -119,13 +119,13 @@
                 </div>
             <% } else { %>
                 <div class="no-hay-llamados">
-                    <h1>No hay llamados pendientes.</h1>
+                    <h1>No hay solicitudes pendientes.</h1>
                 </div>
             <% } %>
         </div>
         <div class="columna columna-derecha">
             <div class="preceptores">
-                <p class="preceptores-titulo">Preceptores disponibles</p>
+                <p class="preceptores-titulo">Soportes disponibles</p>
 
                 <div class="preceptores-contenedor">
                     <% if((typeof turnos !== 'undefined' && turnos !== null) && turnos.length > 0) { %>
@@ -136,7 +136,7 @@
                             </div>
                         <% }) %>
                     <% } else { %>
-                        <p class="no-hay-preceptores">No hay preceptores disponibles.</p>
+                        <p class="no-hay-preceptores">No hay soportes disponibles.</p>
                     <% } %>
                 </div>
             </div>
