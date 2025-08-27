@@ -1,6 +1,6 @@
-# Auka
+# Auka-Tech
 
-Aplicación para mejorar la comunicación entre el personal de las instituciones educativas. 
+Aplicación para mejorar la comunicación entre el personal de las instituciones corporativas. 
 
 ## Características
 
@@ -37,13 +37,13 @@ Para ejecutar este proyecto localmente, debes cambiar las siguientes variables d
 Clona el proyecto
 
 ```bash
-  git clone https://github.com/Exaedro/auka
+  git clone https://github.com/Exterminio44/auka-Tech
 ```
 
 Ve a la carpeta del proyecto
 
 ```bash
-  cd auka
+  cd auka-Tech
 ```
 
 Instala las dependencias
@@ -61,8 +61,6 @@ Inicia el servidor
 
 ## Autores
 
-- [@Exaedro](https://www.github.com/Exaedro)
 - [@cristobalmaier](https://www.github.com/cristobalmaier)
 - [@Tzaw14](https://www.github.com/Tzaw14)
-- [@Lesshugaa](https://www.github.com/Lesshugaa)
 - [@Agusicolman06](https://www.github.com/Agusicolman06)
