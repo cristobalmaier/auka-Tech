@@ -5,51 +5,48 @@ import ErrorCliente from "../utiles/error.js";
 class LlamadoServicio {
     static async obtenerTodos({ usuarioId }) {
         if(usuarioId) {
-            const resultado = await query("SELECT l.*,prof.nombre,prof.apellido, n.nombre_nivel, n.numero_nivel,prec.nombre AS nombre_preceptor,prec.apellido AS apellido_preceptor,c.curso FROM llamados l JOIN usuarios prof ON l.id_emisor = prof.id_usuario LEFT JOIN usuarios prec ON l.id_preceptor = prec.id_usuario JOIN cursos c ON l.id_curso = c.id_curso JOIN niveles n ON l.numero_nivel = n.numero_nivel WHERE l.id_emisor = ? ORDER BY l.fecha_envio DESC", [usuarioId])
+            const resultado = await query("SELECT l.*,prof.nombre,prof.apellido, n.nombre_nivel, n.numero_nivel,prec.nombre AS nombre_soporte,prec.apellido AS apellido_soporte,c.curso FROM solicitudes l JOIN usuarios prof ON l.id_emisor = prof.id_usuario LEFT JOIN usuarios sop ON l.id_soporte = sop.id_usuario JOIN cursos c ON l.id_curso = c.id_curso JOIN niveles n ON l.numero_nivel = n.numero_nivel WHERE l.id_emisor = ? ORDER BY l.fecha_envio DESC", [usuarioId])
             return resultado
         }
 
-        const resultado = await query("SELECT l.*,prof.nombre,prof.apellido, n.nombre_nivel, n.numero_nivel,prec.nombre AS nombre_preceptor,prec.apellido AS apellido_preceptor,c.curso FROM llamados l JOIN usuarios prof ON l.id_emisor = prof.id_usuario LEFT JOIN usuarios prec ON l.id_preceptor = prec.id_usuario JOIN cursos c ON l.id_curso = c.id_curso JOIN niveles n ON l.numero_nivel = n.numero_nivel ORDER BY l.fecha_envio DESC") 
+        const resultado = await query("SELECT l.*,prof.nombre,prof.apellido, n.nombre_nivel, n.numero_nivel,prec.nombre AS nombre_soporte,prec.apellido AS apellido_soporte,c.curso FROM solicitudes l JOIN usuarios prof ON l.id_emisor = prof.id_usuario LEFT JOIN usuarios sop ON l.id_soporte = sop.id_usuario JOIN cursos c ON l.id_curso = c.id_curso JOIN niveles n ON l.numero_nivel = n.numero_nivel ORDER BY l.fecha_envio DESC") 
         return resultado
     }
 
     static async obtenerLlamadoPorId({ id }) {
-        const resultado = await query(`SELECT * FROM llamados WHERE id_llamado = ?`, id)
+        const resultado = await query(`SELECT * FROM solicitudes WHERE id_llamado = ?`, id)
         return resultado
     }
 
-    static async crearLlamado({ id_preceptor, id_emisor, id_curso, numero_nivel, mensaje }) {
-        const { valido, errores } = validarLlamado({ id_preceptor, id_emisor, id_curso, numero_nivel, mensaje })
+    static async crearLlamado({ id_soporte, id_emisor, id_curso, numero_nivel, mensaje }) {
+        const { valido, errores } = validarLlamado({ id_soporte, id_emisor, id_curso, numero_nivel, mensaje })
         if (!valido) {
             const mensaje = Object.values(errores)[0]
             throw new ErrorCliente(mensaje, 400)
         }
 
-        if(id_preceptor !== null) {
-            const preceptorExiste = await query('SELECT * FROM usuarios WHERE id_usuario = ?', id_preceptor)
+        if(id_soporte !== null) {
+            const preceptorExiste = await query('SELECT * FROM usuarios WHERE id_usuario = ?', id_soporte)
             if (!preceptorExiste) throw new ErrorCliente('El preceptor no existe', 400)
         }
 
         const emisorExiste = await query('SELECT * FROM usuarios WHERE id_usuario = ?', id_emisor)
         if (!emisorExiste) throw new ErrorCliente('El emisor no existe', 400)
 
-        const cursoExiste = await query('SELECT * FROM cursos WHERE id_curso = ?', id_curso)
-        if (!cursoExiste) throw new ErrorCliente('El curso no existe', 400)
 
-        const resultado = await query(`INSERT INTO llamados (id_preceptor, id_emisor, id_curso, numero_nivel, mensaje) VALUES (?, ?, ?, ?, ?)`, [id_preceptor, id_emisor, id_curso, numero_nivel, mensaje])
+        const resultado = await query(`INSERT INTO solicitudes (id_soporte, id_emisor, id_curso, numero_nivel, mensaje) VALUES (?, ?, ?, ?, ?)`, [id_preceptor, id_emisor, id_curso, numero_nivel, mensaje])
         return resultado
     }
 
     static async eliminarLlamado({ id }) {
-        const resultado = await query(`DELETE FROM llamados WHERE id_llamado = ?`, id)
+        const resultado = await query(`DELETE FROM solicitudes WHERE id_llamado = ?`, id)
         return resultado
     }
 
-    static async actualizarLlamado({ id_llamado, id_preceptor, id_emisor, id_curso, numero_nivel, mensaje, finalizado, cancelado }) {
-        let llamado = {
-            id_preceptor,
+    static async actualizarLlamado({ id_solicitud, id_soporte, id_emisor,  numero_nivel, mensaje, finalizado, cancelado }) {
+        let solicitud = {
+            id_soporte,
             id_emisor,
-            id_curso,
             numero_nivel,
             mensaje,
             finalizado,
@@ -57,18 +54,18 @@ class LlamadoServicio {
         };
     
         // Elimina campos vacíos
-        llamado = Object.fromEntries(
+        solicitud = Object.fromEntries(
             Object.entries(llamado).filter(([_, valor]) => valor !== undefined)
         );
     
-        const campos = Object.keys(llamado);
-        const valores = Object.values(llamado);
+        const campos = Object.keys(solicitud);
+        const valores = Object.values(solicitud);
     
         const setClause = campos.map((campo) => `${campo} = ?`).join(', ');
-        const consulta = `UPDATE llamados SET ${setClause} WHERE id_llamado = ?;`;
+        const consulta = `UPDATE solicitudes SET ${setClause} WHERE id_solicitud = ?;`;
     
         try {
-            await query(consulta, [...valores, id_llamado]);
+            await query(consulta, [...valores, id_solicitud]);
         } catch (err) {
             throw new ErrorCliente(err.message, 400);
         }

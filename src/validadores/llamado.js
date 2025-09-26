@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 // Esquema de validación para la tabla llamados
 const llamadoSchema = z.object({
-    id_preceptor: z
+    id_soporte: z
         .nullable(),
 
     id_emisor: z
@@ -11,14 +11,6 @@ const llamadoSchema = z.object({
         })
         .int()
         .positive('El ID del emisor debe ser positivo'),
-
-    id_curso: z
-        .number({ 
-            required_error: 'El ID del curso es obligatorio',
-            invalid_type_error: 'El ID del curso debe ser un número' 
-        })
-        .int()
-        .positive('El ID del curso debe ser positivo'),
 
     numero_nivel: z
         .number({ 
@@ -37,19 +29,13 @@ const llamadoSchema = z.object({
 });
 
 const actualizarLlamadoSchema = z.object({
-    id_preceptor: z
+    id_soporte: z
         .number()
         .int('Debe ser un número entero')
         .positive('Debe ser un número positivo')
         .optional(),
 
     id_emisor: z
-        .number()
-        .int('Debe ser un número entero')
-        .positive('Debe ser un número positivo')
-        .optional(),
-
-    id_curso: z
         .number()
         .int('Debe ser un número entero')
         .positive('Debe ser un número positivo')

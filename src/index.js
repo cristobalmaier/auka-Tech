@@ -27,14 +27,12 @@ app.use(cors())
 
 // Rutas de la API
 import usuarioRutas from './rutas/usuario.rutas.js'
-import cursoRutas from './rutas/curso.rutas.js'
 import llamadoRutas from './rutas/llamado.rutas.js'
 import respuestaRutas from './rutas/respuesta.rutas.js'
 import turnosRutas from './rutas/turno.rutas.js'
 import datosRutas from './rutas/datos.rutas.js'
 
 app.use('/api/usuarios', usuarioRutas)
-app.use('/api/cursos', cursoRutas)
 app.use('/api/llamados', llamadoRutas)
 app.use('/api/respuestas', respuestaRutas)
 app.use('/api/turnos', turnosRutas)

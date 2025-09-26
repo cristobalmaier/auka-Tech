@@ -7,9 +7,9 @@ import { config } from '../../web/config.js'
 import { peticion } from '../utiles/peticion.js'
 import { tiempo } from '../utiles/tiempo.js'
 import { obtenerDatosToken } from '../utiles/obtenerDatosToken.js'
-import { esProfesor, esPreceptor, estaLogeado } from '../utiles/auth.js'
+import { esEmpleado, esSoporte, estaLogeado } from '../utiles/auth.js'
 
-panelRutas.get('/panel/preceptor', [estaLogeado, esPreceptor], async (req, res) => {
+panelRutas.get('/panel/soporte', [estaLogeado, esSoporte], async (req, res) => {
     const hora_actual = tiempo({ fecha: new Date() })
 
     const usuario = obtenerDatosToken(req)
@@ -20,10 +20,14 @@ panelRutas.get('/panel/preceptor', [estaLogeado, esPreceptor], async (req, res) 
     const turnosResultado = await peticion({ url: `${API_URL}/turnos/hora/${hora_actual}`, metodo: 'GET' })
     const turnos = await turnosResultado.json()
 
+    console.log(usuario)
+    console.log(llamados)
+    console.log(turnos)
+
     res.render('paneles/preceptor', { titulo: 'AUKA - Panel', usuario, llamados, turnos })
 })
 
-panelRutas.get('/panel/profesor', [estaLogeado, esProfesor], async (req, res) => {
+panelRutas.get('/panel/empleado', [estaLogeado, esEmpleado], async (req, res) => {
     const hora_actual = tiempo({ fecha: new Date() })
     const usuario = obtenerDatosToken(req)
 

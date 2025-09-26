@@ -22,19 +22,19 @@ export const esDirectivo = (req, res, next) => {
     res.redirect('/error')
 }
 
-export const esPreceptor = (req, res, next) => {
+export const esSoporte = (req, res, next) => {
     const { tipo_usuario } = obtenerDatos(req)
 
-    if(tipo_usuario === 'preceptor')
+    if(tipo_usuario === 'soporte')
         return next()
 
     res.redirect('/error')
 }
 
-export const esProfesor = (req, res, next) => {
+export const esEmpleado = (req, res, next) => {
     const { tipo_usuario } = obtenerDatos(req)
 
-    if(tipo_usuario === 'profesor')
+    if(tipo_usuario === 'empleado')
         return next()
 
     res.redirect('/error')
