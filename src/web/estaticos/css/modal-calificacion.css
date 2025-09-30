@@ -38,8 +38,12 @@
     align-items: center;
     justify-content: center;
     font-size: 36px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
     color: white;
+}
+
+.modal-calificacion-icono i {
+    font-size: 36px;
 }
 
 .modal-calificacion-titulo {
@@ -72,19 +76,25 @@
 
 .estrella {
     font-size: 48px;
-    color: #ddd;
     cursor: pointer;
     transition: all 0.2s ease;
     user-select: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    color: #FFD700; /* Color dorado */
+    opacity: 0.3; /* Estrellas inactivas más claras */
 }
 
 .estrella:hover {
     transform: scale(1.2);
+    opacity: 0.7;
 }
 
 .estrella.activa {
-    color: #FFD700;
-    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    opacity: 1;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
 }
 
 .estrella.hover {
@@ -134,24 +144,25 @@
     border-radius: 8px;
     font-size: 16px;
     font-weight: 600;
-    cursor: pointer;
     transition: all 0.2s ease;
     min-width: 140px;
 }
 
 .modal-calificacion-boton-enviar {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
     color: white;
+    border: none;
 }
 
 .modal-calificacion-boton-enviar:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
 }
 
 .modal-calificacion-boton-enviar:disabled {
-    opacity: 0.5;
+    background: #cccccc;
     cursor: not-allowed;
+    opacity: 0.7;
 }
 
 .modal-calificacion-boton-omitir {
@@ -173,15 +184,17 @@
 }
 
 .modal-calificacion-gracias-icono {
-    font-size: 64px;
+    font-size: 60px;
     margin-bottom: 20px;
+    color: #e91e63;
+    animation: bounce 1s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.modal-calificacion-gracias-titulo {
-    font-size: 28px;
-    font-weight: 700;
-    color: #4CAF50;
-    margin-bottom: 10px;
+.modal-calificacion-gracias-icono i {
+    font-size: 60px;
 }
 
 .modal-calificacion-gracias-mensaje {

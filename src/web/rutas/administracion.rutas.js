@@ -17,7 +17,7 @@ administracionRutas.get('/panel/administracion', async (req, res) => {
     const datosResultado = await datos.json()
 
     res.render('paneles/administracion', { 
-        titulo: 'AUKA - Panel', 
+        titulo: 'AukaTech - Panel', 
         usuario, 
         solicitudesResultado: solicitudesResultado || [], 
         rutaActual: '/panel/administracion',

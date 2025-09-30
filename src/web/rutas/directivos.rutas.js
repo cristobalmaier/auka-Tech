@@ -14,7 +14,7 @@ directivosRutas.get('/panel/directivos', async (req, res) => {
     const solicitudesResultado = await solicitudes.json()
 
 
-    res.render('paneles/directivos', { titulo: 'AUKA - Panel', usuario, solicitudesResultado: solicitudesResultado || []})
+    res.render('paneles/directivos', { titulo: 'AukaTech - Panel', usuario, solicitudesResultado: solicitudesResultado || []})
 })
 
 export default directivosRutas

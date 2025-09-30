@@ -15,7 +15,7 @@ import { io } from '../../index.js'
 loginRutas.get('/login', (req, res) => {
     const { error } = req.query
 
-    res.render('login/iniciar_sesion', { titulo: 'AUKA - Inicio de sesión', error })
+    res.render('login/iniciar_sesion', { titulo: 'AukaTech - Inicio de sesión', error })
 })
 
 loginRutas.post('/entrar', async (req, res) => {
@@ -48,7 +48,7 @@ loginRutas.post('/entrar', async (req, res) => {
 
 // SOLICITUDES DE ACCESO
 loginRutas.get('/solicitud', (req, res) => {
-    res.render('login/solicitud_acceso', { titulo: 'AUKA - Solicitud de acceso' })
+    res.render('login/solicitud_acceso', { titulo: 'AukaTech - Solicitud de acceso' })
 })
 
 loginRutas.post('/enviar_solicitud', async (req, res) => {
@@ -61,7 +61,7 @@ loginRutas.post('/enviar_solicitud', async (req, res) => {
 
 // "SALA DE ESPERA"
 loginRutas.get('/pendiente', (req, res) => {
-    res.render('login/sala_espera', { titulo: 'AUKA - Solicitud pendiente' })
+    res.render('login/sala_espera', { titulo: 'AukaTech - Solicitud pendiente' })
 })
 
 export default loginRutas

@@ -27,17 +27,19 @@ export function mostrarModalCalificacion({
         
         modal.innerHTML = `
             <div class="modal-calificacion-formulario">
-                <div class="modal-calificacion-icono">⭐</div>
+                <div class="modal-calificacion-icono">
+                    <i class="fa-solid fa-star"></i>
+                </div>
                 <h2 class="modal-calificacion-titulo">¿Cómo fue tu experiencia?</h2>
                 <p class="modal-calificacion-subtitulo">Tu opinión nos ayuda a mejorar</p>
                 <p class="modal-calificacion-soporte">${nombreSoporte} ${apellidoSoporte}</p>
                 
                 <div class="estrellas-contenedor">
-                    <span class="estrella" data-valor="1">★</span>
-                    <span class="estrella" data-valor="2">★</span>
-                    <span class="estrella" data-valor="3">★</span>
-                    <span class="estrella" data-valor="4">★</span>
-                    <span class="estrella" data-valor="5">★</span>
+                    <span class="estrella" data-valor="1"><i class="fa-solid fa-star"></i></span>
+                    <span class="estrella" data-valor="2"><i class="fa-solid fa-star"></i></span>
+                    <span class="estrella" data-valor="3"><i class="fa-solid fa-star"></i></span>
+                    <span class="estrella" data-valor="4"><i class="fa-solid fa-star"></i></span>
+                    <span class="estrella" data-valor="5"><i class="fa-solid fa-star"></i></span>
                 </div>
                 
                 <div class="modal-calificacion-comentario">
@@ -60,7 +62,9 @@ export function mostrarModalCalificacion({
             </div>
             
             <div class="modal-calificacion-gracias">
-                <div class="modal-calificacion-gracias-icono">🎉</div>
+                <div class="modal-calificacion-gracias-icono">
+                    <i class="fa-solid fa-heart"></i>
+                </div>
                 <h2 class="modal-calificacion-gracias-titulo">¡Gracias por tu opinión!</h2>
                 <p class="modal-calificacion-gracias-mensaje">Tu calificación nos ayuda a mejorar nuestro servicio</p>
             </div>
