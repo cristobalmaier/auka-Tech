@@ -533,7 +533,7 @@ async function procesarLlamado({ empleadoId, empleadoNombre, empleadoApellido, s
 async function terminarLlamado({ empleado, solicitud }) {
     
     ///probando
-    let htmlSolicitud = document.querySelector(`.solicitud[data-solicitud_id="${solicitud.id}"]`)
+    let htmlSolicitud = document.querySelector(`.llamado[data-solicitud_id="${solicitud.id}"]`)
    
 
     const resultado = await peticion({
