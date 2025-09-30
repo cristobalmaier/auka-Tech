@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 30-09-2025 a las 23:37:23
+-- Tiempo de generación: 30-09-2025 a las 23:54:19
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 8.1.6
 
@@ -87,7 +87,9 @@ INSERT INTO `respuestas_solicitudes` (`id_respuesta`, `id_solicitud`, `mensaje`,
 (1, 1, 'Yendo', 14, '2025-09-30 17:50:22'),
 (2, 2, 'En camino', 14, '2025-09-30 17:54:06'),
 (3, 6, 'Yendo', 14, '2025-09-30 17:55:21'),
-(4, 7, 'Yendo', 14, '2025-09-30 18:03:05');
+(4, 7, 'Yendo', 14, '2025-09-30 18:03:05'),
+(5, 11, 'Voy para allá', 14, '2025-09-30 18:50:08'),
+(6, 12, 'Enseguida', 14, '2025-09-30 18:52:30');
 
 -- --------------------------------------------------------
 
@@ -104,21 +106,27 @@ CREATE TABLE `solicitudes` (
   `mensaje` varchar(300) NOT NULL,
   `fecha_envio` timestamp NOT NULL DEFAULT current_timestamp(),
   `finalizado` tinyint(1) NOT NULL DEFAULT 0,
-  `cancelado` tinyint(1) NOT NULL DEFAULT 0
+  `cancelado` tinyint(1) NOT NULL DEFAULT 0,
+  `calificacion` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `solicitudes`
 --
 
-INSERT INTO `solicitudes` (`id_solicitud`, `id_soporte`, `id_emisor`, `id_area`, `numero_nivel`, `mensaje`, `fecha_envio`, `finalizado`, `cancelado`) VALUES
-(1, 14, 16, 3, 2, '1234', '2025-09-30 20:50:19', 1, 1),
-(2, 14, 16, 2, 1, '123', '2025-09-30 20:54:01', 1, 0),
-(3, NULL, 16, 2, 3, '123', '2025-09-30 20:55:02', 1, 1),
-(4, NULL, 16, 2, 2, '123', '2025-09-30 20:55:04', 1, 1),
-(5, NULL, 16, 2, 1, '123', '2025-09-30 20:55:07', 1, 1),
-(6, 14, 16, 2, 2, '123', '2025-09-30 20:55:15', 1, 0),
-(7, 14, 16, 6, 3, '123123', '2025-09-30 21:03:03', 1, 0);
+INSERT INTO `solicitudes` (`id_solicitud`, `id_soporte`, `id_emisor`, `id_area`, `numero_nivel`, `mensaje`, `fecha_envio`, `finalizado`, `cancelado`, `calificacion`) VALUES
+(1, 14, 16, 3, 2, '1234', '2025-09-30 20:50:19', 1, 1, NULL),
+(2, 14, 16, 2, 1, '123', '2025-09-30 20:54:01', 1, 0, NULL),
+(3, NULL, 16, 2, 3, '123', '2025-09-30 20:55:02', 1, 1, NULL),
+(4, NULL, 16, 2, 2, '123', '2025-09-30 20:55:04', 1, 1, NULL),
+(5, NULL, 16, 2, 1, '123', '2025-09-30 20:55:07', 1, 1, NULL),
+(6, 14, 16, 2, 2, '123', '2025-09-30 20:55:15', 1, 0, NULL),
+(7, 14, 16, 6, 3, '123123', '2025-09-30 21:03:03', 1, 1, NULL),
+(8, NULL, 16, 10, 3, 's', '2025-09-30 21:41:17', 1, 1, NULL),
+(9, NULL, 16, 10, 3, 's', '2025-09-30 21:41:55', 1, 1, NULL),
+(10, NULL, 16, 1, 2, 'dasd', '2025-09-30 21:44:43', 1, 1, NULL),
+(11, 14, 16, 1, 2, 'asdasd', '2025-09-30 21:50:05', 1, 0, 5),
+(12, 14, 16, 1, 3, '1', '2025-09-30 21:52:27', 1, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -261,13 +269,13 @@ ALTER TABLE `areas`
 -- AUTO_INCREMENT de la tabla `respuestas_solicitudes`
 --
 ALTER TABLE `respuestas_solicitudes`
-  MODIFY `id_respuesta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_respuesta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `solicitudes`
 --
 ALTER TABLE `solicitudes`
-  MODIFY `id_solicitud` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_solicitud` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `turnos`
