@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 30-09-2025 a las 23:54:19
+-- Tiempo de generación: 01-10-2025 a las 01:10:36
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 8.1.6
 
@@ -89,7 +89,16 @@ INSERT INTO `respuestas_solicitudes` (`id_respuesta`, `id_solicitud`, `mensaje`,
 (3, 6, 'Yendo', 14, '2025-09-30 17:55:21'),
 (4, 7, 'Yendo', 14, '2025-09-30 18:03:05'),
 (5, 11, 'Voy para allá', 14, '2025-09-30 18:50:08'),
-(6, 12, 'Enseguida', 14, '2025-09-30 18:52:30');
+(6, 12, 'Enseguida', 14, '2025-09-30 18:52:30'),
+(7, 13, 'Enseguida', 14, '2025-09-30 18:59:39'),
+(8, 14, 'Voy para allá', 14, '2025-09-30 19:04:50'),
+(9, 15, 'asdasd', 14, '2025-09-30 19:05:22'),
+(10, 16, 'En camino', 14, '2025-09-30 19:08:30'),
+(11, 17, 'Enseguida', 14, '2025-09-30 19:09:56'),
+(12, 18, 'En camino', 14, '2025-09-30 19:14:49'),
+(13, 19, 'En camino', 14, '2025-09-30 19:16:53'),
+(14, 20, 'Enseguida', 14, '2025-09-30 19:18:34'),
+(15, 21, 'Yendo', 14, '2025-09-30 20:05:14');
 
 -- --------------------------------------------------------
 
@@ -126,7 +135,16 @@ INSERT INTO `solicitudes` (`id_solicitud`, `id_soporte`, `id_emisor`, `id_area`,
 (9, NULL, 16, 10, 3, 's', '2025-09-30 21:41:55', 1, 1, NULL),
 (10, NULL, 16, 1, 2, 'dasd', '2025-09-30 21:44:43', 1, 1, NULL),
 (11, 14, 16, 1, 2, 'asdasd', '2025-09-30 21:50:05', 1, 0, 5),
-(12, 14, 16, 1, 3, '1', '2025-09-30 21:52:27', 1, 0, NULL);
+(12, 14, 16, 1, 3, '1', '2025-09-30 21:52:27', 1, 0, NULL),
+(13, 14, 16, 1, 1, 's', '2025-09-30 21:59:11', 1, 0, NULL),
+(14, 14, 16, 6, 3, 'sdasd', '2025-09-30 22:02:45', 1, 0, 3),
+(15, 14, 16, 1, 3, 's', '2025-09-30 22:05:11', 1, 0, NULL),
+(16, 14, 16, 1, 2, 's', '2025-09-30 22:08:20', 1, 0, NULL),
+(17, 14, 16, 1, 2, '32', '2025-09-30 22:09:54', 1, 0, NULL),
+(18, 14, 16, 1, 2, 's', '2025-09-30 22:14:47', 1, 0, 3),
+(19, 14, 16, 6, 1, 'sasd', '2025-09-30 22:16:52', 1, 0, 3),
+(20, 14, 16, 1, 2, 's', '2025-09-30 22:18:33', 1, 0, 3),
+(21, 14, 16, 1, 2, 's', '2025-09-30 23:05:10', 1, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -269,13 +287,13 @@ ALTER TABLE `areas`
 -- AUTO_INCREMENT de la tabla `respuestas_solicitudes`
 --
 ALTER TABLE `respuestas_solicitudes`
-  MODIFY `id_respuesta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_respuesta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `solicitudes`
 --
 ALTER TABLE `solicitudes`
-  MODIFY `id_solicitud` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_solicitud` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de la tabla `turnos`
