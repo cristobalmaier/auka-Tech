@@ -1,12 +1,13 @@
 import { alerta } from '../alerta.js';
 import { peticion } from '../peticion.js'
 import '../indicador-estado.js'
+import { mostrarConfirmacion } from '/js/modal-confirmacion.js'
 
 const socket = io();
 
 // Datos del empleado logeado
-const id_empleado = parseInt(document.documentElement.dataset.id_usuario)
-const nombre_empleado = document.documentElement.dataset.nombre
+const idEmpleado = parseInt(document.documentElement.dataset.id_usuario)
+const nombreEmpleado = document.documentElement.dataset.nombre
 const apellidoEmpleado = document.documentElement.dataset.apellido
 const tipoUsuario = document.documentElement.dataset.tipo_usuario
 
@@ -98,6 +99,18 @@ botonCerrar.addEventListener('click', () => {
 // ! CANCELAR SOLICITUD (BOTON DE CANCELAR)
 
 botonCancelarLlamado.addEventListener('click', async () => {
+    // Mostrar confirmación antes de cancelar
+    const confirmado = await mostrarConfirmacion({
+        titulo: '¿Cancelar solicitud?',
+        mensaje: 'Esta acción cancelará tu solicitud de soporte. ¿Estás seguro de que deseas continuar?',
+        textoConfirmar: 'Sí, cancelar',
+        textoCancelar: 'No, volver',
+        icono: '⚠️'
+    })
+
+    // Si el usuario no confirma, salir
+    if (!confirmado) return
+
     const mensaje = formulario.dataset.mensaje
     const id_solicitud = formulario.dataset.id_solicitud
 
@@ -119,6 +132,9 @@ botonCancelarLlamado.addEventListener('click', async () => {
     })
 
     desbloquearFormulario()
+    
+    // Mostrar alerta de confirmación
+    alerta({ mensaje: 'Solicitud cancelada correctamente', tipo: 'exito' })
 })
 
 /* ////////////////////////////////////////////////////////////////// */

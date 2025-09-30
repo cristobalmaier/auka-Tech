@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-09-2025
+-- Tiempo de generación: 30-09-2025 a las 23:37:23
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 8.1.6
 
@@ -11,16 +11,24 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
+--
 -- Base de datos: `auka-tech`
+--
 
 -- --------------------------------------------------------
--- Tabla: areas (partes de la empresa)
--- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `areas`
+--
 
 CREATE TABLE `areas` (
   `id_area` int(11) NOT NULL,
   `area` varchar(64) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `areas`
+--
 
 INSERT INTO `areas` (`id_area`, `area`) VALUES
 (1, 'Compras'),
@@ -35,8 +43,57 @@ INSERT INTO `areas` (`id_area`, `area`) VALUES
 (10, 'Dirección');
 
 -- --------------------------------------------------------
--- Tabla: solicitudes
+
+--
+-- Estructura de tabla para la tabla `niveles`
+--
+
+CREATE TABLE `niveles` (
+  `numero_nivel` int(11) NOT NULL,
+  `nombre_nivel` varchar(32) NOT NULL,
+  `descripcion` varchar(300) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `niveles`
+--
+
+INSERT INTO `niveles` (`numero_nivel`, `nombre_nivel`, `descripcion`) VALUES
+(1, 'Llamado', 'Situaciones menores donde se requiere atención, pero no hay urgencia. Ejemplo: empleado que necesita hacer una consulta general.'),
+(2, 'Moderado', 'Situaciones que requieren intervención rápida, pero no son críticas. Ejemplo: empleado con malestar leve, falta disciplinaria.'),
+(3, 'Urgente', 'Situaciones que pueden escalar y requieren atención inmediata. Ejemplo: discusión fuerte entre empleados, crisis emocional.'),
+(4, 'Grave', 'Situaciones de alto riesgo que requieren asistencia de profesionales o servicios de emergencia. Ejemplo: convulsiones, heridas con sangrado considerable.'),
+(5, 'Crítico', 'Situaciones extremas con riesgo de vida. Ejemplo: paro cardíaco, traumatismo severo, pérdida prolongada de conocimiento.');
+
 -- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `respuestas_solicitudes`
+--
+
+CREATE TABLE `respuestas_solicitudes` (
+  `id_respuesta` int(11) NOT NULL,
+  `id_solicitud` int(11) NOT NULL,
+  `mensaje` varchar(500) NOT NULL,
+  `id_soporte` int(11) NOT NULL,
+  `fecha_respuesta` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `respuestas_solicitudes`
+--
+
+INSERT INTO `respuestas_solicitudes` (`id_respuesta`, `id_solicitud`, `mensaje`, `id_soporte`, `fecha_respuesta`) VALUES
+(1, 1, 'Yendo', 14, '2025-09-30 17:50:22'),
+(2, 2, 'En camino', 14, '2025-09-30 17:54:06'),
+(3, 6, 'Yendo', 14, '2025-09-30 17:55:21'),
+(4, 7, 'Yendo', 14, '2025-09-30 18:03:05');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `solicitudes`
+--
 
 CREATE TABLE `solicitudes` (
   `id_solicitud` int(11) NOT NULL,
@@ -50,38 +107,24 @@ CREATE TABLE `solicitudes` (
   `cancelado` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- --------------------------------------------------------
--- Tabla: niveles
--- --------------------------------------------------------
+--
+-- Volcado de datos para la tabla `solicitudes`
+--
 
-CREATE TABLE `niveles` (
-  `numero_nivel` int(11) NOT NULL,
-  `nombre_nivel` varchar(32) NOT NULL,
-  `descripcion` varchar(300) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-INSERT INTO `niveles` (`numero_nivel`, `nombre_nivel`, `descripcion`) VALUES
-(1, 'Llamado', 'Situaciones menores donde se requiere atención, pero no hay urgencia. Ejemplo: empleado que necesita hacer una consulta general.'),
-(2, 'Moderado', 'Situaciones que requieren intervención rápida, pero no son críticas. Ejemplo: empleado con malestar leve, falta disciplinaria.'),
-(3, 'Urgente', 'Situaciones que pueden escalar y requieren atención inmediata. Ejemplo: discusión fuerte entre empleados, crisis emocional.'),
-(4, 'Grave', 'Situaciones de alto riesgo que requieren asistencia de profesionales o servicios de emergencia. Ejemplo: convulsiones, heridas con sangrado considerable.'),
-(5, 'Crítico', 'Situaciones extremas con riesgo de vida. Ejemplo: paro cardíaco, traumatismo severo, pérdida prolongada de conocimiento.');
+INSERT INTO `solicitudes` (`id_solicitud`, `id_soporte`, `id_emisor`, `id_area`, `numero_nivel`, `mensaje`, `fecha_envio`, `finalizado`, `cancelado`) VALUES
+(1, 14, 16, 3, 2, '1234', '2025-09-30 20:50:19', 1, 1),
+(2, 14, 16, 2, 1, '123', '2025-09-30 20:54:01', 1, 0),
+(3, NULL, 16, 2, 3, '123', '2025-09-30 20:55:02', 1, 1),
+(4, NULL, 16, 2, 2, '123', '2025-09-30 20:55:04', 1, 1),
+(5, NULL, 16, 2, 1, '123', '2025-09-30 20:55:07', 1, 1),
+(6, 14, 16, 2, 2, '123', '2025-09-30 20:55:15', 1, 0),
+(7, 14, 16, 6, 3, '123123', '2025-09-30 21:03:03', 1, 0);
 
 -- --------------------------------------------------------
--- Tabla: respuestas_solicitudes
--- --------------------------------------------------------
 
-CREATE TABLE `respuestas_solicitudes` (
-  `id_respuesta` int(11) NOT NULL,
-  `id_solicitud` int(11) NOT NULL,
-  `mensaje` varchar(500) NOT NULL,
-  `id_soporte` int(11) NOT NULL,
-  `fecha_respuesta` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
--- Tabla: turnos
--- --------------------------------------------------------
+--
+-- Estructura de tabla para la tabla `turnos`
+--
 
 CREATE TABLE `turnos` (
   `id_turno` int(11) NOT NULL,
@@ -90,14 +133,20 @@ CREATE TABLE `turnos` (
   `hora_final` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `turnos`
+--
+
 INSERT INTO `turnos` (`id_turno`, `nombre_turno`, `hora_inicio`, `hora_final`) VALUES
 (1, 'mañana', '07:35:00', '11:55:00'),
 (2, 'tarde', '12:55:00', '17:15:00'),
 (3, 'vespertino', '17:35:00', '21:45:00');
 
 -- --------------------------------------------------------
--- Tabla: turnos_asignaciones
--- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `turnos_asignaciones`
+--
 
 CREATE TABLE `turnos_asignaciones` (
   `id_asignacion` int(11) NOT NULL,
@@ -105,13 +154,23 @@ CREATE TABLE `turnos_asignaciones` (
   `id_soporte` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `turnos_asignaciones`
+--
+
 INSERT INTO `turnos_asignaciones` (`id_asignacion`, `id_turno`, `id_soporte`) VALUES
 (3, 2, 9),
-(4, 3, 9);
+(4, 3, 9),
+(8, 1, 14),
+(9, 2, 14),
+(10, 3, 14),
+(11, 1, 9);
 
 -- --------------------------------------------------------
--- Tabla: usuarios
--- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuarios`
+--
 
 CREATE TABLE `usuarios` (
   `id_usuario` int(11) NOT NULL,
@@ -123,6 +182,10 @@ CREATE TABLE `usuarios` (
   `autorizado` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `usuarios`
+--
+
 INSERT INTO `usuarios` (`id_usuario`, `nombre`, `apellido`, `email`, `contrasena`, `tipo_usuario`, `autorizado`) VALUES
 (8, 'Alejandro Ariel', 'Manrique', 'alejandro@gmail.com', '$2b$05$j007.4grrUBOvurQc4tpBu86J6XjG09flrwfTA1xlwNUjewZx/Fjq', 'empleado', 1),
 (9, 'Carlos Alberto', 'Robello', 'robello@gmail.com', '$2b$05$FHPuGgstOyFL6LLtP/829e./zEEx4agJNoRsh1YMIj6zxDh3GFaT.', 'soporte', 1),
@@ -130,13 +193,33 @@ INSERT INTO `usuarios` (`id_usuario`, `nombre`, `apellido`, `email`, `contrasena
 (15, 'Alejandra', 'Fernandez', 'alejandrafernandez@gmail.com', '$2b$05$sBA1337.YQVeSDOO87RKSea9b4Hrw3yaTnC17JS6HMP.yokGrIw8y', 'empleado', 1),
 (16, 'Tito', 'Calderon', 'titocalderon@gmail.com', '$2b$05$JqHtLpaIgDyL3rioLwXvzuEk5UWK1xv536IEICpcTFIPUbuKkPVvW', 'empleado', 1);
 
--- --------------------------------------------------------
--- ÍNDICES
--- --------------------------------------------------------
+--
+-- Índices para tablas volcadas
+--
 
+--
+-- Indices de la tabla `areas`
+--
 ALTER TABLE `areas`
   ADD PRIMARY KEY (`id_area`);
 
+--
+-- Indices de la tabla `niveles`
+--
+ALTER TABLE `niveles`
+  ADD PRIMARY KEY (`numero_nivel`);
+
+--
+-- Indices de la tabla `respuestas_solicitudes`
+--
+ALTER TABLE `respuestas_solicitudes`
+  ADD PRIMARY KEY (`id_respuesta`),
+  ADD KEY `id_solicitud` (`id_solicitud`),
+  ADD KEY `id_soporte` (`id_soporte`);
+
+--
+-- Indices de la tabla `solicitudes`
+--
 ALTER TABLE `solicitudes`
   ADD PRIMARY KEY (`id_solicitud`),
   ADD KEY `id_emisor` (`id_emisor`),
@@ -144,63 +227,90 @@ ALTER TABLE `solicitudes`
   ADD KEY `numero_nivel` (`numero_nivel`),
   ADD KEY `id_soporte` (`id_soporte`);
 
-ALTER TABLE `niveles`
-  ADD PRIMARY KEY (`numero_nivel`);
-
-ALTER TABLE `respuestas_solicitudes`
-  ADD PRIMARY KEY (`id_respuesta`),
-  ADD KEY `id_solicitud` (`id_solicitud`),
-  ADD KEY `id_soporte` (`id_soporte`);
-
+--
+-- Indices de la tabla `turnos`
+--
 ALTER TABLE `turnos`
   ADD PRIMARY KEY (`id_turno`);
 
+--
+-- Indices de la tabla `turnos_asignaciones`
+--
 ALTER TABLE `turnos_asignaciones`
   ADD PRIMARY KEY (`id_asignacion`),
   ADD KEY `id_turno` (`id_turno`),
   ADD KEY `id_soporte` (`id_soporte`);
 
+--
+-- Indices de la tabla `usuarios`
+--
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`id_usuario`);
 
--- --------------------------------------------------------
--- AUTO_INCREMENT
--- --------------------------------------------------------
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
 
+--
+-- AUTO_INCREMENT de la tabla `areas`
+--
 ALTER TABLE `areas`
   MODIFY `id_area` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
-ALTER TABLE `solicitudes`
-  MODIFY `id_solicitud` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
-
+--
+-- AUTO_INCREMENT de la tabla `respuestas_solicitudes`
+--
 ALTER TABLE `respuestas_solicitudes`
-  MODIFY `id_respuesta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `id_respuesta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
+--
+-- AUTO_INCREMENT de la tabla `solicitudes`
+--
+ALTER TABLE `solicitudes`
+  MODIFY `id_solicitud` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT de la tabla `turnos`
+--
 ALTER TABLE `turnos`
   MODIFY `id_turno` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
+--
+-- AUTO_INCREMENT de la tabla `turnos_asignaciones`
+--
 ALTER TABLE `turnos_asignaciones`
-  MODIFY `id_asignacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_asignacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
+--
+-- AUTO_INCREMENT de la tabla `usuarios`
+--
 ALTER TABLE `usuarios`
   MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
--- --------------------------------------------------------
--- RESTRICCIONES (FOREIGN KEYS)
--- --------------------------------------------------------
+--
+-- Restricciones para tablas volcadas
+--
 
-ALTER TABLE `solicitudes`
-  ADD CONSTRAINT `solicitudes_fk_emisor` FOREIGN KEY (`id_emisor`) REFERENCES `usuarios` (`id_usuario`),
-  ADD CONSTRAINT `solicitudes_fk_area` FOREIGN KEY (`id_area`) REFERENCES `areas` (`id_area`),
-  ADD CONSTRAINT `solicitudes_fk_nivel` FOREIGN KEY (`numero_nivel`) REFERENCES `niveles` (`numero_nivel`),
-  ADD CONSTRAINT `solicitudes_fk_soporte` FOREIGN KEY (`id_soporte`) REFERENCES `usuarios` (`id_usuario`);
-
+--
+-- Filtros para la tabla `respuestas_solicitudes`
+--
 ALTER TABLE `respuestas_solicitudes`
   ADD CONSTRAINT `respuestas_solicitudes_fk_solicitud` FOREIGN KEY (`id_solicitud`) REFERENCES `solicitudes` (`id_solicitud`),
   ADD CONSTRAINT `respuestas_solicitudes_fk_soporte` FOREIGN KEY (`id_soporte`) REFERENCES `usuarios` (`id_usuario`);
 
-ALTER TABLE `turnos_asignaciones`
-  ADD CONSTRAINT `turnos_asignaciones_fk_turno` FOREIGN KEY (`id_turno`) REFERENCES `turnos` (`id_turno`),
-  ADD CONSTRAINT `turnos_asignaciones_fk_soporte` FOREIGN KEY (`id_soporte`) REFERENCES `usuarios` (`id_usuario`);
+--
+-- Filtros para la tabla `solicitudes`
+--
+ALTER TABLE `solicitudes`
+  ADD CONSTRAINT `solicitudes_fk_area` FOREIGN KEY (`id_area`) REFERENCES `areas` (`id_area`),
+  ADD CONSTRAINT `solicitudes_fk_emisor` FOREIGN KEY (`id_emisor`) REFERENCES `usuarios` (`id_usuario`),
+  ADD CONSTRAINT `solicitudes_fk_nivel` FOREIGN KEY (`numero_nivel`) REFERENCES `niveles` (`numero_nivel`),
+  ADD CONSTRAINT `solicitudes_fk_soporte` FOREIGN KEY (`id_soporte`) REFERENCES `usuarios` (`id_usuario`);
 
+--
+-- Filtros para la tabla `turnos_asignaciones`
+--
+ALTER TABLE `turnos_asignaciones`
+  ADD CONSTRAINT `turnos_asignaciones_fk_soporte` FOREIGN KEY (`id_soporte`) REFERENCES `usuarios` (`id_usuario`),
+  ADD CONSTRAINT `turnos_asignaciones_fk_turno` FOREIGN KEY (`id_turno`) REFERENCES `turnos` (`id_turno`);
 COMMIT;

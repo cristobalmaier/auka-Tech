@@ -283,6 +283,12 @@ socket.on('cancelar-llamado', async (data) => {
         return alerta({ mensaje: 'No se pudo cancelar tu solicitud.', tipo: 'error' })
     }
 
+    // Mostrar notificación al soporte
+    alerta({ 
+        mensaje: `${nombreEmpleado} ${apellidoEmpleado} canceló su solicitud`, 
+        tipo: 'info' 
+    })
+
     // Eliminar de la vista
     if (solicitud) solicitud.remove()
 
