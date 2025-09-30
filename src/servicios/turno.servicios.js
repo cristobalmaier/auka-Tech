@@ -49,17 +49,17 @@ class TurnoServicios {
         if(yaFueAsignado) throw new ErrorCliente('Este usuario ya fue asignado a este turno', 400)
 
         const esSoporte = await query(`SELECT * FROM usuarios WHERE id_usuario = ? AND tipo_usuario = 'soporte'`, [id_usuario])
-        if(!esSoporte) throw new ErrorCliente('Este usuario no es Soporte Tecnico', 400) 
+        if(!esSoporte) throw new ErrorCliente('Este usuario no es un soporte', 400)
 
         const resultado = await query(`INSERT INTO turnos_asignaciones (id_soporte, id_turno) VALUES (?, ?)`, [id_usuario, id_turno])
         return resultado
     }
 
     static async desasignarTurno({ id_usuario, id_turno }) {
-        const noFueAsignado = await query(`SELECT * FROM turnos_asignaciones WHERE id_preceptor = ? AND id_turno = ?`, [id_usuario, id_turno])
+        const noFueAsignado = await query(`SELECT * FROM turnos_asignaciones WHERE id_soporte = ? AND id_turno = ?`, [id_usuario, id_turno])
         if(!noFueAsignado) throw new ErrorCliente('Este usuario no fue asignado a este turno', 400)
 
-        const resultado = await query(`DELETE FROM turnos_asignaciones WHERE id_preceptor = ? AND id_turno = ?`, [id_usuario, id_turno])
+        const resultado = await query(`DELETE FROM turnos_asignaciones WHERE id_soporte = ? AND id_turno = ?`, [id_usuario, id_turno])
 
         return resultado
     }

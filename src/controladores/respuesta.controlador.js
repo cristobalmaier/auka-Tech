@@ -4,10 +4,10 @@ class RespuestaControlador {
     }
 
     obtenerRespuestas = async (req, res, next) => {
-        const { llamadoId } = req.query
+        const { solicitudId } = req.query
 
         try {
-            const resultado = await this.respuestaServicio.obtenerRespuestas({ llamadoId })
+            const resultado = await this.respuestaServicio.obtenerRespuestas({ solicitudId })
             res.status(200).json(resultado)
         } catch(err) {
             next(err)
@@ -15,11 +15,11 @@ class RespuestaControlador {
     }
 
     crearRespuesta = async (req, res, next) => {
-        const { llamadoId, preceptorId, mensaje } = req.body || {}
+        const { solicitudId, soporteId, mensaje } = req.body || {}
 
         try {
-            const resultado = await this.respuestaServicio.crearRespuesta({ llamadoId, preceptorId, mensaje })
-            res.status(200).json({ mensaje: 'respuesta creada', data: { id: resultado.insertId } }) 
+            const resultado = await this.respuestaServicio.crearRespuesta({ solicitudId, soporteId, mensaje })
+            res.status(200).json({ mensaje: 'respuesta creada', data: { id: resultado.insertId } })
         } catch(err) {
             next(err)
         }

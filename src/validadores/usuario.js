@@ -28,7 +28,7 @@ const usuarioSchema = z.object({
         .min(6, 'La contraseña debe tener al menos 6 caracteres')
         .max(255, 'La contraseña no puede tener más de 255 caracteres'),
 
-    tipo_usuario: z.enum(['soporte', 'empleado', 'administrativo'], {
+    tipo_usuario: z.enum(['soporte', 'empleado', 'administracion'], {
         errorMap: () => ({ message: 'Tipo de usuario no válido' })
     }),
 });
@@ -56,7 +56,7 @@ const actualizarUsuarioSchema = z.object({
     .optional(),
 
     tipo_usuario: z
-    .enum(['soporte', 'empleado', 'administrador'], {
+    .enum(['soporte', 'empleado', 'administracion'], {
         errorMap: () => ({ message: 'Tipo de usuario no válido' }),
     })
     .optional(),

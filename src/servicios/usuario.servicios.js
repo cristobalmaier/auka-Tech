@@ -27,14 +27,14 @@ class UsuarioServicio {
             throw new ErrorCliente(mensaje, 400)
         }
 
-        // Confirmar que el usuario no existe
-        const usuarioExiste = await query(`SELECT * FROM usuarios WHERE email = ?`, [email])
-        if (usuarioExiste) throw new ErrorCliente('El usuario ya existe', 400) 
+    // Confirmar que el usuario no existe
+    const usuarioExiste = await query(`SELECT * FROM usuarios WHERE email = ?`, [email])
+    if (usuarioExiste) throw new ErrorCliente('El usuario ya existe', 400)
 
-        // Crear usuario
-        const contrasena_encriptada = await encriptar({ contrasena })
-        const resultado = await query(`INSERT INTO usuarios (nombre, apellido, email, contrasena, tipo_usuario) VALUES (?, ?, ?, ?, ?)`, [nombre, apellido, email, contrasena_encriptada, tipo_usuario])
-        return resultado
+    // Crear usuario
+    const contrasena_encriptada = await encriptar({ contrasena })
+    const resultado = await query(`INSERT INTO usuarios (nombre, apellido, email, contrasena, tipo_usuario) VALUES (?, ?, ?, ?, ?)`, [nombre, apellido, email, contrasena_encriptada, tipo_usuario])
+    return resultado
     }
 
     static async actualizarUsuario({ id, nombre, apellido, email, contrasena, tipo_usuario }) {
@@ -80,9 +80,9 @@ class UsuarioServicio {
 
     static async validarContrasena({ email, contrasena }) {
         const resultado = await query('SELECT contrasena FROM usuarios WHERE email = ?', email)
-        if(!resultado) throw new ErrorCliente('No se encontro ningún usuario con ese email', 404)
-            
-        return await compararContrasena({ contrasena, contrasena_encriptada: resultado[0].contrasena })
+    if(!resultado) throw new ErrorCliente('No se encontró ningún usuario con ese email', 404)
+        
+    return await compararContrasena({ contrasena, contrasena_encriptada: resultado[0].contrasena })
     }
 }
 

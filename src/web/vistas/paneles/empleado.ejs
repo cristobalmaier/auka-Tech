@@ -13,7 +13,7 @@
 
     <!-- SOCKET.IO -->
     <script type="module" src="/socket.io/socket.io.js"></script>
-    <script type="module" src="./js/panel/profesor.js"></script>
+    <script type="module" src="./js/panel/empleado.js"></script>
 </head>
 <body>
     <audio id="notificacion" src="sonidos/noti.wav" preload="auto"></audio>
@@ -24,7 +24,7 @@
             
         </div>
             <div class="formulario-llamado">
-                <form action="" method="GET" id="formulario" data-mensaje="<%= typeof llamado !== 'undefined' && llamado.data.finalizado == 0 ? llamado.data.mensaje : '' %>" data-id_llamado="<%= typeof llamado !== 'undefined' ? llamado.data.id : '' %>">
+                <form action="" method="GET" id="formulario" data-mensaje="<%= typeof solicitud !== 'undefined' && solicitud.data.finalizado == 0 ? solicitud.data.mensaje : '' %>" data-id_solicitud="<%= typeof solicitud !== 'undefined' ? solicitud.data.id : '' %>">
                     <div class="formulario-cabecera">
                         <h2>Realizar solicitud</h2>
                     </div>
@@ -44,34 +44,34 @@
                         </p>
                     </div>
                     <div class="formulario-curso">
-                        <label for="curso">Área</label>
-                        <select name="curso" id="curso">
-                            <% llamado.cursos.forEach(curso => { %>
-                                <option value="<%= curso.id_curso %>"><%= curso.curso %></option>
+                        <label for="area">Área</label>
+                        <select name="area" id="area">
+                            <% solicitud.areas.forEach(area => { %>
+                                <option value="<%= area.id_area %>"><%= area.area %></option>
                             <% }) %>
                         </select>
                     </div>
                     <div class="formulario-columna">
                         <label for="nivel">Nivel de importancia</label>
                         <div class="botones-niveles">
-                            <button <%= typeof llamado !== 'undefined' && llamado.data.finalizado == 0 ? 'disabled' : '' %> type="button" class="boton-select nivel-leve selected" data-nivel="1">Leve</button>
-                            <button <%= typeof llamado !== 'undefined' && llamado.data.finalizado == 0 ? 'disabled' : '' %> type="button" class="boton-select nivel-moderado" data-nivel="2">Moderado</button>
-                            <button <%= typeof llamado !== 'undefined' && llamado.data.finalizado == 0 ? 'disabled' : '' %> type="button" class="boton-select nivel-urgente" data-nivel="3">Urgente</button>
+                            <button <%= typeof solicitud !== 'undefined' && solicitud.data.finalizado == 0 ? 'disabled' : '' %> type="button" class="boton-select nivel-leve selected" data-nivel="1">Leve</button>
+                            <button <%= typeof solicitud !== 'undefined' && solicitud.data.finalizado == 0 ? 'disabled' : '' %> type="button" class="boton-select nivel-moderado" data-nivel="2">Moderado</button>
+                            <button <%= typeof solicitud !== 'undefined' && solicitud.data.finalizado == 0 ? 'disabled' : '' %> type="button" class="boton-select nivel-urgente" data-nivel="3">Urgente</button>
                             <input type="hidden" name="nivel" id="nivel-input" value="1">
                         </div>
                     </div>
 
-                    <% if(typeof llamado !== 'undefined' && llamado.data.finalizado == 0) { %>
-                        <button type="button" id="boton-llamado" disabled>Llamar soporte</button>
+                    <% if(typeof solicitud !== 'undefined' && solicitud.data.finalizado == 0) { %>
+                        <button type="button" id="boton-llamado" disabled>Solicitar soporte</button>
                     <% } else { %>
-                        <button type="button" id="boton-llamado">Llamar soporte</button>
+                        <button type="button" id="boton-llamado">Solicitar soporte</button>
                     <% } %>
 
 		        </form>
-		        <div class="estado-llamado <%= (typeof llamado.data.id === 'undefined' || llamado.data.finalizado == 1) ? 'esconder' : '' %>">  
+		        <div class="estado-llamado <%= (typeof solicitud !== 'undefined' && solicitud.data.id === 'undefined' || solicitud.data.finalizado == 1) ? 'esconder' : '' %>">  
                     <div class="estado-llamado-titulo">
-                        
-                        <% if(typeof llamado.respuesta.id === 'undefined' || llamado.data.finalizado == 1) { %>
+
+                        <% if(typeof solicitud.respuesta.id === 'undefined' || solicitud.data.finalizado == 1) { %>
                             <h3>Esperando respuesta...</h3>
                         <% } else { %>
                             <h3>Respuesta del soporte</h3>
@@ -79,14 +79,14 @@
 
                         <span class="texto-muted">Estado de tu solicitud</span>
                     </div>
-                    <div class="estado-llamado-preceptor <%= typeof llamado.respuesta.id == 'undefined' ? 'esconder' : '' %>">
+                    <div class="estado-llamado-preceptor <%= typeof solicitud.respuesta.id == 'undefined' ? 'esconder' : '' %>">
                         <div class="estado-preceptor-info">
-                            <p class="estado-preceptor-nombre"><%= llamado.respuesta.usuario.nombre %> <%= llamado.respuesta.usuario.apellido %></p>
+                            <p class="estado-preceptor-nombre"><%= solicitud.respuesta.usuario.nombre %> <%= solicitud.respuesta.usuario.apellido %></p>
                             <p class="estado-preceptor-rol texto-muted">Soporte - Turno Manana</p>
                         </div>
                         <div class="estado-preceptor-mensaje">
                             <span><i class="fa-regular fa-message"></i> Mensaje del soporte</span>
-                            <p class="preceptor-mensaje-texto"><%= llamado.respuesta.mensaje %></p>
+                            <p class="preceptor-mensaje-texto"><%= solicitud.respuesta.mensaje %></p>
                         </div>
                     </div>
                     <div class="estado-llamado-progreso">
@@ -99,7 +99,7 @@
                                 <p>Solicitud recibida</p>
                                 <span class="texto-muted hora_recibido">
                                     <%
-                                        const fecha = new Date(llamado.data.fecha)
+                                        const fecha = new Date(solicitud.data.fecha)
                                         const hora = fecha.getHours()
                                         const minutos = fecha.getMinutes()
                                     %>
@@ -107,9 +107,9 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="estado-progreso-item estado-progreso-<%= typeof llamado.respuesta.id !== 'undefined' ? 'encamino' : 'idle' %>">
+                        <div class="estado-progreso-item estado-progreso-<%= typeof solicitud.respuesta.id !== 'undefined' ? 'encamino' : 'idle' %>">
                             <div class="svg">
-                                <% if(typeof llamado.respuesta.id !== 'undefined') { %>
+                                <% if(typeof solicitud.respuesta.id !== 'undefined') { %>
                                     <i class="fa-solid fa-arrow-right"></i> 
                                 <% } else { %>
                                     <i class="fa-solid fa-circle"></i>
@@ -119,7 +119,7 @@
                                 <p>Soporte en camino</p>
                                 <span class="texto-muted hora_respuesta">
                                     <%
-                                        const fecha_respuesta = new Date(llamado.respuesta.fecha)
+                                        const fecha_respuesta = new Date(solicitud.respuesta.fecha)
                                         const hora_respuesta = fecha.getHours()
                                         const minutos_respuesta = fecha.getMinutes()
                                     %>
@@ -127,9 +127,9 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="estado-progreso-item estado-progreso-<%= llamado.data.finalizado == 1 ? 'finalizado' : 'idle' %>">
+                        <div class="estado-progreso-item estado-progreso-<%= solicitud.data.finalizado == 1 ? 'finalizado' : 'idle' %>">
                             <div class="svg">
-                                <% if(typeof llamado.respuesta.id !== 'undefined' && llamado.data.finalizado == 1) { %>
+                                <% if(typeof solicitud.respuesta.id !== 'undefined' && solicitud.data.finalizado == 1) { %>
                                     <i class="fa-solid fa-face-smile"></i>
                                 <% } else { %>
                                     <i class="fa-solid fa-circle"></i>
@@ -141,35 +141,12 @@
                         </div>
                     </div>
 
-                    <button class="boton-cerrar <%= typeof llamado.respuesta.id != 'undefined' && llamado.data.finalizado == 1 ? '' : 'esconder' %>">Cerrar llamado</button>
-                    <button class="boton-cancelar <%= typeof llamado.respuesta.id == 'undefined' ? '' : 'esconder' %>">Cancelar solicitud</button>
+                    <button class="boton-cerrar <%= typeof solicitud.respuesta.id != 'undefined' && solicitud.data.finalizado == 1 ? '' : 'esconder' %>">Cerrar solicitud</button>
+                    <button class="boton-cancelar <%= typeof solicitud.respuesta.id == 'undefined' ? '' : 'esconder' %>">Cancelar solicitud</button>
                 </div>
             </div>    
             
-            <!-- 
-            div class="estado-llamado <%= (typeof llamado.data.id === 'undefined' || llamado.data.finalizado == 1) ? 'esconder' : '' %>">  
-                    <p class="estado-llamado-titulo">
-
-                        <% if(typeof llamado.respuesta.id === 'undefined' || llamado.data.finalizado == 1) { %>
-                            Estado de tu llamado
-                        <% } else { %>
-                            <%= llamado.respuesta.usuario.nombre %> <%= llamado.respuesta.usuario.apellido %>
-                        <% } %>
-
-                    </p>
-                    <p class="estado-llamado-texto">
-
-                        <% if(typeof llamado.respuesta.id === 'undefined' || llamado.data.finalizado == 1) { %>
-                            Pendiente...
-                        <% } else { %>
-                            <%= llamado.respuesta.mensaje %>
-                        <% } %>
-
-                    </p>
-
-                    <button class="boton-cancelar <%= typeof llamado.respuesta.id == 'undefined' ? '' : 'esconder' %>">Cancelar llamado</button>
-                </div>
-            -->
+            
         <div class="columna columna-derecha">
             <div class="preceptores">
                 <p class="preceptores-titulo">Soportes disponibles</p>

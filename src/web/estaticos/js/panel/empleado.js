@@ -3,10 +3,10 @@ import { peticion } from '../peticion.js'
 
 const socket = io();
 
-// Datos del profesor logeado
-const idProfesor = parseInt(document.documentElement.dataset.id_usuario)
-const nombreProfesor = document.documentElement.dataset.nombre
-const apellidoProfesor = document.documentElement.dataset.apellido
+// Datos del empleado logeado
+const idEmpleado = parseInt(document.documentElement.dataset.id_usuario)
+const nombreEmpleado = document.documentElement.dataset.nombre
+const apellidoEmpleado = document.documentElement.dataset.apellido
 const tipoUsuario = document.documentElement.dataset.tipo_usuario
 
 // Elementos HTML
@@ -36,24 +36,24 @@ const notificacion = document.getElementById('notificacion')
 
 /* ////////////////////////////////////////////////////////////////// */
 
-// ! RESPUESTA DE LLAMADO (BOTONES DE RESPUESTA DE LOS PRECEPTORES)
+// ! RESPUESTA DE LLAMADO (BOTONES DE RESPUESTA DE LOS sOportes)
 
 socket.on('respuesta-llamado', (data) => {
     const {
-        nombre: nombrePreceptor,
-        apellido: apellidoPreceptor,
-        usuario_id: idProfesorLlamado,
-        llamado_id,
+        nombre: nombreSoporte,
+        apellido: apellidoSoporte,
+        usuario_id: idEmpleadoSolicitud,
+        solicitud_id,
         respuesta
     } = data
 
-    // Si el llamado no es del mismo profesor, no se muestra la respuesta
-    if (idProfesorLlamado != idProfesor) return
+    // Si la solicitud no es del mismo empleado, no se muestra la respuesta
+    if (idEmpleadoSolicitud != idEmpleado) return
 
     // Mostrar notificacion
-    primerTitulo.innerText = 'Respuesta del preceptor'
+    primerTitulo.innerText = 'Respuesta del soporte'
     estadoPreceptor.classList.remove('esconder')
-    estadoLlamadoTitulo.innerText = nombrePreceptor + " " + apellidoPreceptor
+    estadoLlamadoTitulo.innerText = nombreSoporte + " " + apellidoSoporte
     estadoLlamadoTexto.innerText = respuesta
     estadoProgresoTodos[1].classList.replace('estado-progreso-idle', 'estado-progreso-encamino')
     estadoProgresoTodos[1].querySelector('.fa-circle').classList.replace('fa-circle', 'fa-arrow-right')
@@ -67,18 +67,18 @@ socket.on('respuesta-llamado', (data) => {
 
 /* ////////////////////////////////////////////////////////////////// */
 
-// ! TERMINAR LLAMADO (BOTON DE TERMINAR DE LOS PRECEPTORES)
+// ! TERMINAR LLAMADO (BOTON DE TERMINAR DE LOS soportes)
 
 socket.on('terminar-llamado', (data) => {
     const {
-        nombre: nombrePreceptor,
-        apellido: apellidoPreceptor,
-        usuario_id: idProfesorLlamado,
+        nombre: nombreSoporte,
+        apellido: apellidoSoporte,
+        usuario_id: idEmpleadoSolicitud,
         respuesta
     } = data
 
-    // Si el llamado es del mismo profesor, no se muestra la respuesta
-    if (idProfesorLlamado != idProfesor) return
+    // Si la solicitud es del mismo empleado, no se muestra la respuesta
+    if (idEmpleadoSolicitud != idEmpleado) return
 
     botonCerrar.classList.remove('esconder')
     estadoProgresoTodos[2].querySelector('.fa-circle').classList.replace('fa-circle', 'fa-face-smile')
@@ -94,14 +94,14 @@ botonCerrar.addEventListener('click', () => {
 
 /* ////////////////////////////////////////////////////////////////// */
 
-// ! CANCELAR LLAMADO (BOTON DE CANCELAR)
+// ! CANCELAR SOLICITUD (BOTON DE CANCELAR)
 
 botonCancelarLlamado.addEventListener('click', async () => {
     const mensaje = formulario.dataset.mensaje
-    const id_llamado = formulario.dataset.id_llamado
+    const id_solicitud = formulario.dataset.id_solicitud
 
     const resultado = await peticion({
-        url: '/api/llamados/actualizar/' + id_llamado,
+        url: '/api/solicitudes/actualizar/' + id_solicitud,
         metodo: 'PUT',
         cuerpo: {
             finalizado: true,
@@ -110,9 +110,9 @@ botonCancelarLlamado.addEventListener('click', async () => {
     })
 
     socket.emit('cancelar-llamado', {
-        usuario_id: idProfesor,
-        nombre: nombreProfesor,
-        apellido: apellidoProfesor,
+        usuario_id: idEmpleado,
+        nombre: nombreEmpleado,
+        apellido: apellidoEmpleado,
         fecha_envio: new Date(),
         mensaje
     })
@@ -127,7 +127,7 @@ botonCancelarLlamado.addEventListener('click', async () => {
 botonLlamado.addEventListener('click', async () => {
     const mensaje = formulario.mensaje.value
     const nivel = parseInt(formulario.nivel.value)
-    const curso = parseInt(formulario.curso.value)
+    const area = parseInt(formulario.area.value)
 
     // Validaciones
     if(!mensaje || mensaje.length === 0) {
@@ -146,12 +146,12 @@ botonLlamado.addEventListener('click', async () => {
     bloquearFormulario({ mensaje })
 
     const resultado = await peticion({
-        url: '/api/llamados/crear',
+        url: '/api/solicitudes/crear',
         metodo: 'POST',
         cuerpo: {
-            id_preceptor: null,
-            id_emisor: idProfesor,
-            id_curso: curso,
+            id_soporte: null,
+            id_emisor: idEmpleado,
+            id_area: area,
             numero_nivel: nivel,
             mensaje
         }
@@ -159,19 +159,22 @@ botonLlamado.addEventListener('click', async () => {
 
     // Si ocurrio un error en la api se muestra una alerta
     if (!resultado.ok) {
-        return alerta({ mensaje: 'No se realizar el llamado, intente de nuevo mas tarde.', tipo: 'error' }) 
+        return alerta({ mensaje: 'No se realizar la solicitud, intente de nuevo mas tarde.', tipo: 'error' }) 
     }
 
     const llamadoInfo = await resultado.json()
 
+    console.log("Julian");
+    console.log(llamadoInfo);
+
     socket.emit('nuevo-llamado', {
         usuario: {
-            id: idProfesor,
-            nombre: nombreProfesor,
-            apellido: apellidoProfesor,
+            id: idEmpleado,
+            nombre: nombreEmpleado,
+            apellido: apellidoEmpleado,
             tipo_usuario: tipoUsuario
         },
-        llamado: {
+        solicitud: {
             id: llamadoInfo.data.id,
             fecha_envio: new Date(),
             numero_nivel: nivel,

@@ -16,12 +16,12 @@ document.addEventListener("DOMContentLoaded", () => {
     rows.forEach(row => {
       const mensaje = row.querySelector(".call-message")?.textContent.toLowerCase() || "";
       const emisor = row.cells[2]?.textContent.toLowerCase() || "";
-      const curso = row.cells[1]?.textContent.toLowerCase() || "";
+      const area = row.cells[1]?.textContent.toLowerCase() || "";
       const estadoTexto = row.querySelector(".status-badge")?.textContent.toLowerCase();
       const prioridadTexto = row.querySelector(".priority-badge")?.textContent.toLowerCase();
       const fechaTexto = row.querySelector(".call-date")?.textContent;
 
-      const coincideBusqueda = mensaje.includes(searchValue) || emisor.includes(searchValue) || curso.includes(searchValue);
+      const coincideBusqueda = mensaje.includes(searchValue) || emisor.includes(searchValue) || area.includes(searchValue);
       const coincideEstado = !estado || estadoTexto.includes(estado);
       const coincidePrioridad = !prioridad || prioridadTexto.includes(prioridad);
       const coincideFecha = !fecha || fechaTexto === fecha;
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
   if (exportBtn) {
     exportBtn.addEventListener('click', function () {
       try {
-        exportTableToCSV('llamados.csv');
+        exportTableToCSV('solicitudes.csv');
         mostrarNotificacion('exito', 'Exportación completada exitosamente');
       } catch (error) {
         console.error('Error al exportar:', error);
@@ -96,7 +96,7 @@ function exportTableToCSV(filename) {
   let csv = [];
   
   // Obtener encabezados
-  const headers = ['Fecha', 'Hora', 'Curso', 'Profesor', 'Mensaje', 'Estado', 'Prioridad'];
+  const headers = ['Fecha', 'Hora', 'Area', 'Empleado', 'Mensaje', 'Estado', 'Prioridad'];
   csv.push(headers.join(','));
 
   // Obtener filas filtradas
@@ -137,14 +137,14 @@ function exportTableToCSV(filename) {
   document.body.removeChild(downloadLink);
 }
 
-// Mostrar detalle del llamado en modal
+// Mostrar detalle del solicitud en modal
 
 document.addEventListener('DOMContentLoaded', function () {
   // Botón cerrar modal
-  const cerrarBtn = document.getElementById('cerrarDetalleLlamado');
+  const cerrarBtn = document.getElementById('cerrarDetalleSolicitud');
   if (cerrarBtn) {
     cerrarBtn.onclick = function () {
-      document.getElementById('detalleLlamadoModal').style.display = 'none';
+      document.getElementById('detalleSolicitudModal').style.display = 'none';
     };
   }
 
@@ -155,37 +155,37 @@ document.addEventListener('DOMContentLoaded', function () {
       const detalle = {
         fecha: row.querySelector('.call-date')?.innerText || '',
         hora: row.querySelector('.call-time')?.innerText || '',
-        curso: row.querySelector('.call-grade')?.innerText || '',
+        area: row.querySelector('.call-grade')?.innerText || '',
         emisor: row.querySelector('.emisor')?.innerText || '',
         mensaje: row.querySelector('.call-message')?.innerText || '',
         estado: row.querySelector('.status-badge')?.innerText || '',
         estadoClass: row.querySelector('.status-badge')?.className || '',
         prioridad: row.querySelector('.priority-badge')?.innerText || '',
         prioridadClass: row.querySelector('.priority-badge')?.className || '',
-        preceptor: row.cells[6]?.innerText || '',
+        soporte: row.cells[6]?.innerText || '',
         tiempoRespuesta: row.cells[7]?.innerText || '-',
       };
       // Badge de estado
       let estadoBadge = `<span class="status-badge ${detalle.estadoClass.replace('status-badge', '').trim()}" style="font-size:13px;">${detalle.estado}</span>`;
       // Badge de prioridad
       let prioridadBadge = `<span class="priority-badge ${detalle.prioridadClass.replace('priority-badge', '').trim()}" style="font-size:13px;">${detalle.prioridad}</span>`;
-      document.getElementById('detalleLlamadoContenido').innerHTML = `
+      document.getElementById('detalleSolicitudContenido').innerHTML = `
         <div>
           <div class="detalle-llamado-titulo">Detalle del Llamado</div>
-          <div class="detalle-llamado-subtitulo">Información completa del llamado</div>
+          <div class="detalle-llamado-subtitulo">Información completa de la solicitud</div>
           <div class="detalle-llamado-flex">
             <div class="detalle-llamado-col">
               <div class="detalle-llamado-col-titulo">Información General</div>
               <div><b>Fecha:</b> ${detalle.fecha}</div>
               <div><b>Hora:</b> ${detalle.hora}</div>
-              <div><b>Curso:</b> ${detalle.curso}</div> 
+              <div><b>Área:</b> ${detalle.area}</div>
               <div><b>Emisor:</b> ${detalle.emisor}</div>
             </div>
             <div class="detalle-llamado-col">
               <div class="detalle-llamado-col-titulo">Estado y Respuesta</div>
               <div><b>Estado:</b> ${estadoBadge}</div>
               <div><b>Prioridad:</b> ${prioridadBadge}</div>
-              <div><b>Preceptor:</b> ${detalle.preceptor}</div>
+              <div><b>Soporte:</b> ${detalle.soporte}</div>
             </div>
           </div>
         </div>
@@ -193,7 +193,7 @@ document.addEventListener('DOMContentLoaded', function () {
         <div class="detalle-llamado-label">Mensaje Original</div>
         <div class="detalle-llamado-mensaje">${detalle.mensaje}</div>
       `;
-      document.getElementById('detalleLlamadoModal').style.display = 'flex';
+      document.getElementById('detalleSolicitudModal').style.display = 'flex';
       // Si tienes nivel y turno en los datos, puedes reemplazar los spans por los valores reales
     });
   });

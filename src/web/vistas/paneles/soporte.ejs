@@ -15,7 +15,7 @@
     <script type="module" src="/socket.io/socket.io.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/timeago.js@4.0.2/dist/timeago.min.js"></script>
 
-    <script type="module" src="js/panel/preceptor.js"></script>
+    <script type="module" src="js/panel/soporte.js"></script>
 </head>
 <body>
     <audio id="notificacion" src="sonidos/noti.wav" preload="auto"></audio>
@@ -30,31 +30,31 @@
 
                 <div class="historial-contenedor">
 
-                    <% if(llamados !== null) { %>
-                        <% for(let i = 0; i < llamados.length && i < 6; i++) { %>
-                            <% if(llamados[i].finalizado == 1) { %>
-        
+                    <% if(solicitudes !== null) { %>
+                        <% for(let i = 0; i < solicitudes.length && i < 6; i++) { %>
+                            <% if(solicitudes[i].finalizado == 1) { %>
+
                                 <div class="historial-item">
                                     <div>
                                         <div class="historial-item-cabecera">
                                             <p class="historial-item-titulo">
-                                                <%= llamados[i].nombre %> <%= llamados[i].apellido %>
+                                                <%= solicitudes[i].nombre %> <%= solicitudes[i].apellido %>
                                             </p>
                                             <p class="historial-item-hora">
-                                                <%= formatoHora(llamados[i].fecha_envio) %>
+                                                <%= formatoHora(solicitudes[i].fecha_envio) %>
                                             </p>
                                         </div> 
                                         <div class="historial-item-mensaje">
                                             <p class="historial-item-texto">
-                                                <%= llamados[i].mensaje %>
+                                                <%= solicitudes[i].mensaje %>
                                             </p>
                                         </div>
                                     </div>
                                     <div class="historial-item-pie">
-                                        <p class="historial-item-estado <%= llamados[i].cancelado == 1 ? 'historial-estado-cancelado' : 'historial-estado-finalizado' %>">
+                                        <p class="historial-item-estado <%= solicitudes[i].cancelado == 1 ? 'historial-estado-cancelado' : 'historial-estado-finalizado' %>">
                                             <span class="historial-item-estado-texto">
 
-                                                <% if(llamados[i].cancelado == 1) { %>
+                                                <% if(solicitudes[i].cancelado == 1) { %>
                                                     Cancelado
                                                 <% } else { %>
                                                     Finalizado
@@ -73,31 +73,31 @@
             </div>
         </div>
         <div class="llamados">
-            <% if(llamados !== null && llamados.filter(llamado => llamado.finalizado == 0).length > 0) { %>
-                <% llamados.forEach(llamado => { %>
-                    <% if(llamado.finalizado == 0) { %>
+            <% if(solicitudes !== null && solicitudes.filter(solicitud => solicitud.finalizado == 0).length > 0) { %>
+                <% solicitudes.forEach(solicitud => { %>
+                    <% if(solicitud.finalizado == 0) { %>
 
                         <% const niveles = ['leve', 'moderado', 'urgente'] %>
-                        <% const nivel = niveles[llamado.numero_nivel - 1] %>
+                        <% const nivel = niveles[solicitud.numero_nivel - 1] %>
 
-                        <div class="llamado <%= nivel %>" data-llamado_id="<%= llamado.id_llamado %>" data-usuario_id="<%= llamado.id_emisor %>" data-usuario_nombre="<%= llamado.nombre %>" data-usuario_apellido="<%= llamado.apellido %>" data-mensaje="<%= llamado.mensaje %>">  
+                        <div class="llamado <%= nivel %>" data-solicitud_id="<%= solicitud.id_solicitud %>" data-usuario_id="<%= solicitud.id_emisor %>" data-usuario_nombre="<%= solicitud.nombre %>" data-usuario_apellido="<%= solicitud.apellido %>" data-mensaje="<%= solicitud.mensaje %>">  
                             <div class="llamado-cabecera">
-                                <p class="llamado-titulo"><%= llamado.nombre %> <%= llamado.apellido %></p>
-                                <p class="llamado-mensaje"><%= llamado.mensaje %></p>
+                                <p class="llamado-titulo"><%= solicitud.nombre %> <%= solicitud.apellido %></p>
+                                <p class="llamado-mensaje"><%= solicitud.mensaje %></p>
                             </div>
                             <hr>
                             <div class="llamado-cuerpo">
-                                <p><span class="llamado-cuerpo-texto">Solicitud - <span class="fecha-envio" datetime="<%= llamado.fecha_envio %>"><%= formato(llamado.fecha_envio) %></span></span></p>
+                                <p><span class="llamado-cuerpo-texto">Solicitud - <span class="fecha-envio" datetime="<%= solicitud.fecha_envio %>"><%= formato(solicitud.fecha_envio) %></span></span></p>
                             </div>
-                            <% if(llamado.id_preceptor === null || typeof llamado.id_preceptor == 'undefined') { %>
+                            <% if(solicitud.id_soporte === null || typeof solicitud.id_soporte == 'undefined') { %>
                                 <div class="llamado-respuestas">
-                                    <p class="respuesta" data-usuario_id="<%= llamado.id_emisor %>">Yendo</p>
-                                    <p class="respuesta" data-usuario_id="<%= llamado.id_emisor %>">En camino</p>
-                                    <p class="respuesta" data-usuario_id="<%= llamado.id_emisor %>">Enseguida</p>
-                                    <p class="respuesta" data-usuario_id="<%= llamado.id_emisor %>">Voy para allá</p>
+                                    <p class="respuesta" data-usuario_id="<%= solicitud.id_emisor %>">Yendo</p>
+                                    <p class="respuesta" data-usuario_id="<%= solicitud.id_emisor %>">En camino</p>
+                                    <p class="respuesta" data-usuario_id="<%= solicitud.id_emisor %>">Enseguida</p>
+                                    <p class="respuesta" data-usuario_id="<%= solicitud.id_emisor %>">Voy para allá</p>
                                     <p class="respuesta-personalizada">Respuesta personalizada</p>
                                 </div>
-                                <div data-usuario_id="<%= llamado.id_emisor %>" class="esconder respuesta-personalizada-contenedor">
+                                <div data-usuario_id="<%= solicitud.id_emisor %>" class="esconder respuesta-personalizada-contenedor">
                                     <input type="text" name="respuesta-personalizada" class="respuesta-personalizada-input" placeholder="Escribe aquí tu respuesta..." maxlength="150">
                                     <div class="botones">
                                         <button type="button" class="boton-respuesta-personalizada">Enviar</button>
@@ -105,7 +105,7 @@
                                     </div>
                                 </div>
                             <% } else { %> 
-                                <% if(llamado.id_preceptor == usuario.id_usuario) { %>
+                                <% if(solicitud.id_soporte== usuario.id_usuario) { %>
                                     <div class="llamado-respuestas">
                                         <p class="respuesta respuesta-terminado">Terminado</p>
                                     </div>
@@ -115,7 +115,7 @@
                     <% } %>
                 <% }) %>
                 <div class="no-hay-llamados esconder">
-                    <h1>No hay llamados pendientes.</h1>
+                    <h1>No hay solicitudes pendientes.</h1>
                 </div>
             <% } else { %>
                 <div class="no-hay-llamados">

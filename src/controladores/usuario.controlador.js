@@ -32,11 +32,11 @@ class UsuarioControlador {
     }
 
     crearUsuario = async (req, res, next) => {
-        const  { nombre, apellido, email, contrasena, tipo_usuario = 'profesor' } = req.body || {}
+        const  { nombre, apellido, email, contrasena, tipo_usuario = 'empleado' } = req.body || {}
         
         try {
             await this.usuarioServicio.crearUsuario({ nombre, apellido, email, contrasena, tipo_usuario })
-            res.status(200).json({ mensaje: "Usuario creado con exito." })
+            res.status(200).json({ mensaje: "Usuario creado con éxito." })
         } catch(err) {
             next(err)
         }

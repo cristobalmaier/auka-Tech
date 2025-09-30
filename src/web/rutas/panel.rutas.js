@@ -14,17 +14,13 @@ panelRutas.get('/panel/soporte', [estaLogeado, esSoporte], async (req, res) => {
 
     const usuario = obtenerDatosToken(req)
 
-    const llamadosResultado = await peticion({ url: `${API_URL}/llamados`, metodo: 'GET' })
-    const llamados = await llamadosResultado.json()
+    const solicitudesResultado = await peticion({ url: `${API_URL}/solicitudes`, metodo: 'GET' })
+    const solicitudes = await solicitudesResultado.json()
 
     const turnosResultado = await peticion({ url: `${API_URL}/turnos/hora/${hora_actual}`, metodo: 'GET' })
     const turnos = await turnosResultado.json()
 
-    console.log(usuario)
-    console.log(llamados)
-    console.log(turnos)
-
-    res.render('paneles/preceptor', { titulo: 'AUKA - Panel', usuario, llamados, turnos })
+    res.render('paneles/soporte', { titulo: 'AUKA - Panel', usuario, solicitudes, turnos })
 })
 
 panelRutas.get('/panel/empleado', [estaLogeado, esEmpleado], async (req, res) => {
@@ -34,41 +30,41 @@ panelRutas.get('/panel/empleado', [estaLogeado, esEmpleado], async (req, res) =>
     const turnosResultado = await peticion({ url: `${API_URL}/turnos/hora/${hora_actual}`, metodo: 'GET' })
     const turnos = await turnosResultado.json()
     
-    const cursosResultado = await peticion({ url: `${API_URL}/cursos`, metodo: 'GET' })
-    const cursos = await cursosResultado.json()
+    const areasResultado = await peticion({ url: `${API_URL}/areas`, metodo: 'GET' })
+    const areas = await areasResultado.json()
 
-    const resultadoLlamado = await peticion({ url: `${API_URL}/llamados?usuarioId=${usuario.id_usuario}`, metodo: 'GET' })
-    let llamado = await resultadoLlamado.json()
+    const resultadoSolicitud = await peticion({ url: `${API_URL}/solicitudes?usuarioId=${usuario.id_usuario}`, metodo: 'GET' })
+    let solicitud = await resultadoSolicitud.json()
 
-    if(llamado == null) llamado = []
+    if(solicitud == null) solicitud = []
 
-    const resultadoRespuesta = await peticion({ url: `${API_URL}/respuestas?llamadoId=${llamado[0]?.id_llamado}`, metodo: 'GET' })
+    const resultadoRespuesta = await peticion({ url: `${API_URL}/respuestas?solicitudId=${solicitud[0]?.id_solicitud}`, metodo: 'GET' })
     let respuesta = await resultadoRespuesta.json()
 
     if(respuesta == null) respuesta = []
 
-    const objetoLlamado = {
+    const objetoSolicitud = {
         data: {
-            id: llamado[0]?.id_llamado,
-            mensaje: llamado[0]?.mensaje,
-            nivel: llamado[0]?.numero_nivel,
-            fecha: llamado[0]?.fecha_envio,
-            finalizado: llamado[0]?.finalizado,
+            id: solicitud[0]?.id_solicitud,
+            mensaje: solicitud[0]?.mensaje,
+            nivel: solicitud[0]?.numero_nivel,
+            fecha: solicitud[0]?.fecha_envio,
+            finalizado: solicitud[0]?.finalizado,
         },
         respuesta: {
             id: respuesta[0]?.id_respuesta,
             mensaje: respuesta[0]?.mensaje,
             fecha: respuesta[0]?.fecha_respuesta,
             usuario: {
-                id: respuesta[0]?.id_preceptor,
+                id: respuesta[0]?.id_soporte,
                 nombre: respuesta[0]?.nombre_usuario,
                 apellido: respuesta[0]?.apellido_usuario
             }
         },
-        cursos
+        areas
     }
 
-    res.render('paneles/profesor', { titulo: 'AUKA - Panel', usuario, llamado: objetoLlamado, turnos })
+    res.render('paneles/empleado', { titulo: 'AUKA - Panel', usuario, solicitud: objetoSolicitud, turnos })
 })
 
 export default panelRutas

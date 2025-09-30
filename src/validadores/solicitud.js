@@ -1,7 +1,8 @@
 import { z } from 'zod';
 
-// Esquema de validación para la tabla llamados
-const llamadoSchema = z.object({
+
+// Esquema de validación para la tabla solicitudes
+const solicitudSchema = z.object({
     id_soporte: z
         .nullable(),
 
@@ -11,6 +12,14 @@ const llamadoSchema = z.object({
         })
         .int()
         .positive('El ID del emisor debe ser positivo'),
+
+    id_area: z
+        .number({ 
+            required_error: 'El ID del área es obligatorio',
+            invalid_type_error: 'El ID del área debe ser un número' 
+        })
+        .int()
+        .positive('El ID del área debe ser positivo'),
 
     numero_nivel: z
         .number({ 
@@ -28,7 +37,7 @@ const llamadoSchema = z.object({
         .max(300, 'El mensaje no puede tener más de 300 caracteres'),
 });
 
-const actualizarLlamadoSchema = z.object({
+const actualizarSolicitudSchema = z.object({
     id_soporte: z
         .number()
         .int('Debe ser un número entero')
@@ -36,6 +45,12 @@ const actualizarLlamadoSchema = z.object({
         .optional(),
 
     id_emisor: z
+        .number()
+        .int('Debe ser un número entero')
+        .positive('Debe ser un número positivo')
+        .optional(),
+
+    id_area: z
         .number()
         .int('Debe ser un número entero')
         .positive('Debe ser un número positivo')
@@ -52,9 +67,9 @@ const actualizarLlamadoSchema = z.object({
         .max(500, 'Máximo 500 caracteres')
         .optional(),
 
+
     fecha_envio: z
         .string()
-        .datetime({ message: 'Fecha de envío no válida' })
         .optional(),
 
     finalizado: z
@@ -65,8 +80,8 @@ const actualizarLlamadoSchema = z.object({
     message: 'Debe incluir al menos un campo para actualizar',
 });
 
-export function validarActualizacionLlamado(data) {
-    const resultado = actualizarLlamadoSchema.safeParse(data);
+export function validarActualizacionSolicitud(data) {
+    const resultado = actualizarSolicitudSchema.safeParse(data);
     if (!resultado.success) {
         return {
             valido: false,
@@ -80,9 +95,9 @@ export function validarActualizacionLlamado(data) {
     };
 }
 
-// Función para validar un nuevo llamado
-export function validarLlamado(data) {
-    const resultado = llamadoSchema.safeParse(data);
+// Función para validar un nuevo solicitud
+export function validarSolicitud(data) {
+    const resultado = solicitudSchema.safeParse(data);
     if (!resultado.success) {
         return {
             valido: false,

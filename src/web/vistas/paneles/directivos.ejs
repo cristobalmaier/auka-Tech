@@ -78,7 +78,7 @@
             <!-- Búsqueda general -->
             <div class="filter">
               <i class="fas fa-search"></i>
-              <input type="text" id="searchInput" placeholder="Buscar por profesor, mensaje, curso" />
+              <input type="text" id="searchInput" placeholder="Buscar por empleado, mensaje, area" />
             </div>
 
             <!-- Filtro por estado -->
@@ -124,7 +124,7 @@
               <thead>
                 <tr>
                   <th>Fecha/Hora</th>
-                  <th>Curso</th>
+                  <th>Área</th>
                   <th>Emisor</th>
                   <th>Mensaje</th>
                   <th>Estado</th>
@@ -134,18 +134,18 @@
                 </tr>
               </thead>
               <tbody>
-                <% (llamadosResultado || []).forEach(llamado => { %>
+                <% (solicitudesResultado || []).forEach(solicitud => { %>
                   <tr>
                     <td>
                       <div class="call-date">
-                        <%= new Date(llamado.fecha_envio).toLocaleDateString('es-AR', {
+                        <%= new Date(solicitud.fecha_envio).toLocaleDateString('es-AR', {
                           year: 'numeric',
                           month: '2-digit',
                           day: '2-digit'
                         }) %>
                       </div>
                       <div class="call-time">
-                        <%= new Date(llamado.fecha_envio).toLocaleTimeString('es-AR', {
+                        <%= new Date(solicitud.fecha_envio).toLocaleTimeString('es-AR', {
                           hour: 'numeric',
                           minute: 'numeric'
                         }) %>
@@ -154,35 +154,35 @@
                     
                     <td>
                       <div class="call-grade">
-                        <%= llamado.curso %>
+                        <%= solicitud.area %>
                       </div>
                     </td>
                     <td>
                       <div class="emisor">
-                        <%= llamado.nombre %>
+                        <%= solicitud.nombre %>
                       </div>
                     </td>
                     <td class="call-message">
-                      <%= llamado.mensaje %>
+                      <%= solicitud.mensaje %>
                     </td>
                     <td>
-                      <% let statusClass='status-pendiente' ; let statusText='Pendiente' ; if (llamado.cancelado==1) {
-                        statusClass='status-cancelado' ; statusText='Cancelado' ; } else if (llamado.finalizado==1) {
+                      <% let statusClass='status-pendiente' ; let statusText='Pendiente' ; if (solicitud.cancelado==1) {
+                        statusClass='status-cancelado' ; statusText='Cancelado' ; } else if (solicitud.finalizado==1) {
                         statusClass='status-finalizado' ; statusText='Finalizado' ; } %>
                         <span class="status-badge <%= statusClass %>">
                           <%= statusText %>
                         </span>
                     </td>
                     <td>
-                      <% let priorityClass='priority-low' ; let priorityText='Baja' ; if (llamado.prioridad==='media' )
-                        { priorityClass='priority-medium' ; priorityText='Media' ; } else if (llamado.prioridad==='alta'
+                      <% let priorityClass='priority-low' ; let priorityText='Baja' ; if (solicitud.prioridad==='media' )
+                        { priorityClass='priority-medium' ; priorityText='Media' ; } else if (solicitud.prioridad==='alta'
                         ) { priorityClass='priority-high' ; priorityText='Alta' ; } %>
                         <div class="priority-badge <%= priorityClass %>">
                           <%= priorityText %>
                         </div>
                     </td>
                     <td>
-                      <%= llamado.nombre %>
+                      <%= solicitud.nombre %>
                     </td>
                     <td>
                       <button class="action-btn">
@@ -195,9 +195,9 @@
               </tbody>
             </table>
           </div>
-          <% if (!(llamadosResultado && llamadosResultado.length > 0)) { %>
+          <% if (!(solicitudesResultado && solicitudesResultado.length > 0)) { %>
             <div class="no-hay-llamados">
-              No hay llamados.
+              No hay solicitudes.
             </div>
           <% } %>
         </div>

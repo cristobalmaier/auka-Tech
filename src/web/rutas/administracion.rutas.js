@@ -9,9 +9,9 @@ import {peticion} from "../utiles/peticion.js"
 // Ruta para el panel de administracion
 administracionRutas.get('/panel/administracion', async (req, res) => {
     const usuario = obtenerDatosToken(req)
-    
-    const llamados = await peticion ({url: `${process.env.API_URL}/llamados`, metodo:`GET`}) 
-    const llamadosResultado = await llamados.json()
+
+    const solicitudes = await peticion ({url: `${process.env.API_URL}/solicitudes`, metodo:`GET`}) 
+    const solicitudesResultado = await solicitudes.json()
 
     const datos = await peticion ({url: `${process.env.API_URL}/data/database`, metodo:`GET`}) 
     const datosResultado = await datos.json()
@@ -19,7 +19,7 @@ administracionRutas.get('/panel/administracion', async (req, res) => {
     res.render('paneles/administracion', { 
         titulo: 'AUKA - Panel', 
         usuario, 
-        llamadosResultado: llamadosResultado || [], 
+        solicitudesResultado: solicitudesResultado || [], 
         rutaActual: '/panel/administracion',
         datos: datosResultado
     })

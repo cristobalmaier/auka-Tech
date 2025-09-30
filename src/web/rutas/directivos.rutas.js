@@ -9,12 +9,12 @@ import {peticion} from "../utiles/peticion.js"
 // Ruta para el panel de directivos
 directivosRutas.get('/panel/directivos', async (req, res) => {
     const usuario = obtenerDatosToken(req)
-    
-    const llamados = await peticion ({url: `${process.env.API_URL}/llamados`, metodo:`GET`}) 
-    const llamadosResultado = await llamados.json()
+
+    const solicitudes = await peticion ({url: `${process.env.API_URL}/solicitudes`, metodo:`GET`}) 
+    const solicitudesResultado = await solicitudes.json()
 
 
-    res.render('paneles/directivos', { titulo: 'AUKA - Panel', usuario, llamadosResultado: llamadosResultado || []})
+    res.render('paneles/directivos', { titulo: 'AUKA - Panel', usuario, solicitudesResultado: solicitudesResultado || []})
 })
 
 export default directivosRutas
