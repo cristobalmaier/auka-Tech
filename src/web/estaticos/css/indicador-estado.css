@@ -1,0 +1,71 @@
+/* Indicador de estado para soportes */
+
+.preceptores-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.indicador-estado {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+/* Estado Online - Verde */
+.indicador-estado.online {
+    background-color: #4CAF50;
+    box-shadow: 0 0 8px rgba(76, 175, 80, 0.6);
+}
+
+/* Animación de pulso para online */
+.indicador-estado.online::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #4CAF50;
+    animation: pulse 2s infinite;
+    z-index: -1; /* Poner detrás del punto principal */
+}
+
+@keyframes pulse {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.8;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(2);
+        opacity: 0;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(2);
+        opacity: 0;
+    }
+}
+
+/* Estado Offline - Rojo */
+.indicador-estado.offline {
+    background-color: #f44336;
+    box-shadow: 0 0 4px rgba(244, 67, 54, 0.4);
+}
+
+/* Estado Ocupado - Amarillo/Naranja (opcional) */
+.indicador-estado.ocupado {
+    background-color: #FF9800;
+    box-shadow: 0 0 6px rgba(255, 152, 0, 0.5);
+}
+
+/* Estado Ausente - Gris (opcional) */
+.indicador-estado.ausente {
+    background-color: #9E9E9E;
+    box-shadow: 0 0 4px rgba(158, 158, 158, 0.4);
+}

@@ -71,6 +71,9 @@ app.use('/', express.static(process.cwd() + '/src/web/estaticos'))
 app.use('/panel', express.static(process.cwd() + '/src/web/estaticos'))
 
 // Socket.io
+// Set para rastrear soportes conectados
+const soportesConectados = new Set();
+
 io.on('connection', (socket) => {
     socket.on('nuevo-llamado', (data) => {
         io.emit('nuevo-llamado', data)
@@ -94,6 +97,34 @@ io.on('connection', (socket) => {
 
     socket.on('agregar-historial', (data) => {
         io.emit('agregar-historial', data)
+    })
+
+    // Eventos para indicadores de estado
+    socket.on('soporte-conectado', (data) => {
+        const { soporte_id } = data
+        soportesConectados.add(soporte_id)
+        socket.soporteId = soporte_id // Guardar ID en el socket
+        io.emit('soporte-conectado', { soporte_id })
+    })
+
+    socket.on('soporte-desconectado', (data) => {
+        const { soporte_id } = data
+        soportesConectados.delete(soporte_id)
+        io.emit('soporte-desconectado', { soporte_id })
+    })
+
+    socket.on('solicitar-soportes-conectados', () => {
+        socket.emit('lista-soportes-conectados', { 
+            soportes: Array.from(soportesConectados) 
+        })
+    })
+
+    // Cuando un socket se desconecta
+    socket.on('disconnect', () => {
+        if (socket.soporteId) {
+            soportesConectados.delete(socket.soporteId)
+            io.emit('soporte-desconectado', { soporte_id: socket.soporteId })
+        }
     })
 })
 

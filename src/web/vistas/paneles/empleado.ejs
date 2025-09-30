@@ -4,6 +4,7 @@
     <%- include('../parciales/head.html') %>
     <link rel="stylesheet" href="panel.css">
     <link rel="stylesheet" href="alertas.css">
+    <link rel="stylesheet" href="css/indicador-estado.css">
 
     <!-- ICONOS (Font Awesome) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -154,7 +155,8 @@
                 <div class="preceptores-contenedor">
                     <% if((typeof turnos !== 'undefined' && turnos !== null) && turnos.length > 0) { %>
                         <% turnos.forEach(turno => { %>
-                            <div class="preceptores-item">
+                            <div class="preceptores-item" data-soporte-id="<%= turno.id_usuario %>">
+                                <span class="indicador-estado offline"></span>
                                 <img src="img/user.png" alt="">
                                 <p><%= turno.nombre_usuario %> <%= turno.apellido_usuario %></p>
                             </div>

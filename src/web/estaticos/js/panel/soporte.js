@@ -2,6 +2,7 @@ import { peticion } from '../peticion.js'
 import { formatearHora } from '../formatearHora.js'
 import { formato } from '../renderizarTiempo.js'
 import { alerta } from '../alerta.js'
+import '../indicador-estado.js'
 
 
 const socket = io();

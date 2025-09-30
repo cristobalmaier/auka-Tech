@@ -1,11 +1,12 @@
 import { alerta } from '../alerta.js';
 import { peticion } from '../peticion.js'
+import '../indicador-estado.js'
 
 const socket = io();
 
 // Datos del empleado logeado
-const idEmpleado = parseInt(document.documentElement.dataset.id_usuario)
-const nombreEmpleado = document.documentElement.dataset.nombre
+const id_empleado = parseInt(document.documentElement.dataset.id_usuario)
+const nombre_empleado = document.documentElement.dataset.nombre
 const apellidoEmpleado = document.documentElement.dataset.apellido
 const tipoUsuario = document.documentElement.dataset.tipo_usuario
 
