@@ -351,16 +351,32 @@ socket.on('agregar-historial', (data) => {
  * @returns {void}
  */
 function mostrarBotonesFinales({ empleado, socket, solicitud }) {
-    const respuestas = document.querySelectorAll(`.solicitud[data-usuario_id="${empleado.id}"][data-solicitud_id="${solicitud.id}"] .respuesta`)
-    const respuestaPersonalizada = document.querySelector(`.solicitud[data-usuario_id="${empleado.id}"][data-solicitud_id="${solicitud.id}"] .respuesta-personalizada`)
+    const llamado = document.querySelector(`.llamado[data-usuario_id="${empleado.id}"][data-solicitud_id="${solicitud.id}"]`)
+    
+    if (!llamado) {
+        console.error('No se encontró el llamado en el DOM')
+        return
+    }
 
+    const respuestas = llamado.querySelectorAll('.respuesta')
+    const respuestaPersonalizada = llamado.querySelector('.respuesta-personalizada')
+    const respuestaPersonalizadaContenedor = llamado.querySelector('.respuesta-personalizada-contenedor')
+    const llamadoRespuestas = llamado.querySelector('.llamado-respuestas')
+
+    // Ocultar respuesta personalizada si existe
     if(respuestaPersonalizada)
         respuestaPersonalizada.classList.add('esconder')
+    
+    // Ocultar contenedor de respuesta personalizada si existe
+    if(respuestaPersonalizadaContenedor)
+        respuestaPersonalizadaContenedor.classList.add('esconder')
 
+    // Eliminar todas las respuestas existentes
     for (const respuesta of respuestas) {
         respuesta.remove()
     }
 
+    // Crear botón de terminado
     const terminado = document.createElement('p')
     terminado.classList.add('respuesta', 'respuesta-terminado')
     terminado.innerText = 'Terminado'
@@ -370,8 +386,10 @@ function mostrarBotonesFinales({ empleado, socket, solicitud }) {
         await terminarLlamado({ empleado, solicitud })
     })
 
-    const solicitudRespuestas = document.querySelector(`.llamado[data-usuario_id="${empleado.id}"][data-solicitud_id="${solicitud.id}"] .llamado-respuestas`)
-    solicitudRespuestas.appendChild(terminado)
+    // Agregar botón de terminado
+    if (llamadoRespuestas) {
+        llamadoRespuestas.appendChild(terminado)
+    }
 }
 
 /* ////////////////////////////////////////////////////////////////// */
