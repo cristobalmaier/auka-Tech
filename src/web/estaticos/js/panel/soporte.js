@@ -76,7 +76,7 @@ for (const boton of botonesCancelarRespuestaPersonalizada) {
 
         solicitud.querySelector('.respuesta-personalizada').classList.remove('esconder')
         solicitud.querySelector('.respuesta-personalizada-contenedor').classList.add('esconder')
-        solicitud.querySelector('.solicitud-respuestas').classList.remove('esconder')
+        solicitud.querySelector('.llamado-respuestas').classList.remove('esconder')
     })
 }
 
