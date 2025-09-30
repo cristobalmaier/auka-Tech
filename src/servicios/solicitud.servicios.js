@@ -39,13 +39,12 @@ class SolicitudServicio {
         const resultado = await query(`INSERT INTO solicitudes (id_soporte, id_emisor, id_area, numero_nivel, mensaje) VALUES (?, ?, ?, ?, ?)`, [id_soporte, id_emisor, id_area, numero_nivel, mensaje])
         return resultado
     }
-
     static async eliminarSolicitud({ id }) {
         const resultado = await query(`DELETE FROM solicitudes WHERE id_solicitud = ?`, id)
         return resultado
     }
 
-    static async actualizarSolicitud({ id_solicitud, id_soporte, id_emisor, id_area, numero_nivel, mensaje, finalizado, cancelado }) {
+    static async actualizarSolicitud({ id_solicitud, id_soporte, id_emisor, id_area, numero_nivel, mensaje, finalizado, cancelado, calificacion }) {
         let solicitud = {
             id_soporte,
             id_emisor,
@@ -53,7 +52,8 @@ class SolicitudServicio {
             numero_nivel,
             mensaje,
             finalizado,
-            cancelado 
+            cancelado,
+            calificacion
         };
     
         // Elimina campos vacíos

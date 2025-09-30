@@ -2,6 +2,7 @@ import { alerta } from '../alerta.js';
 import { peticion } from '../peticion.js'
 import '../indicador-estado.js'
 import { mostrarConfirmacion } from '/js/modal-confirmacion.js'
+import { mostrarModalCalificacion } from '/js/modal-calificacion.js'
 
 const socket = io();
 
@@ -71,7 +72,7 @@ socket.on('respuesta-llamado', (data) => {
 
 // ! TERMINAR LLAMADO (BOTON DE TERMINAR DE LOS soportes)
 
-socket.on('terminar-llamado', (data) => {
+socket.on('terminar-llamado', async (data) => {
     const {
         nombre: nombreSoporte,
         apellido: apellidoSoporte,
@@ -85,7 +86,19 @@ socket.on('terminar-llamado', (data) => {
     botonCerrar.classList.remove('esconder')
     estadoProgresoTodos[2].querySelector('.fa-circle').classList.replace('fa-circle', 'fa-face-smile')
     estadoProgresoTodos[2].classList.replace('estado-progreso-idle', 'estado-progreso-finalizado')
-    // desbloquearFormulario()
+    
+    // Mostrar modal de calificación
+    const solicitudId = formulario.dataset.id_solicitud
+    if (solicitudId) {
+        // Esperar 1 segundo antes de mostrar el modal para mejor UX
+        setTimeout(async () => {
+            await mostrarModalCalificacion({
+                nombreSoporte,
+                apellidoSoporte,
+                solicitudId
+            })
+        }, 1000)
+    }
 })
 
 /* ////////////////////////////////////////////////////////////////// */
