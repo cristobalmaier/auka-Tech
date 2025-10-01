@@ -1,80 +1,46 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-08-2025 a las 01:57:49
--- Versión del servidor: 10.4.24-MariaDB
--- Versión de PHP: 8.1.6
+-- Tiempo de generación: 02-10-2025 a las 01:50:49
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
 --
--- Base de datos: `auka`
+-- Base de datos: `auka-tech`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `cursos`
+-- Estructura de tabla para la tabla `areas`
 --
 
-CREATE TABLE `cursos` (
-  `id_curso` int(11) NOT NULL,
-  `curso` varchar(4) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE `areas` (
+  `id_area` int(11) NOT NULL,
+  `area` varchar(64) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `cursos`
+-- Volcado de datos para la tabla `areas`
 --
 
-INSERT INTO `cursos` (`id_curso`, `curso`) VALUES
-(1, '1°1'),
-(2, '1°2'),
-(3, '1°3'),
-(4, '1°4'),
-(5, '1°5'),
-(6, '2°1'),
-(7, '2°2'),
-(8, '2°3'),
-(9, '2°4'),
-(10, '2°5'),
-(11, '3°1'),
-(12, '3°2'),
-(13, '3°3'),
-(14, '3°4'),
-(15, '4°1'),
-(16, '4°2'),
-(17, '4°3'),
-(18, '4°4'),
-(19, '5°1'),
-(20, '5°2'),
-(21, '5°3'),
-(22, '6°1'),
-(23, '6°2'),
-(24, '6°3'),
-(25, '7°1'),
-(26, '7°2');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `llamados`
---
-
-CREATE TABLE `llamados` (
-  `id_llamado` int(11) NOT NULL,
-  `id_preceptor` int(11) DEFAULT NULL,
-  `id_emisor` int(11) NOT NULL,
-  `id_curso` int(11) NOT NULL,
-  `numero_nivel` int(11) NOT NULL DEFAULT 1,
-  `mensaje` varchar(300) NOT NULL,
-  `fecha_envio` timestamp NOT NULL DEFAULT current_timestamp(),
-  `finalizado` tinyint(1) NOT NULL DEFAULT 0,
-  `cancelado` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+INSERT INTO `areas` (`id_area`, `area`) VALUES
+(1, 'Compras'),
+(2, 'Marketing'),
+(3, 'Ventas'),
+(4, 'Recursos Humanos'),
+(5, 'Finanzas'),
+(6, 'Sistemas'),
+(7, 'Soporte Técnico'),
+(8, 'Producción'),
+(9, 'Logística'),
+(10, 'Dirección');
 
 -- --------------------------------------------------------
 
@@ -86,32 +52,112 @@ CREATE TABLE `niveles` (
   `numero_nivel` int(11) NOT NULL,
   `nombre_nivel` varchar(32) NOT NULL,
   `descripcion` varchar(300) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `niveles`
 --
 
 INSERT INTO `niveles` (`numero_nivel`, `nombre_nivel`, `descripcion`) VALUES
-(1, 'Llamado', 'Situaciones menores donde se requiere la presencia de un preceptor, pero no hay urgencia. Ejemplo: estudiante que necesita hablar con un preceptor, aviso por comportamiento leve, consulta general.'),
-(2, 'Moderado', 'Situaciones que requieren intervención rápida, pero no son críticas. Ejemplo: alumno con mareo persistente, falta grave de disciplina, lesión leve como un raspón profundo.'),
-(3, 'Urgente', 'Situaciones que pueden escalar y requieren atención inmediata. Ejemplo: pelea física sin lesiones graves, estudiante con crisis emocional fuerte, descompensación de un estudiante con una condición médica conocida.'),
-(4, 'Grave', 'Situaciones de alto riesgo que requieren asistencia de profesionales o servicios de emergencia. Ejemplo: desmayo prolongado, convulsiones, heridas serias con sangrado considerable, agresión física con daño evidente.'),
-(5, 'Critico', 'Situaciones extremas con riesgo de vida. Ejemplo: paro cardíaco, traumatismo severo, pérdida del conocimiento prolongada, fallecimiento.');
+(1, 'Llamado', 'Situaciones menores donde se requiere atención, pero no hay urgencia. Ejemplo: empleado que necesita hacer una consulta general.'),
+(2, 'Moderado', 'Situaciones que requieren intervención rápida, pero no son críticas. Ejemplo: empleado con malestar leve, falta disciplinaria.'),
+(3, 'Urgente', 'Situaciones que pueden escalar y requieren atención inmediata. Ejemplo: discusión fuerte entre empleados, crisis emocional.');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `respuestas_llamados`
+-- Estructura de tabla para la tabla `respuestas_solicitudes`
 --
 
-CREATE TABLE `respuestas_llamados` (
+CREATE TABLE `respuestas_solicitudes` (
   `id_respuesta` int(11) NOT NULL,
-  `id_llamado` int(11) NOT NULL,
+  `id_solicitud` int(11) NOT NULL,
   `mensaje` varchar(500) NOT NULL,
-  `id_preceptor` int(11) NOT NULL,
+  `id_soporte` int(11) NOT NULL,
   `fecha_respuesta` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `respuestas_solicitudes`
+--
+
+INSERT INTO `respuestas_solicitudes` (`id_respuesta`, `id_solicitud`, `mensaje`, `id_soporte`, `fecha_respuesta`) VALUES
+(1, 1, 'Yendo', 14, '2025-09-30 17:50:22'),
+(2, 2, 'En camino', 14, '2025-09-30 17:54:06'),
+(3, 6, 'Yendo', 14, '2025-09-30 17:55:21'),
+(4, 7, 'Yendo', 14, '2025-09-30 18:03:05'),
+(5, 11, 'Voy para allá', 14, '2025-09-30 18:50:08'),
+(6, 12, 'Enseguida', 14, '2025-09-30 18:52:30'),
+(7, 13, 'Enseguida', 14, '2025-09-30 18:59:39'),
+(8, 14, 'Voy para allá', 14, '2025-09-30 19:04:50'),
+(9, 15, 'asdasd', 14, '2025-09-30 19:05:22'),
+(10, 16, 'En camino', 14, '2025-09-30 19:08:30'),
+(11, 17, 'Enseguida', 14, '2025-09-30 19:09:56'),
+(12, 18, 'En camino', 14, '2025-09-30 19:14:49'),
+(13, 19, 'En camino', 14, '2025-09-30 19:16:53'),
+(14, 20, 'Enseguida', 14, '2025-09-30 19:18:34'),
+(15, 21, 'Yendo', 14, '2025-09-30 20:05:14'),
+(16, 22, 'Enseguida', 14, '2025-10-01 19:19:04'),
+(17, 23, 'Yendo', 14, '2025-10-01 19:20:00'),
+(18, 24, 'En camino', 14, '2025-10-01 19:21:03'),
+(19, 25, 'Voy para allá', 14, '2025-10-01 19:29:47'),
+(20, 25, 'Enseguida', 14, '2025-10-01 19:35:16'),
+(21, 26, 'Enseguida', 14, '2025-10-01 19:35:17'),
+(22, 27, 'Voy para allá', 14, '2025-10-01 19:39:19'),
+(23, 28, 'Voy para allá', 14, '2025-10-01 19:43:59');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `solicitudes`
+--
+
+CREATE TABLE `solicitudes` (
+  `id_solicitud` int(11) NOT NULL,
+  `id_soporte` int(11) DEFAULT NULL,
+  `id_emisor` int(11) NOT NULL,
+  `id_area` int(11) NOT NULL,
+  `numero_nivel` int(11) NOT NULL DEFAULT 1,
+  `mensaje` varchar(300) NOT NULL,
+  `fecha_envio` timestamp NOT NULL DEFAULT current_timestamp(),
+  `finalizado` tinyint(1) NOT NULL DEFAULT 0,
+  `cancelado` tinyint(1) NOT NULL DEFAULT 0,
+  `calificacion` tinyint(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `solicitudes`
+--
+
+INSERT INTO `solicitudes` (`id_solicitud`, `id_soporte`, `id_emisor`, `id_area`, `numero_nivel`, `mensaje`, `fecha_envio`, `finalizado`, `cancelado`, `calificacion`) VALUES
+(1, 14, 16, 3, 2, '1234', '2025-09-30 20:50:19', 1, 1, NULL),
+(2, 14, 16, 2, 1, '123', '2025-09-30 20:54:01', 1, 0, NULL),
+(3, NULL, 16, 2, 3, '123', '2025-09-30 20:55:02', 1, 1, NULL),
+(4, NULL, 16, 2, 2, '123', '2025-09-30 20:55:04', 1, 1, NULL),
+(5, NULL, 16, 2, 1, '123', '2025-09-30 20:55:07', 1, 1, NULL),
+(6, 14, 16, 2, 2, '123', '2025-09-30 20:55:15', 1, 0, NULL),
+(7, 14, 16, 6, 3, '123123', '2025-09-30 21:03:03', 1, 1, NULL),
+(8, NULL, 16, 10, 3, 's', '2025-09-30 21:41:17', 1, 1, NULL),
+(9, NULL, 16, 10, 3, 's', '2025-09-30 21:41:55', 1, 1, NULL),
+(10, NULL, 16, 1, 2, 'dasd', '2025-09-30 21:44:43', 1, 1, NULL),
+(11, 14, 16, 1, 2, 'asdasd', '2025-09-30 21:50:05', 1, 0, 5),
+(12, 14, 16, 1, 3, '1', '2025-09-30 21:52:27', 1, 0, NULL),
+(13, 14, 16, 1, 1, 's', '2025-09-30 21:59:11', 1, 0, NULL),
+(14, 14, 16, 6, 3, 'sdasd', '2025-09-30 22:02:45', 1, 0, 3),
+(15, 14, 16, 1, 3, 's', '2025-09-30 22:05:11', 1, 0, NULL),
+(16, 14, 16, 1, 2, 's', '2025-09-30 22:08:20', 1, 0, NULL),
+(17, 14, 16, 1, 2, '32', '2025-09-30 22:09:54', 1, 0, NULL),
+(18, 14, 16, 1, 2, 's', '2025-09-30 22:14:47', 1, 0, 3),
+(19, 14, 16, 6, 1, 'sasd', '2025-09-30 22:16:52', 1, 0, 3),
+(20, 14, 16, 1, 2, 's', '2025-09-30 22:18:33', 1, 0, 3),
+(21, 14, 16, 1, 2, 's', '2025-09-30 23:05:10', 1, 0, 3),
+(22, 14, 16, 1, 1, 's', '2025-10-01 22:18:56', 1, 0, NULL),
+(23, 14, 16, 1, 2, '1', '2025-10-01 22:19:55', 1, 0, NULL),
+(24, 14, 16, 1, 1, '5', '2025-10-01 22:21:02', 1, 0, 3),
+(25, 14, 16, 1, 2, '2', '2025-10-01 22:29:45', 1, 0, NULL),
+(26, 14, 16, 10, 3, 'prueba123', '2025-10-01 22:33:24', 1, 0, 3),
+(27, 14, 16, 2, 2, '10', '2025-10-01 22:37:53', 1, 0, 3),
+(28, 14, 16, 1, 3, 'ayudaa ', '2025-10-01 22:43:51', 1, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -124,7 +170,7 @@ CREATE TABLE `turnos` (
   `nombre_turno` enum('mañana','tarde','vespertino') NOT NULL,
   `hora_inicio` time NOT NULL,
   `hora_final` time NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `turnos`
@@ -144,16 +190,20 @@ INSERT INTO `turnos` (`id_turno`, `nombre_turno`, `hora_inicio`, `hora_final`) V
 CREATE TABLE `turnos_asignaciones` (
   `id_asignacion` int(11) NOT NULL,
   `id_turno` int(11) NOT NULL,
-  `id_preceptor` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `id_soporte` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `turnos_asignaciones`
 --
 
-INSERT INTO `turnos_asignaciones` (`id_asignacion`, `id_turno`, `id_preceptor`) VALUES
-(3, 2, 8),
-(4, 3, 8);
+INSERT INTO `turnos_asignaciones` (`id_asignacion`, `id_turno`, `id_soporte`) VALUES
+(3, 2, 9),
+(4, 3, 9),
+(8, 1, 14),
+(9, 2, 14),
+(10, 3, 14),
+(11, 1, 9);
 
 -- --------------------------------------------------------
 
@@ -167,41 +217,31 @@ CREATE TABLE `usuarios` (
   `apellido` varchar(64) NOT NULL,
   `email` varchar(64) NOT NULL,
   `contrasena` varchar(255) NOT NULL,
-  `tipo_usuario` enum('preceptor','profesor','directivo','') NOT NULL DEFAULT 'profesor',
+  `tipo_usuario` enum('empleado','soporte','administracion') NOT NULL DEFAULT 'empleado',
   `autorizado` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `usuarios`
 --
 
 INSERT INTO `usuarios` (`id_usuario`, `nombre`, `apellido`, `email`, `contrasena`, `tipo_usuario`, `autorizado`) VALUES
-(8, 'Alejandro Ariel', 'Manrique', 'alejandro@gmail.com', '$2b$05$j007.4grrUBOvurQc4tpBu86J6XjG09flrwfTA1xlwNUjewZx/Fjq', 'preceptor', 1),
-(9, 'Carlos Alberto', 'Robello', 'robello@gmail.com', '$2b$05$FHPuGgstOyFL6LLtP/829e./zEEx4agJNoRsh1YMIj6zxDh3GFaT.', 'profesor', 1),
-(14, 'cristobal', 'maier', 'cristobalmaier1@gmail.com', '$2b$05$ggMTF3jCdBFBtPXUvhEvL.8bqAdA5gQtseg0RC/PDHxqNRmRt9hou', 'profesor', 1),
-(15, 'alejandra', 'fernandez', 'alejandrafernandez@gmail.com', '$2b$05$sBA1337.YQVeSDOO87RKSea9b4Hrw3yaTnC17JS6HMP.yokGrIw8y', 'preceptor', 1),
-(16, 'tito', 'calderon', 'titocalderon@gmail.com', '$2b$05$JqHtLpaIgDyL3rioLwXvzuEk5UWK1xv536IEICpcTFIPUbuKkPVvW', 'preceptor', 1);
+(8, 'Alejandro Ariel', 'Manrique', 'alejandro@gmail.com', '$2b$05$j007.4grrUBOvurQc4tpBu86J6XjG09flrwfTA1xlwNUjewZx/Fjq', 'empleado', 0),
+(9, 'Carlos Alberto', 'Robello', 'robello@gmail.com', '$2b$05$FHPuGgstOyFL6LLtP/829e./zEEx4agJNoRsh1YMIj6zxDh3GFaT.', 'soporte', 1),
+(14, 'Cristobal', 'Maier', 'cristobalmaier1@gmail.com', '$2b$05$ggMTF3jCdBFBtPXUvhEvL.8bqAdA5gQtseg0RC/PDHxqNRmRt9hou', 'soporte', 1),
+(15, 'Alejandra', 'Fernandez', 'alejandrafernandez@gmail.com', '$2b$05$sBA1337.YQVeSDOO87RKSea9b4Hrw3yaTnC17JS6HMP.yokGrIw8y', 'empleado', 1),
+(16, 'Tito', 'Calderon', 'titocalderon@gmail.com', '$2b$05$JqHtLpaIgDyL3rioLwXvzuEk5UWK1xv536IEICpcTFIPUbuKkPVvW', 'empleado', 1),
+(17, 'rober', 'galati', 'robergalati@gmail.com', '$2b$05$asq6hrO7oUEgWUBuH9yEaezO/OPt5j4JpDBxlKx1q977h1Fi.diaa', 'empleado', 0);
 
 --
 -- Índices para tablas volcadas
 --
 
 --
--- Indices de la tabla `cursos`
+-- Indices de la tabla `areas`
 --
-ALTER TABLE `cursos`
-  ADD PRIMARY KEY (`id_curso`);
-
---
--- Indices de la tabla `llamados`
---
-ALTER TABLE `llamados`
-  ADD PRIMARY KEY (`id_llamado`),
-  ADD KEY `id_profesor` (`id_emisor`,`id_curso`),
-  ADD KEY `id_emisor` (`id_emisor`),
-  ADD KEY `id_curso` (`id_curso`),
-  ADD KEY `numero_nivel` (`numero_nivel`),
-  ADD KEY `id_preceptor` (`id_preceptor`);
+ALTER TABLE `areas`
+  ADD PRIMARY KEY (`id_area`);
 
 --
 -- Indices de la tabla `niveles`
@@ -210,12 +250,22 @@ ALTER TABLE `niveles`
   ADD PRIMARY KEY (`numero_nivel`);
 
 --
--- Indices de la tabla `respuestas_llamados`
+-- Indices de la tabla `respuestas_solicitudes`
 --
-ALTER TABLE `respuestas_llamados`
+ALTER TABLE `respuestas_solicitudes`
   ADD PRIMARY KEY (`id_respuesta`),
-  ADD KEY `id_llamado` (`id_preceptor`),
-  ADD KEY `id_llamado_2` (`id_llamado`);
+  ADD KEY `id_solicitud` (`id_solicitud`),
+  ADD KEY `id_soporte` (`id_soporte`);
+
+--
+-- Indices de la tabla `solicitudes`
+--
+ALTER TABLE `solicitudes`
+  ADD PRIMARY KEY (`id_solicitud`),
+  ADD KEY `id_emisor` (`id_emisor`),
+  ADD KEY `id_area` (`id_area`),
+  ADD KEY `numero_nivel` (`numero_nivel`),
+  ADD KEY `id_soporte` (`id_soporte`);
 
 --
 -- Indices de la tabla `turnos`
@@ -229,7 +279,7 @@ ALTER TABLE `turnos`
 ALTER TABLE `turnos_asignaciones`
   ADD PRIMARY KEY (`id_asignacion`),
   ADD KEY `id_turno` (`id_turno`),
-  ADD KEY `id_preceptor` (`id_preceptor`);
+  ADD KEY `id_soporte` (`id_soporte`);
 
 --
 -- Indices de la tabla `usuarios`
@@ -242,22 +292,22 @@ ALTER TABLE `usuarios`
 --
 
 --
--- AUTO_INCREMENT de la tabla `cursos`
+-- AUTO_INCREMENT de la tabla `areas`
 --
-ALTER TABLE `cursos`
-  MODIFY `id_curso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+ALTER TABLE `areas`
+  MODIFY `id_area` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT de la tabla `llamados`
+-- AUTO_INCREMENT de la tabla `respuestas_solicitudes`
 --
-ALTER TABLE `llamados`
-  MODIFY `id_llamado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=213;
+ALTER TABLE `respuestas_solicitudes`
+  MODIFY `id_respuesta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
--- AUTO_INCREMENT de la tabla `respuestas_llamados`
+-- AUTO_INCREMENT de la tabla `solicitudes`
 --
-ALTER TABLE `respuestas_llamados`
-  MODIFY `id_respuesta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=156;
+ALTER TABLE `solicitudes`
+  MODIFY `id_solicitud` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT de la tabla `turnos`
@@ -269,38 +319,38 @@ ALTER TABLE `turnos`
 -- AUTO_INCREMENT de la tabla `turnos_asignaciones`
 --
 ALTER TABLE `turnos_asignaciones`
-  MODIFY `id_asignacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_asignacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- Restricciones para tablas volcadas
 --
 
 --
--- Filtros para la tabla `llamados`
+-- Filtros para la tabla `respuestas_solicitudes`
 --
-ALTER TABLE `llamados`
-  ADD CONSTRAINT `llamados_ibfk_2` FOREIGN KEY (`id_emisor`) REFERENCES `usuarios` (`id_usuario`),
-  ADD CONSTRAINT `llamados_ibfk_3` FOREIGN KEY (`id_curso`) REFERENCES `cursos` (`id_curso`),
-  ADD CONSTRAINT `llamados_ibfk_4` FOREIGN KEY (`numero_nivel`) REFERENCES `niveles` (`numero_nivel`),
-  ADD CONSTRAINT `llamados_ibfk_5` FOREIGN KEY (`id_preceptor`) REFERENCES `usuarios` (`id_usuario`);
+ALTER TABLE `respuestas_solicitudes`
+  ADD CONSTRAINT `respuestas_solicitudes_fk_solicitud` FOREIGN KEY (`id_solicitud`) REFERENCES `solicitudes` (`id_solicitud`),
+  ADD CONSTRAINT `respuestas_solicitudes_fk_soporte` FOREIGN KEY (`id_soporte`) REFERENCES `usuarios` (`id_usuario`);
 
 --
--- Filtros para la tabla `respuestas_llamados`
+-- Filtros para la tabla `solicitudes`
 --
-ALTER TABLE `respuestas_llamados`
-  ADD CONSTRAINT `respuestas_llamados_ibfk_1` FOREIGN KEY (`id_preceptor`) REFERENCES `usuarios` (`id_usuario`),
-  ADD CONSTRAINT `respuestas_llamados_ibfk_2` FOREIGN KEY (`id_llamado`) REFERENCES `llamados` (`id_llamado`);
+ALTER TABLE `solicitudes`
+  ADD CONSTRAINT `solicitudes_fk_area` FOREIGN KEY (`id_area`) REFERENCES `areas` (`id_area`),
+  ADD CONSTRAINT `solicitudes_fk_emisor` FOREIGN KEY (`id_emisor`) REFERENCES `usuarios` (`id_usuario`),
+  ADD CONSTRAINT `solicitudes_fk_nivel` FOREIGN KEY (`numero_nivel`) REFERENCES `niveles` (`numero_nivel`),
+  ADD CONSTRAINT `solicitudes_fk_soporte` FOREIGN KEY (`id_soporte`) REFERENCES `usuarios` (`id_usuario`);
 
 --
 -- Filtros para la tabla `turnos_asignaciones`
 --
 ALTER TABLE `turnos_asignaciones`
-  ADD CONSTRAINT `turnos_asignaciones_ibfk_1` FOREIGN KEY (`id_turno`) REFERENCES `turnos` (`id_turno`),
-  ADD CONSTRAINT `turnos_asignaciones_ibfk_2` FOREIGN KEY (`id_preceptor`) REFERENCES `usuarios` (`id_usuario`);
+  ADD CONSTRAINT `turnos_asignaciones_fk_soporte` FOREIGN KEY (`id_soporte`) REFERENCES `usuarios` (`id_usuario`),
+  ADD CONSTRAINT `turnos_asignaciones_fk_turno` FOREIGN KEY (`id_turno`) REFERENCES `turnos` (`id_turno`);
 COMMIT;

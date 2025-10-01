@@ -147,7 +147,14 @@
                     <tr data-usuario-id="<%= usuario.id_usuario %>">
                       <td><%= usuario.nombre %> <%= usuario.apellido %></td>
                       <td><%= usuario.email %></td>
-                      <td><%= usuario.tipo_usuario %></td>
+                      <td class="celda-rol">
+                        <span class="badge bg-info">
+                          <%= usuario.tipo_usuario === 'empleado' ? 'Empleado' : 
+                              usuario.tipo_usuario === 'soporte' ? 'Soporte' : 
+                              usuario.tipo_usuario === 'administracion' ? 'Administración' : 
+                              usuario.tipo_usuario %>
+                        </span>
+                      </td>
                       <td class="estado-verificacion">
                         <span class="badge <%= usuario.autorizado ? 'bg-success' : 'bg-warning' %>">
                           <%= usuario.autorizado ? 'Verificado' : 'No verificado' %>
