@@ -44,13 +44,32 @@ class UsuarioControlador {
 
     actualizarUsuario = async (req, res, next) => {
         const { id } = req.params
-        const { nombre, apellido, email, contrasena, tipo_usuario } = req.body || {}
+        const { nombre, apellido, email, contrasena, tipo_usuario, autorizado } = req.body || {}
 
         try {
-            await this.usuarioServicio.actualizarUsuario({ id, nombre, apellido, email, contrasena, tipo_usuario })
-            res.status(200).json({ mensaje: "Datos actualizados con exito." })
+            // Si autorizado viene como string 'true' o 'false', convertirlo a booleano
+            let autorizadoBool = autorizado;
+            if (typeof autorizado === 'string') {
+                autorizadoBool = autorizado === 'true';
+            }
+            
+            await this.usuarioServicio.actualizarUsuario({ 
+                id, 
+                nombre, 
+                apellido, 
+                email, 
+                contrasena, 
+                tipo_usuario, 
+                autorizado: autorizadoBool 
+            });
+            
+            res.status(200).json({ 
+                mensaje: "Datos actualizados con éxito.",
+                autorizado: autorizadoBool
+            });
         } catch(err) {
-            next(err)
+            console.error('Error en actualizarUsuario:', err);
+            next(err);
         }
     }
 

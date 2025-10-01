@@ -94,7 +94,7 @@
 
 .estrella.activa {
     opacity: 1;
-    text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+    
 }
 
 .estrella.hover {
@@ -152,11 +152,12 @@
     background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
     color: white;
     border: none;
+    cursor: pointer;
 }
 
 .modal-calificacion-boton-enviar:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+    
 }
 
 .modal-calificacion-boton-enviar:disabled {
@@ -168,6 +169,7 @@
 .modal-calificacion-boton-omitir {
     background-color: #f0f0f0;
     color: #666;
+    cursor: pointer;
 }
 
 .modal-calificacion-boton-omitir:hover {

@@ -1,119 +1,163 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const userActionButtons = document.querySelectorAll('.user-action-button');
-    const notificacion = document.getElementById('notificacion');
-    const notificacionIcono = document.getElementById('notificacionIcono');
-    const notificacionMensaje = document.getElementById('notificacionMensaje');
+// Variables globales
+let notificacion, notificacionIcono, notificacionMensaje;
 
-    function mostrarNotificacion(tipo, mensaje) {
-        notificacion.classList.remove('alerta-exito', 'alerta-error');
-        notificacionIcono.className = ''; // Clear existing classes
-
-        if (tipo === 'exito') {
-            notificacion.classList.add('alerta-exito');
-            notificacionIcono.classList.add('fas', 'fa-check-circle');
-        } else if (tipo === 'error') {
-            notificacion.classList.add('alerta-error');
-            notificacionIcono.classList.add('fas', 'fa-times-circle');
-        }
-
-        notificacionMensaje.textContent = mensaje;
-        notificacion.style.display = 'flex';
-
-        setTimeout(() => {
-            notificacion.style.display = 'none';
-        }, 3000); // Ocultar después de 3 segundos
-    }
-
-    userActionButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const currentUserStatus = this.dataset.userStatus;
-            const userEmail = this.dataset.userEmail; 
-            let newStatus;
-            let iconClass;
-            let notificationMessage;
-            let notificationType;
-            // Store original states to revert on error
-            const originalIconClass = this.querySelector('i').className;
-            const statusBadge = this.closest('tr').querySelector('.status-badge');
-            const originalStatusBadgeText = statusBadge ? statusBadge.textContent : '';
-            const originalStatusBadgeClass = statusBadge ? statusBadge.className : '';
-
-            if (currentUserStatus === 'activo') {
-                newStatus = 'inactivo';
-                iconClass = 'fas fa-user-slash';
-                notificationMessage = 'Usuario desautorizado con éxito.';
-                notificationType = 'exito';
-            } else {
-                newStatus = 'activo';
-                iconClass = 'fas fa-user-check';
-                notificationMessage = 'Usuario autorizado con éxito.';
-                notificationType = 'exito';
-            }
-
-            // Immediate UI update for responsiveness
-            this.dataset.userStatus = newStatus;
-            this.querySelector('i').className = iconClass;
-            if (statusBadge) {
-                statusBadge.textContent = newStatus === 'activo' ? 'Activo' : 'Inactivo';
-                statusBadge.classList.remove('status-activo', 'status-inactivo');
-                statusBadge.classList.add(`status-${newStatus}`);
-            }
-
-            // Simulate API call
-            new Promise((resolve, reject) => {
-                // Simulate network delay
-                setTimeout(() => {
-                    const success = true; // Always succeed
-                    if (success) {
-                        resolve({ status: 'success', message: notificationMessage });
-                    } else {
-                        reject({ status: 'error', message: 'Error al actualizar el usuario. Intente nuevamente.' });
-                    }
-                }, 500); // Simulate 0.5 second network delay
-            })
-            .then(response => {
-                mostrarNotificacion(notificationType, response.message);
-            })
-            .catch(error => {
-                // Revert UI changes on error
-                this.dataset.userStatus = currentUserStatus;
-                this.querySelector('i').className = originalIconClass;
-                if (statusBadge) {
-                    statusBadge.textContent = originalStatusBadgeText;
-                    statusBadge.className = originalStatusBadgeClass; // Revert to original classes
-                }
-                mostrarNotificacion('error', error.message);
-            });
-        });
-    });
-});
-
-// Función para mostrar notificación
+// Función para mostrar notificaciones
 function mostrarNotificacion(tipo, mensaje) {
-    const notificacion = document.getElementById('notificacion');
-    const notificacionIcono = document.getElementById('notificacionIcono');
-    const notificacionMensaje = document.getElementById('notificacionMensaje');
-  
-    if (!notificacion || !notificacionIcono || !notificacionMensaje) return;
+    if (!notificacion || !notificacionIcono || !notificacionMensaje) {
+        notificacion = document.getElementById('notificacion');
+        notificacionIcono = document.getElementById('notificacionIcono');
+        notificacionMensaje = document.getElementById('notificacionMensaje');
+    }
+    
+    if (!notificacion || !notificacionIcono || !notificacionMensaje) {
+        console.error('No se encontraron los elementos de notificación');
+        return;
+    }
     
     notificacion.classList.remove('alerta-exito', 'alerta-error');
     notificacionIcono.className = '';
-  
+    
     if (tipo === 'exito') {
         notificacion.classList.add('alerta-exito');
         notificacionIcono.classList.add('fas', 'fa-check-circle');
-    } else {
+    } else if (tipo === 'error') {
         notificacion.classList.add('alerta-error');
         notificacionIcono.classList.add('fas', 'fa-times-circle');
     }
-  
+    
     notificacionMensaje.textContent = mensaje;
     notificacion.style.display = 'flex';
-  
+    
     setTimeout(() => {
         notificacion.style.display = 'none';
     }, 3000);
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    // Inicializar elementos de la UI
+    notificacion = document.getElementById('notificacion');
+    notificacionIcono = document.getElementById('notificacionIcono');
+    notificacionMensaje = document.getElementById('notificacionMensaje');
+    const userActionButtons = document.querySelectorAll('.user-action-button');
+
+    // Función para manejar la verificación de usuarios
+    window.manejarVerificacionUsuario = async (usuarioId, verificado) => {
+        const boton = document.querySelector(`button[data-usuario-id="${usuarioId}"]`);
+        const fila = document.querySelector(`tr[data-usuario-id="${usuarioId}"]`);
+        
+        if (!boton || !fila) {
+            console.error('No se encontró el botón o la fila del usuario');
+            return;
+        }
+        
+        const icono = boton.querySelector('i');
+        const texto = boton.querySelector('span');
+        const celdaEstado = fila.querySelector('.estado-verificacion');
+        
+        // Guardar el estado original para poder revertir en caso de error
+        const estadoOriginal = {
+            iconoClass: icono ? icono.className : '',
+            texto: texto ? texto.textContent : '',
+            btnClass: boton.className,
+            estadoHtml: celdaEstado ? celdaEstado.innerHTML : ''
+        };
+        
+        try {
+            // Actualización optimista de la UI
+            boton.disabled = true;
+            
+            if (verificado) {
+                // Actualizar a estado verificado
+                boton.classList.remove('btn-no-verificado');
+                boton.classList.add('btn-verificado');
+                boton.setAttribute('title', 'Haz clic para desverificar');
+                
+                if (icono) icono.className = 'fas fa-user-check';
+                if (texto) texto.textContent = ' Desverificar';
+                
+                if (celdaEstado) {
+                    celdaEstado.innerHTML = '<span class="badge bg-success">Verificado</span>';
+                }
+            } else {
+                // Actualizar a estado no verificado
+                boton.classList.remove('btn-verificado');
+                boton.classList.add('btn-no-verificado');
+                boton.setAttribute('title', 'Haz clic para verificar');
+                
+                if (icono) icono.className = 'fas fa-user-times';
+                if (texto) texto.textContent = ' Verificar';
+                
+                if (celdaEstado) {
+                    celdaEstado.innerHTML = '<span class="badge bg-warning">No verificado</span>';
+                }
+            }
+            
+            const token = localStorage.getItem('token') || '';
+            const response = await fetch(`/api/usuarios/${usuarioId}/verificar`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ autorizado: verificado })
+            });
+
+            if (!response.ok) {
+                const error = await response.json().catch(() => ({}));
+                throw new Error(error.mensaje || 'Error al actualizar el estado de verificación');
+            }
+
+            const data = await response.json().catch(() => ({}));
+            const nuevoEstado = data.autorizado;
+            
+            // Actualizar el estado del botón según la respuesta del servidor
+            boton.onclick = () => manejarVerificacionUsuario(usuarioId, !nuevoEstado);
+            
+            // Mostrar notificación de éxito
+            mostrarNotificacion(
+                'exito', 
+                data.mensaje || `Usuario ${nuevoEstado ? 'verificado' : 'desverificado'} correctamente`
+            );
+            
+        } catch (error) {
+            console.error('Error al actualizar el estado de verificación:', error);
+            
+            // Revertir cambios en la UI en caso de error
+            if (estadoOriginal) {
+                if (icono) icono.className = estadoOriginal.iconoClass;
+                if (texto) texto.textContent = estadoOriginal.texto;
+                boton.className = estadoOriginal.btnClass;
+                if (celdaEstado) celdaEstado.innerHTML = estadoOriginal.estadoHtml;
+            }
+            
+            mostrarNotificacion(
+                'error', 
+                error.message || 'Error al actualizar el estado de verificación'
+            );
+        } finally {
+            boton.disabled = false;
+        }
+    };
+
+    // Agregar manejadores de eventos a los botones de verificación
+    document.addEventListener('click', async (event) => {
+        const button = event.target.closest('.btn-verificar');
+        if (!button) return;
+        
+        event.preventDefault();
+        
+        const usuarioId = button.getAttribute('data-usuario-id');
+        const verificadoActual = button.getAttribute('data-verificado') === 'true';
+        const nuevoEstado = !verificadoActual;
+        
+        // Actualizar el atributo data-verificado
+        button.setAttribute('data-verificado', nuevoEstado.toString());
+        
+        // Llamar a la función de manejo de verificación
+        await manejarVerificacionUsuario(usuarioId, nuevoEstado);
+    });
+
+    // La función mostrarNotificacion ya está definida al inicio
 
 // Función para exportar la tabla de usuarios a CSV
 function exportarUsuariosACSV() {
@@ -335,8 +379,7 @@ function exportarAPDF(filename) {
     }
 }
 
-// Configurar los botones de exportación
-document.addEventListener('DOMContentLoaded', function() {
+    // Configurar los botones de exportación
     // Botón exportar a Excel
     const botonExcel = document.getElementById('boton-exportar-excel');
     if (botonExcel) {
@@ -365,7 +408,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Botón exportar a CSV (ya existente)
+    // Botón exportar a CSV
     const botonCSV = document.getElementById('boton-exportar-csv');
     if (botonCSV) {
         botonCSV.addEventListener('click', function() {
@@ -395,12 +438,24 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-});
 
-// Función para guardar la configuración (simulación)
-function guardarConfiguracion() {
-    // Aquí iría la lógica real para guardar la configuración
-    // Por ahora, simulamos un guardado exitoso el 90% de las veces
-    return Math.random() > 0.1;
-}
-  
+    // Función para guardar la configuración (simulación)
+    function guardarConfiguracion() {
+        // Aquí iría la lógica real para guardar la configuración
+        // Por ahora, simulamos un guardado exitoso el 90% de las veces
+        return Math.random() > 0.1;
+    }
+    
+    // Configurar el botón de guardar configuración
+    const botonGuardarConfig = document.getElementById('guardar-configuracion');
+    if (botonGuardarConfig) {
+        botonGuardarConfig.addEventListener('click', () => {
+            const exito = guardarConfiguracion();
+            if (exito) {
+                mostrarNotificacion('exito', 'Configuración guardada correctamente');
+            } else {
+                mostrarNotificacion('error', 'Error al guardar la configuración');
+            }
+        });
+    }
+}); // Cierre del DOMContentLoaded

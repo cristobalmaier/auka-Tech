@@ -35,31 +35,38 @@ const usuarioSchema = z.object({
 
 const actualizarUsuarioSchema = z.object({
     nombre: z
-    .string()
-    .max(64, 'Máximo 64 caracteres')
-    .optional(),
+        .string()
+        .max(64, 'Máximo 64 caracteres')
+        .optional(),
 
     apellido: z
-    .string()
-    .max(64, 'Máximo 64 caracteres')
-    .optional(),
+        .string()
+        .max(64, 'Máximo 64 caracteres')
+        .optional(),
     
     email: z
-    .string()
-    .email()
-    .max(64)
-    .optional(),
+        .string()
+        .email('El email no es válido')
+        .max(64, 'El email no puede tener más de 64 caracteres')
+        .optional(),
 
     contrasena: z
-    .string()
-    .max(255)
-    .optional(),
+        .string()
+        .min(6, 'La contraseña debe tener al menos 6 caracteres')
+        .max(255, 'La contraseña no puede tener más de 255 caracteres')
+        .optional(),
 
     tipo_usuario: z
-    .enum(['soporte', 'empleado', 'administracion'], {
-        errorMap: () => ({ message: 'Tipo de usuario no válido' }),
-    })
-    .optional(),
+        .enum(['soporte', 'empleado', 'administracion'], {
+            errorMap: () => ({ message: 'Tipo de usuario no válido' }),
+        })
+        .optional(),
+        
+    autorizado: z
+        .boolean({
+            invalid_type_error: 'El campo autorizado debe ser un valor booleano',
+        })
+        .optional(),
 
 }).refine((data) => Object.keys(data).length > 0, {
     message: 'Debe incluir al menos un campo para actualizar',

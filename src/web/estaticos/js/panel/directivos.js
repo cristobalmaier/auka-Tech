@@ -73,6 +73,15 @@ function mostrarNotificacion(tipo, mensaje) {
   }, 3000);
 }
 
+// --- ACTUALIZACIÓN EN TIEMPO REAL ---
+const socket = io();
+
+socket.on('solicitud_actualizada', function() {
+  // Recarga la página automáticamente al recibir el evento
+  location.reload();
+});
+// --- FIN ACTUALIZACIÓN EN TIEMPO REAL ---
+
 // Exportar tabla a CSV
 document.addEventListener('DOMContentLoaded', function () {
   const exportBtn = document.getElementById('boton-exportar');

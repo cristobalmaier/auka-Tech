@@ -37,18 +37,27 @@ class UsuarioServicio {
     return resultado
     }
 
-    static async actualizarUsuario({ id, nombre, apellido, email, contrasena, tipo_usuario }) {
-        const { valido, errores } = validarActualizacionUsuario({ nombre, apellido, email, contrasena, tipo_usuario })
+    static async actualizarUsuario({ id, nombre, apellido, email, contrasena, tipo_usuario, autorizado }) {
+        const { valido, errores } = validarActualizacionUsuario({ 
+            nombre, 
+            apellido, 
+            email, 
+            contrasena, 
+            tipo_usuario,
+            autorizado
+        });
+        
         if (!valido) {
-            const mensaje = Object.values(errores)[0]
-            throw new ErrorCliente(mensaje, 400)
+            const mensaje = Object.values(errores)[0];
+            throw new ErrorCliente(mensaje, 400);
         }
         
         let usuario = {
             nombre,
             apellido,
             email,
-            tipo_usuario
+            tipo_usuario,
+            autorizado
         };
     
         if (contrasena) {
@@ -56,6 +65,7 @@ class UsuarioServicio {
             usuario.contrasena = contrasena_encriptada;
         }
     
+        // Filtrar propiedades indefinidas
         usuario = Object.fromEntries(
             Object.entries(usuario).filter(([_, valor]) => valor !== undefined)
         );
@@ -63,13 +73,19 @@ class UsuarioServicio {
         const campos = Object.keys(usuario);
         const valores = Object.values(usuario);
     
+        if (campos.length === 0) {
+            throw new ErrorCliente('No se proporcionaron datos para actualizar', 400);
+        }
+    
         const setClause = campos.map((campo) => `${campo} = ?`).join(', ');
         const consulta = `UPDATE usuarios SET ${setClause} WHERE id_usuario = ?`;
     
         try {
-            await query(consulta, [...valores, id]);
+            const resultado = await query(consulta, [...valores, id]);
+            return resultado;
         } catch(err) {
-            throw new ErrorCliente(err.message, 400)
+            console.error('Error al actualizar usuario:', err);
+            throw new ErrorCliente('Error al actualizar el usuario en la base de datos', 500);
         }
     }
 

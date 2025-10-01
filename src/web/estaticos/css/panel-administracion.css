@@ -1,0 +1,48 @@
+/* Estilos para los botones de verificación */
+.btn-verificar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.5;
+    border-radius: 0.25rem;
+    transition: all 0.15s ease-in-out;
+    cursor: pointer;
+    border: 1px solid transparent;
+}
+
+/* Estilo para botón de verificado */
+.btn-verificado {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-verificado:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+/* Estilo para botón de no verificado */
+.btn-no-verificado {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-no-verificado:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+
+/* Estilo para el ícono dentro del botón */
+.btn-verificar i {
+    margin-right: 0.5rem;
+    font-size: 0.875rem;
+}
+
+/* Estilo para el estado deshabilitado */
+.btn-verificar:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}

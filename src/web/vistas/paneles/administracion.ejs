@@ -6,6 +6,7 @@
   <%- include('../parciales/head.html') %>
   <link rel="stylesheet" href="alertas.css" />
   <link rel="stylesheet" href="directivos.css">
+  <link rel="stylesheet" href="/css/panel-administracion.css">
 
   <!-- ICONOS (Font Awesome) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
@@ -122,47 +123,7 @@
           </div>
         </div>
 
-        <div class="card-wide limpieza-datos">
-          <h3><i class="fa-solid fa-trash-can"></i>Limpieza de Datos Antiguos</h3>
-          <p class="subtexto">Eliminar llamados antiguos para optimizar el rendimiento del sistema</p>
 
-          <div class="limpieza-contenido">
-            <!-- Controles -->
-            <div class="limpieza-controles">
-              <label for="periodoLimpieza">Eliminar llamados anteriores</label>
-              <select id="periodoLimpieza">
-                <option value="3">3 meses</option>
-                <option value="6" selected>6 meses</option>
-                <option value="12">1 año</option>
-                <option value="24">2 años</option>
-              </select>
-              <button class="botones-limpiar">
-                <i class="fa-solid fa-trash"></i> Limpiar Datos
-              </button>
-            </div>
-
-            <!-- Estadísticas -->
-            <div class="limpieza-estadisticas">
-              <label for="periodoLimpieza">Estadísticas de limpieza</label>
-              <div class="estadistica">
-                <span class="titulo">Llamados antiguos:</span>
-                <span class="valor">1923</span>
-              </div>
-              <div class="estadistica">
-                <span class="titulo">Último mes:</span>
-                <span class="valor"><%- datos.registros_mes_actual %></span>
-              </div>
-              <div class="estadistica">
-                <span class="titulo">Espacio a liberar:</span>
-                <span class="valor"><%- datos.size_MB %> MB</span>
-              </div>
-              <div class="estadistica">
-                <span class="titulo">Última limpieza:</span>
-                <span class="valor">2024-01-01</span>
-              </div>
-            </div>
-          </div>
-        </div>
 
         <!-- Gestión de Usuarios Card -->
         <div class="card-wide">
@@ -176,120 +137,42 @@
                   <th>Usuario</th>
                   <th>Email</th>
                   <th>Rol</th>
-                  <th>Área</th>
                   <th>Estado</th>
-                  <th>Último Acceso</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
               <tbody>
-                <% /* Example user data - replace with your actual data loop */ %>
+                <% if (usuarios && usuarios.length > 0) { %>
+                  <% usuarios.forEach(usuario => { %>
+                    <tr data-usuario-id="<%= usuario.id_usuario %>">
+                      <td><%= usuario.nombre %> <%= usuario.apellido %></td>
+                      <td><%= usuario.email %></td>
+                      <td><%= usuario.tipo_usuario %></td>
+                      <td class="estado-verificacion">
+                        <span class="badge <%= usuario.autorizado ? 'bg-success' : 'bg-warning' %>">
+                          <%= usuario.autorizado ? 'Verificado' : 'No verificado' %>
+                        </span>
+                      </td>
+                      <td>
+                        <button 
+                          class="btn-verificar <%= usuario.autorizado ? 'btn-verificado' : 'btn-no-verificado' %>"
+                          data-usuario-id="<%= usuario.id_usuario %>"
+                          data-verificado="<%= usuario.autorizado %>"
+                          title="<%= usuario.autorizado ? 'Haz clic para desverificar' : 'Haz clic para verificar' %>"
+                        >
+                          <i class="fas <%= usuario.autorizado ? 'fa-user-check' : 'fa-user-times' %>"></i>
+                          <span><%= usuario.autorizado ? ' Desverificar' : ' Verificar' %></span>
+                        </button>
+                      </td>
+                    </tr>
+                  <% }) %>
+                <% } else { %>
                   <tr>
-                    <td>Ana Martín</td>
-                    <td>ana.martin@escuela.edu</td>
-                    <td>Empleado</td>
-                    <td>5° A</td>
-                    <td><span class="status-badge status-activo">Activo</span></td>
-                    <td>2024-01-15 14:30</td>
-                    <td>
-                      <button class="action-button user-action-button" data-user-email="ana.martin@escuela.edu"
-                        data-user-status="activo"><i class="fas fa-user-slash"></i></button>
-                    </td>
+                    <td colspan="5" class="text-center">No hay usuarios registrados</td>
                   </tr>
-                  <tr>
-                    <td>Carlos López</td>
-                    <td>carlos.lopez@escuela.edu</td>
-                    <td>Empleado</td>
-                    <td>2° B</td>
-                    <td><span class="status-badge status-activo">Activo</span></td>
-                    <td>2024-01-15 14:25</td>
-                    <td>
-                      <button class="action-button user-action-button" data-user-email="carlos.lopez@escuela.edu"
-                        data-user-status="activo"><i class="fas fa-user-slash"></i></button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>María González</td>
-                    <td>maria.gonzalez@escuela.edu</td>
-                    <td>Soporte</td>
-                    <td>7°2 A</td>
-                    <td><span class="status-badge status-activo">Activo</span></td>
-                    <td>2024-01-15 14:35</td>
-                    <td>
-                      <button class="action-button user-action-button" data-user-email="maria.gonzalez@escuela.edu"
-                        data-user-status="activo"><i class="fas fa-user-slash"></i></button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Diego Morales</td>
-                    <td>diego.morales@escuela.edu</td>
-                    <td>Empleado</td>
-                    <td>3° A</td>
-                    <td><span class="status-badge status-inactivo">Inactivo</span></td>
-                    <td>2024-01-10 16:20</td>
-                    <td>
-                      <button class="action-button user-action-button" data-user-email="diego.morales@escuela.edu"
-                        data-user-status="inactivo"><i class="fas fa-user-check"></i></button>
-                    </td>
-                  </tr>
-                  <% /* End of example user data */ %>
+                <% } %>
               </tbody>
             </table>
-          </div>
-        </div>
-
-        <!-- Configuración del Sistema Card -->
-        <div class="card-wide">
-          <h3><i class="fa-solid fa-gear"></i> Configuración del Sistema</h3>
-          <p class="subtexto">Parámetros generales del sistema de monitoreo</p>
-
-          <div class="config-grid">
-            <div class="form-group">
-              <label for="tiempoAlerta">Tiempo de alerta (minutos)</label>
-              <input type="number" id="tiempoAlerta" value="5">
-            </div>
-            <div class="form-group">
-              <label for="copiaSeguridad">Backup automático</label>
-              <select id="copiaSeguridad">
-                <option value="diario">Diario</option>
-                <option value="semanal">Semanal</option>
-                <option value="mensual">Mensual</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="autoAsignacion">Auto-asignación de llamados</label>
-              <select id="autoAsignacion">
-                <option value="habilitado">Habilitado</option>
-                <option value="deshabilitado">Deshabilitado</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="retencionLogs">Retención de logs (días)</label>
-              <input type="number" id="retencionLogs" value="90">
-            </div>
-
-            <div class="form-group">
-              <label for="notificacionesEmail">Notificaciones por email</label>
-              <select id="notificacionesEmail">
-                <option value="importantes">Solo importantes</option>
-                <option value="todos">Todos</option>
-                <option value="ninguno">Ninguno</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="nivelLogging">Nivel de logging</label>
-              <select id="nivelLogging">
-                <option value="info">Info</option>
-                <option value="debug">Debug</option>
-                <option value="warn">Warn</option>
-                <option value="error">Error</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="save-button-container">
-            <button id="guardarConfiguracion" class="save-button">Guardar Configuración</button>
           </div>
         </div>
       </main>

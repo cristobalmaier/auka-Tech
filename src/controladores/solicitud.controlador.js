@@ -1,5 +1,6 @@
 import ErrorCliente from "../utiles/error.js"
 import { validarSolicitud } from "../validadores/solicitud.js"
+import { io } from "../index.js"
 
 class SolicitudControlador {
     constructor({ solicitudServicio }) {
@@ -33,6 +34,7 @@ class SolicitudControlador {
 
         try {
             const resultado = await this.solicitudServicio.crearSolicitud({ id_soporte, id_emisor, id_area, numero_nivel, mensaje })
+            io.emit('solicitud_actualizada');
             res.status(200).json({ mensaje: 'solicitud creada', data: { id: resultado.insertId } }) 
         } catch(err) {
             next(err)
@@ -55,6 +57,7 @@ class SolicitudControlador {
 
         try {
             const resultado = await this.solicitudServicio.actualizarSolicitud({ id_solicitud: id, ...req.body })
+            io.emit('solicitud_actualizada');
             res.status(200).json(resultado)
         } catch(err) {
             next(err)
