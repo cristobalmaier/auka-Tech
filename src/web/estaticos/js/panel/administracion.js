@@ -439,23 +439,5 @@ function exportarAPDF(filename) {
         });
     }
 
-    // Función para guardar la configuración (simulación)
-    function guardarConfiguracion() {
-        // Aquí iría la lógica real para guardar la configuración
-        // Por ahora, simulamos un guardado exitoso el 90% de las veces
-        return Math.random() > 0.1;
-    }
     
-    // Configurar el botón de guardar configuración
-    const botonGuardarConfig = document.getElementById('guardar-configuracion');
-    if (botonGuardarConfig) {
-        botonGuardarConfig.addEventListener('click', () => {
-            const exito = guardarConfiguracion();
-            if (exito) {
-                mostrarNotificacion('exito', 'Configuración guardada correctamente');
-            } else {
-                mostrarNotificacion('error', 'Error al guardar la configuración');
-            }
-        });
-    }
 }); // Cierre del DOMContentLoaded
