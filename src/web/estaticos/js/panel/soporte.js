@@ -68,32 +68,51 @@ for (const botonRespuestaPersonalizada of botonesRespuestaPersonalizada) {
     })
 }
 
-const botonesCancelarRespuestaPersonalizada = document.querySelectorAll('.boton-cancelar-respuesta-personalizada')
-
-for (const boton of botonesCancelarRespuestaPersonalizada) {
-    boton.addEventListener('click', async () => {
-        const solicitud = boton.parentElement.parentElement.parentElement
-
-        solicitud.querySelector('.respuesta-personalizada').classList.remove('esconder')
-        solicitud.querySelector('.respuesta-personalizada-contenedor').classList.add('esconder')
-        solicitud.querySelector('.llamado-respuestas').classList.remove('esconder')
-    })
-}
-
-const botonesEnviar = document.querySelectorAll('.boton-respuesta-personalizada')
-
-for (const boton of botonesEnviar) {
-    boton.addEventListener('click', async () => {
-        const solicitud = boton.parentElement.parentElement.parentElement
-
-        await enviarRespuestaPersonalizada({ boton, solicitud })
-    })
-}
+// Usar delegación de eventos para los botones de cancelar
+document.addEventListener('click', async (event) => {
+    // Manejar clic en botón de cancelar
+    if (event.target.classList.contains('boton-cancelar-respuesta-personalizada')) {
+        const boton = event.target;
+        const solicitud = boton.closest('.llamado');
+        
+        if (solicitud) {
+            const respuestaPersonalizada = solicitud.querySelector('.respuesta-personalizada');
+            const contenedorPersonalizado = solicitud.querySelector('.respuesta-personalizada-contenedor');
+            const respuestas = solicitud.querySelector('.llamado-respuestas');
+            const inputRespuesta = solicitud.querySelector('.respuesta-personalizada-input');
+            
+            if (respuestaPersonalizada) respuestaPersonalizada.classList.remove('esconder');
+            if (contenedorPersonalizado) contenedorPersonalizado.classList.add('esconder');
+            if (respuestas) respuestas.classList.remove('esconder');
+            // Limpiar el campo de texto al cancelar
+            if (inputRespuesta) inputRespuesta.value = '';
+        }
+    }
+    
+    // Manejar clic en botón de enviar
+    if (event.target.classList.contains('boton-respuesta-personalizada')) {
+        const boton = event.target;
+        const solicitud = boton.closest('.llamado');
+        
+        if (solicitud) {
+            await enviarRespuestaPersonalizada({ boton, solicitud });
+        }
+    }
+});
 
 /* ////////////////////////////////////////////////////////////////// */
 
 async function enviarRespuestaPersonalizada({ boton }) {
     const solicitud = boton.parentElement.parentElement.parentElement
+    const inputRespuesta = solicitud.querySelector('.respuesta-personalizada-input')
+    const textoRespuesta = inputRespuesta.value.trim()
+
+    // Validar que la respuesta no esté vacía
+    if (textoRespuesta.length === 0) {
+        alerta({ mensaje: 'Por favor, ingresa un mensaje antes de enviar.', tipo: 'error' });
+        inputRespuesta.focus();
+        return; // Detener la ejecución si el campo está vacío
+    }
 
     const solicitudId = solicitud.dataset.solicitud_id
     const mensaje = solicitud.dataset.mensaje
@@ -102,7 +121,6 @@ async function enviarRespuestaPersonalizada({ boton }) {
     const empleadoApellido = solicitud.dataset.usuario_apellido
     const nombreSoporte = document.documentElement.dataset.nombre
     const apellidoSoporte = document.documentElement.dataset.apellido
-    const textoRespuesta = solicitud.querySelector('.respuesta-personalizada-input').value
 
     await procesarLlamado({
         empleadoId,
@@ -115,6 +133,9 @@ async function enviarRespuestaPersonalizada({ boton }) {
         empleadoApellido
     })
 
+    // Limpiar el campo de entrada después de enviar
+    inputRespuesta.value = '';
+    
     solicitud.querySelector('.respuesta-personalizada').classList.add('esconder')
     solicitud.querySelector('.respuesta-personalizada-contenedor').classList.add('esconder')
     solicitud.querySelector('.llamado-respuestas').classList.remove('esconder')
