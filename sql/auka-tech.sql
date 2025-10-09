@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 01-10-2025 a las 01:10:36
+-- Tiempo de generación: 10-10-2025 a las 00:23:24
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 8.1.6
 
@@ -144,7 +144,8 @@ INSERT INTO `solicitudes` (`id_solicitud`, `id_soporte`, `id_emisor`, `id_area`,
 (18, 14, 16, 1, 2, 's', '2025-09-30 22:14:47', 1, 0, 3),
 (19, 14, 16, 6, 1, 'sasd', '2025-09-30 22:16:52', 1, 0, 3),
 (20, 14, 16, 1, 2, 's', '2025-09-30 22:18:33', 1, 0, 3),
-(21, 14, 16, 1, 2, 's', '2025-09-30 23:05:10', 1, 0, NULL);
+(21, 14, 16, 1, 2, 's', '2025-09-30 23:05:10', 1, 1, NULL),
+(22, NULL, 16, 1, 1, '132', '2025-10-09 21:20:08', 1, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -217,7 +218,9 @@ INSERT INTO `usuarios` (`id_usuario`, `nombre`, `apellido`, `email`, `contrasena
 (9, 'Carlos Alberto', 'Robello', 'robello@gmail.com', '$2b$05$FHPuGgstOyFL6LLtP/829e./zEEx4agJNoRsh1YMIj6zxDh3GFaT.', 'soporte', 1),
 (14, 'Cristobal', 'Maier', 'cristobalmaier1@gmail.com', '$2b$05$ggMTF3jCdBFBtPXUvhEvL.8bqAdA5gQtseg0RC/PDHxqNRmRt9hou', 'soporte', 1),
 (15, 'Alejandra', 'Fernandez', 'alejandrafernandez@gmail.com', '$2b$05$sBA1337.YQVeSDOO87RKSea9b4Hrw3yaTnC17JS6HMP.yokGrIw8y', 'empleado', 1),
-(16, 'Tito', 'Calderon', 'titocalderon@gmail.com', '$2b$05$JqHtLpaIgDyL3rioLwXvzuEk5UWK1xv536IEICpcTFIPUbuKkPVvW', 'empleado', 1);
+(16, 'Tito', 'Calderon', 'titocalderon@gmail.com', '$2b$05$JqHtLpaIgDyL3rioLwXvzuEk5UWK1xv536IEICpcTFIPUbuKkPVvW', 'empleado', 1),
+(17, 'root', 'mayor', 'root@gmail.com', '$2b$05$gK/3MwTxYxO8sTOhW2BT4O4XSwuCW8LcIUs2u7xDFSnZghRwx0hJW', 'administracion', 1),
+(18, 'lautaro', 'gesualdo', 'lautarogesualdo@gmail.com', '$2b$05$lwvLgmcLdZLApAiKQwglE.aqRmzrMoYX5Q0yrNvjOaQrpPMVCyBI2', 'empleado', 0);
 
 --
 -- Índices para tablas volcadas
@@ -293,7 +296,7 @@ ALTER TABLE `respuestas_solicitudes`
 -- AUTO_INCREMENT de la tabla `solicitudes`
 --
 ALTER TABLE `solicitudes`
-  MODIFY `id_solicitud` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id_solicitud` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT de la tabla `turnos`
@@ -311,7 +314,7 @@ ALTER TABLE `turnos_asignaciones`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- Restricciones para tablas volcadas
