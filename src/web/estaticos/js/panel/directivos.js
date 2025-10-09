@@ -9,22 +9,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function filtrarTabla() {
     const searchValue = searchInput.value.toLowerCase();
-    const estado = statusFilter.value;
-    const prioridad = priorityFilter.value;
+    const estado = statusFilter.value ? statusFilter.value.toLowerCase() : '';
+    const prioridad = priorityFilter.value ? priorityFilter.value.toLowerCase() : '';
     const fecha = dateFilter.value;
 
     rows.forEach(row => {
       const mensaje = row.querySelector(".call-message")?.textContent.toLowerCase() || "";
       const emisor = row.cells[2]?.textContent.toLowerCase() || "";
       const area = row.cells[1]?.textContent.toLowerCase() || "";
-      const estadoTexto = row.querySelector(".status-badge")?.textContent.toLowerCase();
-      const prioridadTexto = row.querySelector(".priority-badge")?.textContent.toLowerCase();
-      const fechaTexto = row.querySelector(".call-date")?.textContent;
+      const estadoTexto = row.querySelector(".status-badge")?.textContent.toLowerCase() || "";
+      const prioridadTexto = row.querySelector(".priority-badge")?.textContent.toLowerCase() || "";
+      const fechaTexto = row.querySelector(".call-date")?.textContent.trim();
+
+      // Mapear valores de prioridad para búsqueda
+      let prioridadBuscada = prioridad;
+      if (prioridad === 'baja') prioridadBuscada = 'leve';
+      else if (prioridad === 'media') prioridadBuscada = 'moderado';
+      else if (prioridad === 'alta') prioridadBuscada = 'urgente';
+
+      // Convertir fechas para comparación
+      let coincideFecha = true;
+      if (fecha) {
+        // Formato de la fecha en la tabla: dd/mm/yyyy
+        const [dia, mes, anio] = fechaTexto.split('/');
+        const fechaTabla = new Date(`${mes}/${dia}/${anio}`).toISOString().split('T')[0];
+        coincideFecha = fechaTabla === fecha;
+      }
 
       const coincideBusqueda = mensaje.includes(searchValue) || emisor.includes(searchValue) || area.includes(searchValue);
       const coincideEstado = !estado || estadoTexto.includes(estado);
-      const coincidePrioridad = !prioridad || prioridadTexto.includes(prioridad);
-      const coincideFecha = !fecha || fechaTexto === fecha;
+      const coincidePrioridad = !prioridad || prioridadTexto.includes(prioridadBuscada);
 
       if (coincideBusqueda && coincideEstado && coincidePrioridad && coincideFecha) {
         row.style.display = "";

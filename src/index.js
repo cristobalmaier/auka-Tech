@@ -74,6 +74,8 @@ app.use('/panel', express.static(process.cwd() + '/src/web/estaticos'))
 // Set para rastrear soportes conectados
 const soportesConectados = new Set();
 
+
+
 io.on('connection', (socket) => {
     socket.on('nuevo-llamado', (data) => {
         io.emit('nuevo-llamado', data)

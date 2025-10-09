@@ -16,3 +16,4 @@ usuarioRutas.delete("/eliminar/:id", usuarioControlador.eliminarUsuario)
 usuarioRutas.post("/validar/contrasena", usuarioControlador.validarContrasena)
 
 export default usuarioRutas
+
