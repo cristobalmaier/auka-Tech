@@ -622,14 +622,20 @@ async function terminarLlamado({ empleado, solicitud }) {
 /**
  * Si no hay solicitudes pendientes muestra el texto "No hay solicitudes pendientes"
  * 
- * @param {HTMLElement} noHaySolicitudes
+/**
+ * Si no hay solicitudes pendientes muestra el texto "No hay solicitudes pendientes"
+ * * @param {HTMLElement} noHaySolicitudes
  * @returns {void}
  */
 function siNoHaySolicitudes({ noHaySolicitudes }) {
-    const solicitudes = document.querySelectorAll('.solicitud')
+    // 💡 SOLUCIÓN: Buscar elementos con la clase '.llamado' que son las solicitudes pendientes.
+    const solicitudes = document.querySelectorAll('.llamado') 
 
-    if (solicitudes.length == 0) {
+    if (solicitudes.length === 0) {
         noHaySolicitudes.classList.remove('esconder')
+    } else {
+        // Asegurarse de que se oculte si aún queda al menos un llamado
+        noHaySolicitudes.classList.add('esconder')
     }
 }
 
