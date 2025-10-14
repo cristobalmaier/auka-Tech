@@ -34,7 +34,8 @@ class SolicitudControlador {
 
         try {
             const resultado = await this.solicitudServicio.crearSolicitud({ id_soporte, id_emisor, id_area, numero_nivel, mensaje })
-            io.emit('solicitud_actualizada');
+            const solicitudCreada = await this.solicitudServicio.obtenerSolicitudPorId({ id: resultado.insertId })
+            io.emit('solicitud_actualizada', solicitudCreada);
             res.status(200).json({ mensaje: 'solicitud creada', data: { id: resultado.insertId } }) 
         } catch(err) {
             next(err)
@@ -56,9 +57,10 @@ class SolicitudControlador {
         const { id } = req.params
 
         try {
-            const resultado = await this.solicitudServicio.actualizarSolicitud({ id_solicitud: id, ...req.body })
-            io.emit('solicitud_actualizada');
-            res.status(200).json(resultado)
+            await this.solicitudServicio.actualizarSolicitud({ id_solicitud: id, ...req.body })
+            const solicitudActualizada = await this.solicitudServicio.obtenerSolicitudPorId({ id })
+            io.emit('solicitud_actualizada', solicitudActualizada);
+            res.status(200).json(solicitudActualizada)
         } catch(err) {
             next(err)
         }

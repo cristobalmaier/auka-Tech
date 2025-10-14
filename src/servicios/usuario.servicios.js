@@ -31,10 +31,20 @@ class UsuarioServicio {
     const usuarioExiste = await query(`SELECT * FROM usuarios WHERE email = ?`, [email])
     if (usuarioExiste) throw new ErrorCliente('El usuario ya existe', 400)
 
-    // Crear usuario
+    // Crear usuario: por seguridad, el nuevo usuario no está autorizado por defecto
     const contrasena_encriptada = await encriptar({ contrasena })
-    const resultado = await query(`INSERT INTO usuarios (nombre, apellido, email, contrasena, tipo_usuario) VALUES (?, ?, ?, ?, ?)`, [nombre, apellido, email, contrasena_encriptada, tipo_usuario])
-    return resultado
+    const resultado = await query(`INSERT INTO usuarios (nombre, apellido, email, contrasena, tipo_usuario, autorizado) VALUES (?, ?, ?, ?, ?, ?)`, [nombre, apellido, email, contrasena_encriptada, tipo_usuario, 0])
+
+    // query() devuelve null si no hay resultados; en este caso queremos
+    // obtener el usuario recién insertado usando el insertId.
+    // Usamos una nueva consulta para recuperar el registro completo.
+    const insertId = resultado?.insertId || (resultado && resultado.affectedRows ? resultado.insertId : undefined)
+    if (insertId) {
+        const usuarioCreado = await query(`SELECT * FROM usuarios WHERE id_usuario = ?`, [insertId])
+        return usuarioCreado ? usuarioCreado[0] : null
+    }
+
+    return null
     }
 
     static async actualizarUsuario({ id, nombre, apellido, email, contrasena, tipo_usuario, autorizado }) {

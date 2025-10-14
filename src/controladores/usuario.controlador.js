@@ -1,4 +1,5 @@
 import ErrorCliente from "../utiles/error.js"
+import { io } from "../index.js"
 
 class UsuarioControlador {
     constructor({ usuarioServicio }) {
@@ -35,8 +36,23 @@ class UsuarioControlador {
         const  { nombre, apellido, email, contrasena, tipo_usuario = 'empleado' } = req.body || {}
         
         try {
-            await this.usuarioServicio.crearUsuario({ nombre, apellido, email, contrasena, tipo_usuario })
-            res.status(200).json({ mensaje: "Usuario creado con éxito." })
+            const usuarioCreado = await this.usuarioServicio.crearUsuario({ nombre, apellido, email, contrasena, tipo_usuario })
+
+            // No exponer la contraseña (hash) al cliente ni por socket
+            if (usuarioCreado && usuarioCreado.contrasena) {
+                delete usuarioCreado.contrasena
+            }
+
+            // Emitir evento para notificar a administradores en tiempo real
+            try {
+                if (usuarioCreado) {
+                    io.emit('nuevo_usuario', usuarioCreado);
+                }
+            } catch (emitErr) {
+                console.error('Error al emitir nuevo_usuario via socket:', emitErr);
+            }
+
+            res.status(200).json({ mensaje: "Usuario creado con éxito.", usuario: usuarioCreado })
         } catch(err) {
             next(err)
         }
@@ -62,6 +78,9 @@ class UsuarioControlador {
                 tipo_usuario, 
                 autorizado: autorizadoBool 
             });
+
+            const usuarioActualizado = await this.usuarioServicio.obtenerUsuarioPorId({ id })
+            io.emit('usuario_actualizado', usuarioActualizado);
             
             res.status(200).json({ 
                 mensaje: "Datos actualizados con éxito.",

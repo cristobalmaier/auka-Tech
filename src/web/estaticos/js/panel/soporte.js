@@ -12,6 +12,19 @@ const nombreSoporte = document.documentElement.dataset.nombre
 const apellidoSoporte = document.documentElement.dataset.apellido
 const tipoUsuario = document.documentElement.dataset.tipo_usuario
 
+// Cuando el usuario vuelve a la página usando el botón "Atrás" del navegador,
+// algunos navegadores restauran el estado anterior desde la bfcache (back-forward cache),
+// lo que puede mostrar elementos que fueron removidos dinámicamente por JS.
+// Para evitar que reaparezcan solicitudes obsoletas, recargamos la página cuando
+// se detecta que fue restaurada desde la bfcache.
+window.addEventListener('pageshow', (event) => {
+    // event.persisted es true cuando la página fue restaurada desde la bfcache
+    if (event.persisted) {
+        // Recargar la página para sincronizar con el estado actual del servidor
+        window.location.reload();
+    }
+});
+
 const niveles = [
     'leve', 'moderado', 'urgente'
 ]

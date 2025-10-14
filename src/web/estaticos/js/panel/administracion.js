@@ -439,5 +439,139 @@ function exportarAPDF(filename) {
         });
     }
 
+    // --- LÓGICA DE SOCKET.IO PARA GESTIÓN DE USUARIOS EN TIEMPO REAL ---
+    const socket = io();
+    const audioNotificacion = new Audio('/sonidos/noti.wav');
+
+    socket.on('usuario_actualizado', (usuario) => {
+        console.log('Actualización de usuario recibida:', usuario);
+
+        const filaUsuario = document.querySelector(`tr[data-usuario-id="${usuario.id_usuario}"]`);
+        if (!filaUsuario) return;
+
+        // No actualizar si el cambio fue hecho por el usuario actual en esta misma ventana
+        // (La UI ya se actualizó de forma optimista)
+        const botonLocal = filaUsuario.querySelector('button.btn-verificar');
+        if (botonLocal.disabled) {
+            console.log('Actualización local, omitiendo evento de socket.');
+            return;
+        }
+
+        // Reproducir sonido de notificación
+        audioNotificacion.play().catch(err => console.error("Error al reproducir sonido:", err));
+
+        // Mostrar notificación visual
+        mostrarNotificacion('exito', `El estado de ${usuario.nombre} ${usuario.apellido} ha sido actualizado.`);
+
+        // Actualizar la celda de estado
+        const celdaEstado = filaUsuario.querySelector('.estado-verificacion');
+        if (celdaEstado) {
+            celdaEstado.innerHTML = `<span class="badge ${usuario.autorizado ? 'bg-success' : 'bg-warning'}">${usuario.autorizado ? 'Verificado' : 'No verificado'}</span>`;
+        }
+
+        // Actualizar el botón de acción
+        const boton = filaUsuario.querySelector('.btn-verificar');
+        if (boton) {
+            boton.setAttribute('data-verificado', usuario.autorizado);
+            boton.setAttribute('title', usuario.autorizado ? 'Haz clic para desverificar' : 'Haz clic para verificar');
+            
+            const icono = boton.querySelector('i');
+            const texto = boton.querySelector('span');
+
+            if (usuario.autorizado) {
+                boton.className = 'btn-verificar btn-verificado';
+                if (icono) icono.className = 'fas fa-user-check';
+                if (texto) texto.textContent = ' Desverificar';
+            } else {
+                boton.className = 'btn-verificar btn-no-verificado';
+                if (icono) icono.className = 'fas fa-user-times';
+                if (texto) texto.textContent = ' Verificar';
+            }
+        }
+
+        // Añadir una animación para destacar el cambio
+        filaUsuario.classList.add('animate__animated', 'animate__flash');
+        setTimeout(() => {
+            filaUsuario.classList.remove('animate__animated', 'animate__flash');
+        }, 1000);
+    });
+
+    // Escuchar nuevos usuarios creados en el sistema
+    socket.on('nuevo_usuario', (usuario) => {
+        console.log('Nuevo usuario recibido por socket:', usuario);
+
+        // Si ya existe la fila, no duplicar
+        const existente = document.querySelector(`tr[data-usuario-id="${usuario.id_usuario}"]`);
+        if (existente) {
+            // Opcional: actualizar datos si es necesario
+            return;
+        }
+
+        // Reproducir sonido de notificación
+        audioNotificacion.play().catch(err => console.error("Error al reproducir sonido:", err));
+
+        // Mostrar notificación visual
+        mostrarNotificacion('exito', `Nuevo usuario: ${usuario.nombre} ${usuario.apellido}`);
+
+        // Crear nueva fila en la tabla
+        const tbody = document.querySelector('.users-table table tbody');
+        if (!tbody) return;
+
+        const tr = document.createElement('tr');
+        tr.setAttribute('data-usuario-id', usuario.id_usuario);
+
+        const tdNombre = document.createElement('td');
+        tdNombre.textContent = `${usuario.nombre} ${usuario.apellido}`;
+
+        const tdEmail = document.createElement('td');
+        tdEmail.textContent = usuario.email || '';
+
+        const tdRol = document.createElement('td');
+        tdRol.className = 'celda-rol';
+        const spanRol = document.createElement('span');
+        spanRol.className = 'badge bg-info';
+        const rolTexto = usuario.tipo_usuario === 'empleado' ? 'Empleado' : usuario.tipo_usuario === 'soporte' ? 'Soporte' : usuario.tipo_usuario === 'administracion' ? 'Administración' : usuario.tipo_usuario;
+        spanRol.textContent = rolTexto;
+        tdRol.appendChild(spanRol);
+
+        const tdEstado = document.createElement('td');
+        tdEstado.className = 'estado-verificacion';
+        const spanEstado = document.createElement('span');
+        spanEstado.className = `badge ${usuario.autorizado ? 'bg-success' : 'bg-warning'} status-badge`;
+        spanEstado.textContent = usuario.autorizado ? 'Verificado' : 'No verificado';
+        tdEstado.appendChild(spanEstado);
+
+        const tdAcciones = document.createElement('td');
+        const boton = document.createElement('button');
+        boton.className = `btn-verificar ${usuario.autorizado ? 'btn-verificado' : 'btn-no-verificado'}`;
+        boton.setAttribute('data-usuario-id', usuario.id_usuario);
+        boton.setAttribute('data-verificado', usuario.autorizado);
+        boton.setAttribute('title', usuario.autorizado ? 'Haz clic para desverificar' : 'Haz clic para verificar');
+
+        const i = document.createElement('i');
+        i.className = `fas ${usuario.autorizado ? 'fa-user-check' : 'fa-user-times'}`;
+        const span = document.createElement('span');
+        span.textContent = usuario.autorizado ? ' Desverificar' : ' Verificar';
+
+        boton.appendChild(i);
+        boton.appendChild(span);
+
+        // Delegamos al manejador global de clicks que ya está registrado
+        tdAcciones.appendChild(boton);
+
+        tr.appendChild(tdNombre);
+        tr.appendChild(tdEmail);
+        tr.appendChild(tdRol);
+        tr.appendChild(tdEstado);
+        tr.appendChild(tdAcciones);
+
+        // Insertar al inicio de la tabla para visibilidad
+        if (tbody.firstChild) tbody.insertBefore(tr, tbody.firstChild);
+        else tbody.appendChild(tr);
+
+        // Animación para destacar nueva fila
+        tr.classList.add('animate__animated', 'animate__fadeInDown');
+        setTimeout(() => tr.classList.remove('animate__animated', 'animate__fadeInDown'), 1200);
+    });
     
 }); // Cierre del DOMContentLoaded
