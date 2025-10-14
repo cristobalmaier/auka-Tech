@@ -336,6 +336,15 @@ hr {
   cursor: pointer;
 }
 
+.atendido-por {
+    background-color: var(--color-fondo-respuesta);
+    color: var(--color-texto-respuesta);
+    border-radius: 50px;
+    padding: 5px 12px;
+    font-weight: 800;
+    font-size: 15px;
+}
+
 .respuesta-personalizada-contenedor {
   display: flex;
   flex-direction: column;

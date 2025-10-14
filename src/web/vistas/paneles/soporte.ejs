@@ -110,6 +110,10 @@
                                     <div class="llamado-respuestas">
                                         <p class="respuesta respuesta-terminado">Terminado</p>
                                     </div>
+                                <% } else { %>
+                                    <div class="llamado-respuestas">
+                                        <p class="atendido-por">Atendido por <%= solicitud.nombre_soporte %> <%= solicitud.apellido_soporte %></p>
+                                    </div>
                                 <% } %>
                             <% } %> 
                         </div>

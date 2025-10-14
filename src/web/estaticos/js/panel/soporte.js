@@ -334,7 +334,7 @@ socket.on('cancelar-llamado', async (data) => {
 // ? para que no puedan responder el mismo llamado
 // ? dos soportes a la vez
 socket.on('eliminar-respuesta-llamado', (data) => {
-    const { soporte_id, solicitud_id } = data
+    const { soporte_id, solicitud_id, nombre_soporte, apellido_soporte } = data
 
     // Solo elimina respuestas de los otros soportes
     if (soporte_id == idSoporte) return
@@ -343,7 +343,7 @@ socket.on('eliminar-respuesta-llamado', (data) => {
 
     if (solicitud) {
         const respuestas = solicitud.querySelector(`.llamado-respuestas`)
-        respuestas.classList.add('esconder')
+        respuestas.innerHTML = `<p class="atendido-por">Atendido por ${nombre_soporte} ${apellido_soporte}</p>`
     }
 })
 
@@ -500,7 +500,9 @@ async function responderLlamado({ botonRespuesta, empleadoId, empleadoNombre, em
         // Eliminar botones de respuesta a los demas soportes
         socket.emit('eliminar-respuesta-llamado', {
             soporte_id: idSoporte,
-            solicitud_id: solicitudId
+            solicitud_id: solicitudId,
+            nombre_soporte: nombreSoporte,
+            apellido_soporte: apellidoSoporte
         })
 
         // Mostrar alerta de enviado al soporte
@@ -549,7 +551,9 @@ async function procesarLlamado({ empleadoId, empleadoNombre, empleadoApellido, s
     // Eliminar botones de respuesta a los demas soportes
     socket.emit('eliminar-respuesta-llamado', {
         soporte_id: idSoporte,
-        solicitud_id: solicitudId
+        solicitud_id: solicitudId,
+        nombre_soporte: nombreSoporte,
+        apellido_soporte: apellidoSoporte
     })
 
     // Mostrar alerta de enviado al soporte
@@ -570,7 +574,7 @@ async function procesarLlamado({ empleadoId, empleadoNombre, empleadoApellido, s
 }
 
 /**
- * Finaliza un llamado actualizando la base de datos y enviando datos al cliente
+ * Finaliza un llamado actualizando la base de datos y enviando datos al cliente    
  * 
  * @param {Object} empleado
  * @param {Object} solicitud
