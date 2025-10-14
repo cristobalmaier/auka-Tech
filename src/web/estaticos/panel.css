@@ -226,12 +226,13 @@ hr {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  padding-left: 330px;
+  padding-left: 315px;
   padding-top: 30px;
   padding-bottom: 30px;
   margin-right: 300px;
   max-height: 100vh;
   overflow: auto;
+
 }
 
 .llamado {
