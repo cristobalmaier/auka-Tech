@@ -42,8 +42,8 @@
 }
 
 .panel-contenedor {
-  background-color: var(--color-fondo);
-  height: 100vh;
+    background-color: var(--color-alerta-info-fondo);
+    height: 100vh;
 }
 
 hr {
@@ -53,15 +53,15 @@ hr {
 }
 
 .navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px;
-  margin-right: 300px;
-  border-bottom: 1px solid var(--color-borde);
-  font-size: 16px;
-  font-weight: 500;
-  background-color: var(--color-fondo-secundario);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    margin-right: 300px;
+    border-bottom: 1px solid var(--color-borde);
+    font-size: 16px;
+    font-weight: 500;
+    background-color: var(--color-alerta-info-borde);
 }
 
 .columna {
@@ -76,20 +76,21 @@ hr {
 }
 
 .columna-izquierda {
-  left: 0;
+    left: 0;
+    background-color: var(--color-alerta-info-borde);
 }
 
 .columna-derecha {
-  right: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: var(--color-fondo-secundario);
 }
 
 .titulo {
   font-size: 16px;
   font-weight: 500;
-  border-bottom: 1px solid var(--color-borde);
   padding: 20px 0px 20px 20px;
 }
 
@@ -104,19 +105,23 @@ hr {
 }
 
 .historial-titulo {
-  color: var(--color-texto-secundario);
+    color: var(--color-texto);
+    border-radius: 30px;
+    padding: 3%;
+    background-color: var(--color-fondo);
 }
 
 .historial-item {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 100px;
-  max-height: 100%;
-  border: 1px solid var(--color-borde);
-  border-radius: 8px;
-  padding: 10px;
-  margin-bottom: 13px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100px;
+    max-height: 100%;
+    border: 1px solid #181818;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 13px;
+    background-color: var(--color-fondo);
 }
 
 .historial-item-cabecera {
@@ -195,6 +200,7 @@ hr {
   border: 1px solid var(--color-borde);
   border-radius: 50px;
   max-height: 58px;
+  background-color: white;
 }
 
 .preceptores-item img {
@@ -226,13 +232,12 @@ hr {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  padding-left: 315px;
+  padding-left: 330px;
   padding-top: 30px;
   padding-bottom: 30px;
   margin-right: 300px;
   max-height: 100vh;
   overflow: auto;
-
 }
 
 .llamado {
@@ -580,10 +585,6 @@ hr {
   margin-right: 5px;
 }
 
-.perfil-cerrar-sesion:hover {
-  background-color: var(--color-boton-hover-secundario);
-}
-
 .perfil-faq {
   text-decoration: none;
   color: var(--color-boton-texto-secundario);
@@ -600,6 +601,10 @@ hr {
 }
 
 .perfil-faq:hover {
+  background-color: var(--color-boton-hover-secundario);
+}
+
+.perfil-cerrar-sesion:hover {
   background-color: var(--color-boton-hover-secundario);
 }
 
@@ -736,4 +741,16 @@ hr {
 
 .boton-cerrar {
   margin-top: 20px;
+}
+
+.llamado.ejemplo {
+    opacity: 0.8;
+    border: 1px dashed var(--azul-claro);
+    background-color: white;
+    pointer-events: none;
+}
+
+.llamado.ejemplo .respuesta {
+    background-color: white;
+    cursor: not-allowed;
 }
