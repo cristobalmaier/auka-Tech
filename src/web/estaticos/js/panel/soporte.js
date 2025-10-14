@@ -190,15 +190,7 @@ socket.on('nuevo-llamado', async (data) => {
 
     console.log("recibi el evento: nuevo-llamado");
 
-    const ejemplo = document.querySelector('.ejemplo-llamado');
-    if (ejemplo) ejemplo.remove();
-
-    const sinLlamados = document.querySelector('.no-hay-llamados');
-    if (sinLlamados && !sinLlamados.classList.contains('esconder')) {
-        sinLlamados.classList.add('esconder');
-    }
-
-    const nivelImportancia = niveles[solicitud.numero_nivel - 1];
+    const nivelImportancia = niveles[solicitud.numero_nivel - 1]
     const nuevoSolicitud = document.createElement('div');
 
     // Animacion
@@ -374,11 +366,10 @@ socket.on('eliminar-respuesta-llamado', (data) => {
 socket.on('agregar-historial', (data) => {
     const { solicitud_id, nombre, apellido, mensaje, fecha } = data
 
-    let solicitud = document.querySelector(`.solicitud[data-solicitud_id="${solicitud_id}"]`)
-    if (!solicitud) {
-        solicitud = document.querySelector(`.solicitud[data-solicitud_id="${solicitud_id}"]`)
+    const solicitud = document.querySelector(`.llamado[data-solicitud_id="${solicitud_id}"]`)
+    if (solicitud) {
+        solicitud.remove()
     }
-    if (solicitud) solicitud.remove()
 
     // Agregar al historial
     agregarHistorial({
@@ -647,14 +638,20 @@ async function terminarLlamado({ empleado, solicitud }) {
 /**
  * Si no hay solicitudes pendientes muestra el texto "No hay solicitudes pendientes"
  * 
- * @param {HTMLElement} noHaySolicitudes
+/**
+ * Si no hay solicitudes pendientes muestra el texto "No hay solicitudes pendientes"
+ * * @param {HTMLElement} noHaySolicitudes
  * @returns {void}
  */
 function siNoHaySolicitudes({ noHaySolicitudes }) {
-    const solicitudes = document.querySelectorAll('.llamado');
-    if (solicitudes.length == 0) {
-        noHaySolicitudes.classList.remove('esconder');
-        mostrarEjemploLlamado(); // 👈 Mostrar el ejemplo solo si no hay solicitudes reales
+    // 💡 SOLUCIÓN: Buscar elementos con la clase '.llamado' que son las solicitudes pendientes.
+    const solicitudes = document.querySelectorAll('.llamado') 
+
+    if (solicitudes.length === 0) {
+        noHaySolicitudes.classList.remove('esconder')
+    } else {
+        // Asegurarse de que se oculte si aún queda al menos un llamado
+        noHaySolicitudes.classList.add('esconder')
     }
 }
 
@@ -688,46 +685,3 @@ function renderizarTiempos() {
     const nodos = document.querySelectorAll('.fecha-envio')
     if (nodos.length > 0) timeago.render(nodos, 'es')
 }
-
-function mostrarEjemploLlamado() {
-    const solicitudesContenedor = document.querySelector('.llamados');
-    if (!solicitudesContenedor) return;
-
-    // Evita duplicar el ejemplo
-    if (document.querySelector('.llamado.ejemplo')) return;
-
-    const ejemplo = document.createElement('div');
-    ejemplo.classList.add('llamado', 'leve', 'ejemplo');
-    ejemplo.innerHTML = `
-        <div class="llamado-cabecera">
-            <p class="llamado-titulo">Ejemplo de Solicitud</p>
-            <p class="llamado-mensaje">Este es un ejemplo de cómo se verán las solicitudes reales.</p>
-        </div>
-        <hr>
-        <div class="llamado-cuerpo">
-            <p><span class="llamado-cuerpo-texto">Solicitud - <span class="fecha-envio">hace unos segundos</span></span></p>
-        </div>
-        <div class="llamado-respuestas">
-            <p class="respuesta">Yendo</p>
-            <p class="respuesta">En camino</p>
-            <p class="respuesta">Enseguida</p>
-            <p class="respuesta">Voy para allá</p>
-            <p class="respuesta-personalizada">Respuesta personalizada</p>
-        </div>
-    `;
-
-    solicitudesContenedor.appendChild(ejemplo);
-}
-
-// Esperar a que el DOM esté cargado completamente
-window.addEventListener('DOMContentLoaded', () => {
-    const solicitudesContenedor = document.querySelector('.llamados');
-    const noHaySolicitudes = document.querySelector('.no-hay-llamados');
-
-    // Si no hay solicitudes reales, mostrar el ejemplo
-    const solicitudes = document.querySelectorAll('.llamado');
-    if (solicitudes.length === 0) {
-        mostrarEjemploLlamado();
-        noHaySolicitudes?.classList.remove('esconder');
-    }
-});
