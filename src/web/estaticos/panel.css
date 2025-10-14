@@ -337,12 +337,36 @@ hr {
 }
 
 .atendido-por {
-    background-color: var(--color-fondo-respuesta);
-    color: var(--color-texto-respuesta);
-    border-radius: 50px;
-    padding: 5px 12px;
-    font-weight: 800;
-    font-size: 15px;
+  border-radius: 50px;
+  padding: 5px 12px;
+  font-weight: 600;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #ffffff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* Estilos para "atendido por" según nivel de alerta */
+.llamado.leve .atendido-por {
+  color: var(--color-primario-llamado);
+}
+
+/* Para llamados moderados (fondo naranja) */
+.llamado.moderado .atendido-por {
+  color: var(--color-fondo-llamado-moderado);
+}
+
+/* Para llamados urgentes (fondo rojo) */
+.llamado.urgente .atendido-por {
+  color: var(--color-fondo-llamado-urgente);
+}
+
+/* Iconos dentro del texto "atendido por" */
+.atendido-por i {
+  font-size: 14px;
+  opacity: 0.9;
 }
 
 .respuesta-personalizada-contenedor {
