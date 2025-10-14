@@ -353,11 +353,10 @@ socket.on('eliminar-respuesta-llamado', (data) => {
 socket.on('agregar-historial', (data) => {
     const { solicitud_id, nombre, apellido, mensaje, fecha } = data
 
-    let solicitud = document.querySelector(`.solicitud[data-solicitud_id="${solicitud_id}"]`)
-    if (!solicitud) {
-        solicitud = document.querySelector(`.solicitud[data-solicitud_id="${solicitud_id}"]`)
+    const solicitud = document.querySelector(`.llamado[data-solicitud_id="${solicitud_id}"]`)
+    if (solicitud) {
+        solicitud.remove()
     }
-    if (solicitud) solicitud.remove()
 
     // Agregar al historial
     agregarHistorial({
@@ -574,7 +573,7 @@ async function procesarLlamado({ empleadoId, empleadoNombre, empleadoApellido, s
 }
 
 /**
- * Finaliza un llamado actualizando la base de datos y enviando datos al cliente    
+ * Finaliza un llamado actualizando la base de datos y enviando datos al cliente
  * 
  * @param {Object} empleado
  * @param {Object} solicitud
