@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <%- include('parciales/head.html') %>
+    <link rel="stylesheet" href="faq.css">
+</head>
+<body>
+    <main class="faq-page">
+        <header class="faq-header">
+            <div class="faq-header-inner">
+                <h1 class="faq-title">Preguntas Frecuentes</h1>
+                <p class="faq-subtitle">Respuestas rápidas a las dudas más comunes.</p>
+            </div>
+            <div class="faq-controls">
+                <input id="faq-search" class="faq-search" type="search" placeholder="Buscar pregunta o palabra clave..." aria-label="Buscar preguntas">
+                <div id="faq-count" class="faq-count"><%= (preguntas && preguntas.length) ? preguntas.length : 0 %> resultados</div>
+            </div>
+        </header>
+
+        <section class="faq-list" id="faq-list">
+            <% if (!preguntas || preguntas.length === 0) { %>
+                <div class="faq-empty">No hay preguntas disponibles.</div>
+            <% } else { %>
+                <% preguntas.forEach(pregunta => { %>
+                    <article class="faq-card">
+                        <button class="faq-card-question" aria-expanded="false">
+                            <span class="faq-card-title"><%= pregunta.pregunta %></span>
+                            <span class="faq-card-icon">▾</span>
+                        </button>
+                        <div class="faq-card-answer"><%= pregunta.respuesta %></div>
+                    </article>
+                <% }) %>
+            <% } %>
+        </section>
+
+        <div class="faq-actions">
+            <button class="btn-back" type="button" onclick="history.back()">Volver</button>
+        </div>
+    </main>
+    <script src="js/faq.js"></script>
+</body>
+</html>

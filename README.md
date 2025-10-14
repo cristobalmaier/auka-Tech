@@ -1,6 +1,6 @@
 # Auka-Tech
 
-Aplicación para mejorar la comunicación entre el personal de las instituciones corporativas. 
+Aplicación para mejorar la comunicación entre empleados y soportes de las instituciones corporativas. 
 
 ## Características
 
@@ -29,7 +29,7 @@ Para ejecutar este proyecto localmente, debes cambiar las siguientes variables d
 
 `BD_PUERTO = 3306`
 
-`BD_BASE = auka`
+`BD_BASE = auka-Tech`
 
 
 ## Ejecutarlo localmente

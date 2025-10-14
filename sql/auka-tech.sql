@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-10-2025 a las 00:23:24
--- Versión del servidor: 10.4.24-MariaDB
--- Versión de PHP: 8.1.6
+-- Tiempo de generación: 14-10-2025 a las 23:34:47
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `areas` (
   `id_area` int(11) NOT NULL,
   `area` varchar(64) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `areas`
@@ -45,6 +45,34 @@ INSERT INTO `areas` (`id_area`, `area`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `faqs`
+--
+
+CREATE TABLE `faqs` (
+  `id_faq` int(11) NOT NULL,
+  `pregunta` varchar(255) NOT NULL,
+  `respuesta` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `faqs`
+--
+
+INSERT INTO `faqs` (`id_faq`, `pregunta`, `respuesta`) VALUES
+(1, '¿Qué hago si mi computadora no enciende?', 'Verificá que el cable de alimentación esté correctamente conectado y que el enchufe tenga corriente. Si sigue sin encender, contactá al área de soporte para revisar el hardware.'),
+(2, '¿Por qué no tengo conexión a Internet?', 'Comprobá que el cable de red o la conexión Wi-Fi estén activos. Si otros dispositivos tampoco tienen conexión, puede ser un problema del router o del proveedor de Internet.'),
+(3, '¿Cómo cambio mi contraseña del sistema?', 'Accedé al panel de usuario, seleccioná \"Configuración\" y luego \"Cambiar contraseña\". Ingresá tu contraseña actual y la nueva.'),
+(4, '¿Qué hago si olvidé mi contraseña?', 'Solicitá el restablecimiento de contraseña al soporte técnico. Se te enviará un enlace de recuperación a tu correo registrado.'),
+(5, '¿Cómo instalo una impresora?', 'Entrá al Panel de control > Dispositivos e impresoras > Agregar impresora. Si la impresora está en red, debería detectarse automáticamente.'),
+(6, '¿Por qué mi impresora no imprime?', 'Revisá que tenga papel, tinta y esté correctamente conectada. Si sigue sin funcionar, reiniciá la impresora y el equipo.'),
+(7, '¿Cómo puedo acceder al correo corporativo?', 'Podés ingresar desde el navegador en mail.empresa.com o configurar tu cliente de correo con los datos del servidor proporcionados por IT.'),
+(8, '¿Qué hago si mi equipo está muy lento?', 'Cerrá los programas que no estés usando, limpiá archivos temporales y asegurate de tener suficiente espacio en disco. Si el problema continúa, pedí una revisión al área de soporte.'),
+(9, '¿Cómo solicito soporte técnico?', 'Podés hacerlo mediante el sistema de tickets, enviando un correo a soporte@empresa.com o contactando al interno de IT.'),
+(10, '¿Qué hago si aparece un mensaje de virus o amenaza?', 'No abras ningún archivo sospechoso. Desconectá tu equipo de Internet y avisá inmediatamente al soporte técnico para realizar un análisis de seguridad.');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `niveles`
 --
 
@@ -52,7 +80,7 @@ CREATE TABLE `niveles` (
   `numero_nivel` int(11) NOT NULL,
   `nombre_nivel` varchar(32) NOT NULL,
   `descripcion` varchar(300) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `niveles`
@@ -77,7 +105,7 @@ CREATE TABLE `respuestas_solicitudes` (
   `mensaje` varchar(500) NOT NULL,
   `id_soporte` int(11) NOT NULL,
   `fecha_respuesta` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `respuestas_solicitudes`
@@ -98,7 +126,21 @@ INSERT INTO `respuestas_solicitudes` (`id_respuesta`, `id_solicitud`, `mensaje`,
 (12, 18, 'En camino', 14, '2025-09-30 19:14:49'),
 (13, 19, 'En camino', 14, '2025-09-30 19:16:53'),
 (14, 20, 'Enseguida', 14, '2025-09-30 19:18:34'),
-(15, 21, 'Yendo', 14, '2025-09-30 20:05:14');
+(15, 21, 'Yendo', 14, '2025-09-30 20:05:14'),
+(16, 24, 'Yendo', 14, '2025-10-14 16:25:31'),
+(17, 26, 'espera al profesor', 14, '2025-10-14 16:36:51'),
+(18, 28, 'Yendo', 14, '2025-10-14 16:37:12'),
+(19, 27, 'Yendo', 14, '2025-10-14 16:37:14'),
+(20, 30, 'Yendo', 14, '2025-10-14 16:39:09'),
+(21, 29, 'Yendo', 14, '2025-10-14 16:39:13'),
+(22, 33, 'Yendo', 14, '2025-10-14 16:51:56'),
+(23, 32, 'Yendo', 14, '2025-10-14 16:51:58'),
+(24, 31, 'Voy para allá', 14, '2025-10-14 16:52:01'),
+(25, 34, 'Yendo', 14, '2025-10-14 17:26:33'),
+(26, 35, 'Voy para allá', 14, '2025-10-14 17:33:25'),
+(27, 36, 'Yendo', 14, '2025-10-14 17:39:38'),
+(28, 37, 'Yendo', 14, '2025-10-14 17:44:52'),
+(29, 38, 'Voy para allá', 21, '2025-10-14 17:45:11');
 
 -- --------------------------------------------------------
 
@@ -117,7 +159,7 @@ CREATE TABLE `solicitudes` (
   `finalizado` tinyint(1) NOT NULL DEFAULT 0,
   `cancelado` tinyint(1) NOT NULL DEFAULT 0,
   `calificacion` tinyint(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `solicitudes`
@@ -145,7 +187,23 @@ INSERT INTO `solicitudes` (`id_solicitud`, `id_soporte`, `id_emisor`, `id_area`,
 (19, 14, 16, 6, 1, 'sasd', '2025-09-30 22:16:52', 1, 0, 3),
 (20, 14, 16, 1, 2, 's', '2025-09-30 22:18:33', 1, 0, 3),
 (21, 14, 16, 1, 2, 's', '2025-09-30 23:05:10', 1, 1, NULL),
-(22, NULL, 16, 1, 1, '132', '2025-10-09 21:20:08', 1, 1, NULL);
+(22, NULL, 16, 1, 1, '132', '2025-10-09 21:20:08', 1, 1, NULL),
+(23, NULL, 16, 1, 1, '1', '2025-10-14 19:24:53', 1, 1, NULL),
+(24, 14, 18, 1, 1, '2', '2025-10-14 19:24:57', 1, 0, NULL),
+(25, NULL, 16, 1, 1, '1', '2025-10-14 19:31:40', 1, 1, 4),
+(26, 14, 18, 1, 1, '2', '2025-10-14 19:31:50', 1, 0, NULL),
+(27, 14, 18, 1, 3, '1', '2025-10-14 19:37:07', 1, 0, 3),
+(28, 14, 16, 1, 2, '2', '2025-10-14 19:37:10', 1, 0, NULL),
+(29, 14, 18, 1, 1, '77', '2025-10-14 19:38:47', 1, 0, 3),
+(30, 14, 16, 1, 3, '2', '2025-10-14 19:38:51', 1, 0, 3),
+(31, 14, 16, 1, 1, '1', '2025-10-14 19:49:28', 1, 0, 3),
+(32, 14, 18, 1, 2, '2', '2025-10-14 19:49:30', 1, 0, NULL),
+(33, 14, 20, 1, 3, '3', '2025-10-14 19:49:33', 1, 0, NULL),
+(34, 14, 16, 1, 1, '1', '2025-10-14 20:26:30', 1, 0, NULL),
+(35, 14, 16, 1, 1, '1', '2025-10-14 20:33:22', 1, 0, 3),
+(36, 14, 16, 1, 1, '1', '2025-10-14 20:39:35', 1, 0, 3),
+(37, 14, 16, 1, 1, '1', '2025-10-14 20:44:49', 1, 0, NULL),
+(38, 21, 16, 1, 3, 'g', '2025-10-14 20:45:07', 1, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -158,7 +216,7 @@ CREATE TABLE `turnos` (
   `nombre_turno` enum('mañana','tarde','vespertino') NOT NULL,
   `hora_inicio` time NOT NULL,
   `hora_final` time NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `turnos`
@@ -179,7 +237,7 @@ CREATE TABLE `turnos_asignaciones` (
   `id_asignacion` int(11) NOT NULL,
   `id_turno` int(11) NOT NULL,
   `id_soporte` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `turnos_asignaciones`
@@ -207,7 +265,7 @@ CREATE TABLE `usuarios` (
   `contrasena` varchar(255) NOT NULL,
   `tipo_usuario` enum('empleado','soporte','administracion') NOT NULL DEFAULT 'empleado',
   `autorizado` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `usuarios`
@@ -220,7 +278,10 @@ INSERT INTO `usuarios` (`id_usuario`, `nombre`, `apellido`, `email`, `contrasena
 (15, 'Alejandra', 'Fernandez', 'alejandrafernandez@gmail.com', '$2b$05$sBA1337.YQVeSDOO87RKSea9b4Hrw3yaTnC17JS6HMP.yokGrIw8y', 'empleado', 1),
 (16, 'Tito', 'Calderon', 'titocalderon@gmail.com', '$2b$05$JqHtLpaIgDyL3rioLwXvzuEk5UWK1xv536IEICpcTFIPUbuKkPVvW', 'empleado', 1),
 (17, 'root', 'mayor', 'root@gmail.com', '$2b$05$gK/3MwTxYxO8sTOhW2BT4O4XSwuCW8LcIUs2u7xDFSnZghRwx0hJW', 'administracion', 1),
-(18, 'lautaro', 'gesualdo', 'lautarogesualdo@gmail.com', '$2b$05$lwvLgmcLdZLApAiKQwglE.aqRmzrMoYX5Q0yrNvjOaQrpPMVCyBI2', 'empleado', 0);
+(18, 'lautaro', 'gesualdo', 'lautarogesualdo@gmail.com', '$2b$05$lwvLgmcLdZLApAiKQwglE.aqRmzrMoYX5Q0yrNvjOaQrpPMVCyBI2', 'empleado', 1),
+(19, 'axel', 'derfler', 'axelderfler@gmail.com', '$2b$05$VAbzc33.sUUuWtc0gu4.tOka0lE5pEuZA1Q0HuKWMl2by7P96pI4S', 'empleado', 1),
+(20, 'Agustin', 'Di Tomaso', 'agustinditomaso@gmail.com', '$2b$05$xoKtq8Za.4C5ncM93OoLbO7KncjJqAnmDkAkCGBDw1ZJmgNUs65W.', 'empleado', 1),
+(21, 'Gabriel', 'Beneitez', 'gabrielbeneitez@gmail.com', '$2b$05$eKvLYOQoSlUgOs7/fgHp1Oog3zHQxshklbjErXQXHrxm.8LxigLcS', 'soporte', 1);
 
 --
 -- Índices para tablas volcadas
@@ -231,6 +292,12 @@ INSERT INTO `usuarios` (`id_usuario`, `nombre`, `apellido`, `email`, `contrasena
 --
 ALTER TABLE `areas`
   ADD PRIMARY KEY (`id_area`);
+
+--
+-- Indices de la tabla `faqs`
+--
+ALTER TABLE `faqs`
+  ADD PRIMARY KEY (`id_faq`);
 
 --
 -- Indices de la tabla `niveles`
@@ -287,16 +354,22 @@ ALTER TABLE `areas`
   MODIFY `id_area` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
+-- AUTO_INCREMENT de la tabla `faqs`
+--
+ALTER TABLE `faqs`
+  MODIFY `id_faq` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
 -- AUTO_INCREMENT de la tabla `respuestas_solicitudes`
 --
 ALTER TABLE `respuestas_solicitudes`
-  MODIFY `id_respuesta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_respuesta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT de la tabla `solicitudes`
 --
 ALTER TABLE `solicitudes`
-  MODIFY `id_solicitud` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id_solicitud` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT de la tabla `turnos`
@@ -314,7 +387,7 @@ ALTER TABLE `turnos_asignaciones`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- Restricciones para tablas volcadas

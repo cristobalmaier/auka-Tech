@@ -584,6 +584,25 @@ hr {
   background-color: var(--color-boton-hover-secundario);
 }
 
+.perfil-faq {
+  text-decoration: none;
+  color: var(--color-boton-texto-secundario);
+  background-color: var(--color-boton-secundario);
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 13px;
+  transition: background 0.3s ease;
+  text-align: center;
+}
+
+.perfil-faq i {
+  margin-right: 5px;
+}
+
+.perfil-faq:hover {
+  background-color: var(--color-boton-hover-secundario);
+}
+
 .principal {
   display: flex;
   gap: 30px;
