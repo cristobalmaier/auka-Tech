@@ -43,6 +43,22 @@ administracionRutas.get('/panel/administracion', async (req, res) => {
     }
 })
 
+    // Panel avanzado para administradores: visualización de estadísticas
+    administracionRutas.get('/panel/administracion-avanzada', async (req, res) => {
+        try {
+            const usuario = obtenerDatosToken(req)
+
+            // Renderizar vista que consumirá los endpoints de estadisticas
+            res.render('paneles/administracion_avanzada', {
+                titulo: 'AukaTech - Panel Avanzado',
+                usuario
+            })
+        } catch (error) {
+            console.error('Error al cargar el panel avanzado:', error)
+            res.status(500).send('Error al cargar el panel avanzado')
+        }
+    })
+
 // Ruta para actualizar el estado de verificación de un usuario
 administracionRutas.put('/api/usuarios/:id/verificar', async (req, res) => {
     try {

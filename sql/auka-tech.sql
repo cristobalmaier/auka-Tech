@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-10-2025 a las 23:34:47
+-- Tiempo de generación: 15-10-2025 a las 01:26:05
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -96,6 +96,19 @@ INSERT INTO `niveles` (`numero_nivel`, `nombre_nivel`, `descripcion`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `recuperacion_contrasena`
+--
+
+CREATE TABLE `recuperacion_contrasena` (
+  `id` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `token` varchar(128) NOT NULL,
+  `expiracion` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `respuestas_solicitudes`
 --
 
@@ -140,7 +153,16 @@ INSERT INTO `respuestas_solicitudes` (`id_respuesta`, `id_solicitud`, `mensaje`,
 (26, 35, 'Voy para allá', 14, '2025-10-14 17:33:25'),
 (27, 36, 'Yendo', 14, '2025-10-14 17:39:38'),
 (28, 37, 'Yendo', 14, '2025-10-14 17:44:52'),
-(29, 38, 'Voy para allá', 21, '2025-10-14 17:45:11');
+(29, 38, 'Voy para allá', 21, '2025-10-14 17:45:11'),
+(30, 39, 'Yendo', 14, '2025-10-14 19:22:28'),
+(31, 39, 'Yendo', 14, '2025-10-14 19:22:44'),
+(32, 40, 'Yendo', 14, '2025-10-14 19:25:55'),
+(33, 41, 'Voy para allá', 14, '2025-10-14 19:28:52'),
+(34, 42, 'Yendo', 14, '2025-10-14 19:35:05'),
+(35, 43, 'Yendo', 14, '2025-10-14 19:49:00'),
+(36, 44, 'Yendo', 14, '2025-10-14 20:10:41'),
+(37, 45, 'Yendo', 14, '2025-10-14 20:16:33'),
+(38, 47, 'Yendo', 14, '2025-10-14 20:20:41');
 
 -- --------------------------------------------------------
 
@@ -203,7 +225,16 @@ INSERT INTO `solicitudes` (`id_solicitud`, `id_soporte`, `id_emisor`, `id_area`,
 (35, 14, 16, 1, 1, '1', '2025-10-14 20:33:22', 1, 0, 3),
 (36, 14, 16, 1, 1, '1', '2025-10-14 20:39:35', 1, 0, 3),
 (37, 14, 16, 1, 1, '1', '2025-10-14 20:44:49', 1, 0, NULL),
-(38, 21, 16, 1, 3, 'g', '2025-10-14 20:45:07', 1, 0, NULL);
+(38, 21, 16, 1, 3, 'g', '2025-10-14 20:45:07', 1, 0, 3),
+(39, 14, 22, 1, 2, 'asdads', '2025-10-14 22:05:48', 1, 0, NULL),
+(40, 14, 16, 1, 1, 's', '2025-10-14 22:25:52', 1, 0, NULL),
+(41, 14, 16, 1, 1, 's', '2025-10-14 22:28:40', 1, 0, 3),
+(42, 14, 16, 1, 1, 's', '2025-10-14 22:34:53', 1, 0, 3),
+(43, 14, 16, 1, 1, 's', '2025-10-14 22:48:55', 1, 0, 3),
+(44, 14, 16, 1, 1, 's', '2025-10-14 23:10:30', 1, 1, 3),
+(45, 14, 16, 1, 2, '1', '2025-10-14 23:16:24', 1, 0, NULL),
+(46, NULL, 16, 1, 2, 's', '2025-10-14 23:17:08', 1, 1, NULL),
+(47, 14, 16, 1, 1, 'prueba1231231231233113', '2025-10-14 23:19:54', 1, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -281,7 +312,10 @@ INSERT INTO `usuarios` (`id_usuario`, `nombre`, `apellido`, `email`, `contrasena
 (18, 'lautaro', 'gesualdo', 'lautarogesualdo@gmail.com', '$2b$05$lwvLgmcLdZLApAiKQwglE.aqRmzrMoYX5Q0yrNvjOaQrpPMVCyBI2', 'empleado', 1),
 (19, 'axel', 'derfler', 'axelderfler@gmail.com', '$2b$05$VAbzc33.sUUuWtc0gu4.tOka0lE5pEuZA1Q0HuKWMl2by7P96pI4S', 'empleado', 1),
 (20, 'Agustin', 'Di Tomaso', 'agustinditomaso@gmail.com', '$2b$05$xoKtq8Za.4C5ncM93OoLbO7KncjJqAnmDkAkCGBDw1ZJmgNUs65W.', 'empleado', 1),
-(21, 'Gabriel', 'Beneitez', 'gabrielbeneitez@gmail.com', '$2b$05$eKvLYOQoSlUgOs7/fgHp1Oog3zHQxshklbjErXQXHrxm.8LxigLcS', 'soporte', 1);
+(21, 'Gabriel', 'Beneitez', 'gabrielbeneitez@gmail.com', '$2b$05$eKvLYOQoSlUgOs7/fgHp1Oog3zHQxshklbjErXQXHrxm.8LxigLcS', 'soporte', 1),
+(22, 'mernuel', 'tito', 'mernueltito@gmail.com', '$2b$05$aHllcgMVWhWroeRGhWBTBeDJLFnSF9hRbzgL612VHqyXXSoVsbtIO', 'empleado', 1),
+(23, 'santi', 'craack', 'santicrack@gmail.com', '$2b$05$5mJCvk71tXgucXt.WE73.OuqN76dNurscbD98SphqPJFNGcC/WnlS', 'empleado', 1),
+(24, 'fernando', 'tito', 'sf@gmail.com', '$2b$05$PoM/zjWA8DD7AogZawWaEO.6ZZo0KdnDCT2lDsGkoZrkmdHf2xpBC', 'empleado', 1);
 
 --
 -- Índices para tablas volcadas
@@ -304,6 +338,13 @@ ALTER TABLE `faqs`
 --
 ALTER TABLE `niveles`
   ADD PRIMARY KEY (`numero_nivel`);
+
+--
+-- Indices de la tabla `recuperacion_contrasena`
+--
+ALTER TABLE `recuperacion_contrasena`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_usuario_idx` (`id_usuario`);
 
 --
 -- Indices de la tabla `respuestas_solicitudes`
@@ -360,16 +401,22 @@ ALTER TABLE `faqs`
   MODIFY `id_faq` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
+-- AUTO_INCREMENT de la tabla `recuperacion_contrasena`
+--
+ALTER TABLE `recuperacion_contrasena`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `respuestas_solicitudes`
 --
 ALTER TABLE `respuestas_solicitudes`
-  MODIFY `id_respuesta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id_respuesta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT de la tabla `solicitudes`
 --
 ALTER TABLE `solicitudes`
-  MODIFY `id_solicitud` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id_solicitud` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT de la tabla `turnos`
@@ -387,11 +434,17 @@ ALTER TABLE `turnos_asignaciones`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `recuperacion_contrasena`
+--
+ALTER TABLE `recuperacion_contrasena`
+  ADD CONSTRAINT `recuperacion_fk_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `respuestas_solicitudes`

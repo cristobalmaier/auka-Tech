@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <%- include('../parciales/head.html') %>
+  <title><%= titulo %></title>
+  <link rel="stylesheet" href="/css/panel-administracion.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="/css/administracion-avanzada.css">
+  <link rel="stylesheet" href="alertas.css" />
+  <link rel="stylesheet" href="directivos.css">
+  <link rel="stylesheet" href="/css/panel-administracion.css">
+
+  <!-- ICONOS (Font Awesome) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+    <!-- SOCKET.IO -->
+    <script type="module" src="/socket.io/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@4.0.2/dist/timeago.min.js"></script>
+</head>
+
+<body>
+  <div class="layout" id="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="logo">
+        <div class="logo-icon">A</div>
+        <div class="logo-text">
+          <h1>AukaTech</h1>
+          <span>Panel de Monitoreo</span>
+        </div>
+
+      </div>
+
+      <nav class="nav">
+        <span>Navegación</span>
+        <ul class="nav-list">
+            <li>
+            <a href="/panel/directivos"><i class="fas fa-phone-alt"></i> <span>Llamados</span></a>
+          </li>
+          <li class="active">
+            <a href="/panel/administracion-avanzada"><i class="fa-solid fa-chart-line"></i> <span>Estadísticas</span></a>
+          </li>
+          <li >
+            <a href="/panel/administracion"><i class="fa-solid fa-gear"></i> <span>Administración</span></a>
+          </li>
+
+          <li>
+            <a class="perfil-cerrar-sesion" href="/logout"><i class="fa-solid fa-right-from-bracket"></i>Cerrar sesión</a>
+          </li>
+        
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Contenido principal -->
+    <div class="main-content" id="mainContent">
+      <header class="header">
+        <div class="menu-icon" id="menuIcon">
+          <img src="img/icon.svg" alt="" />
+        </div>
+        <div class="logo1">
+          <div class="logo-icon1">A</div>
+          <span class="logo-text1">AukaTech</span>
+        </div>
+      </header>
+
+      <main class="main-panel">
+        <div class="header-llamados">
+          <h2>Panel Avanzado - Estadísticas</h2>
+        </div>
+
+        <div class="header-cards">
+          <div class="stat-card">
+            <h2 class="card-title">Total solicitudes (30 días)</h2>
+            <div id="totalSolicitudes" class="stat-number">-</div>
+            <div class="stat-label">Solicitudes en el periodo</div>
+          </div>
+          <div class="stat-card">
+            <h2 class="card-title">Tiempo promedio de respuesta (min)</h2>
+            <div id="tiempoPromedio" class="stat-number">-</div>
+            <div class="stat-label">Minutos (media)</div>
+          </div>
+        </div>
+
+        <div class="charts-grid">
+          <div class="chart-card">
+            <h2 class="card-title">Solicitudes por día (últimos 30 días)</h2>
+            <div class="chart-wrapper"><canvas id="chartSolicitudesDia"></canvas></div>
+          </div>
+          <div class="chart-card">
+            <h2 class="card-title">Solicitudes por área</h2>
+            <div class="chart-wrapper"><canvas id="chartPorArea"></canvas></div>
+          </div>
+          <div class="chart-card">
+            <h2 class="card-title">Solicitudes por nivel</h2>
+            <div class="chart-wrapper"><canvas id="chartPorNivel"></canvas></div>
+          </div>
+          <div class="chart-card">
+            <h2 class="card-title">Rendimiento por soporte</h2>
+            <div class="chart-wrapper"><canvas id="chartRendimiento"></canvas></div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div id="notificacion" class="alerta animate__animated animate__fadeInRight" style="display: none;">
+    <i id="notificacionIcono"></i>
+    <span id="notificacionMensaje"></span>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+  <script src="/js/panel/administracion_avanzada.js"></script>
+</body>
+</html>

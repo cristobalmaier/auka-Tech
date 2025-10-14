@@ -33,6 +33,7 @@ import respuestaRutas from './rutas/respuesta.rutas.js'
 import turnosRutas from './rutas/turno.rutas.js'
 import datosRutas from './rutas/datos.rutas.js'
 import faqRutas from './rutas/faq.rutas.js';
+import estadisticasRutas from './rutas/estadisticas.rutas.js'
 
 app.use('/api/usuarios', usuarioRutas)
 app.use('/api/areas', areaRutas)
@@ -41,6 +42,7 @@ app.use('/api/respuestas', respuestaRutas)
 app.use('/api/turnos', turnosRutas)
 app.use('/api/data', datosRutas)
 app.use('/api/faqs', faqRutas);
+app.use('/api/estadisticas', estadisticasRutas)
 
 app.use((req, res, next) => {
     res.locals.formato = formato
