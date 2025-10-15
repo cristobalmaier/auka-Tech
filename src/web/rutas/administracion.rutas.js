@@ -1,5 +1,6 @@
 import { Router } from 'express'
 const administracionRutas = new Router()
+import { io } from '../../index.js'
 
 // ! Agregar funcion esDirectivo mas tarde
 // import { esDirectivo } from '../utiles/auth.js'
@@ -92,10 +93,36 @@ administracionRutas.put('/api/usuarios/:id/verificar', async (req, res) => {
 
         const data = await response.json().catch(() => ({}));
         
-        res.status(200).json({ 
-            mensaje: data.mensaje || 'Estado de verificación actualizado correctamente',
-            autorizado: data.autorizado
-        });
+        if (response.ok) {
+            // Obtener el email del usuario verificado para la notificación
+            const userResponse = await peticion({
+                url: `${process.env.API_URL}/usuarios/${id}`,
+                metodo: 'GET',
+                cabeceras: {
+                    'Authorization': req.headers.authorization || ''
+                }
+            });
+
+            if (userResponse.ok) {
+                const userData = await userResponse.json();
+                console.log('Datos del usuario obtenidos:', userData); // Debug log
+                
+                if (userData && userData.length > 0) {
+                    // Emitir evento de verificación a través de WebSocket
+                    io.emit('account_verified', { 
+                        email: userData[0].email,
+                        userId: id,
+                        timestamp: new Date().toISOString()
+                    });
+                } else {
+                    console.error('No se encontraron datos del usuario');
+                }
+            } else {
+                console.error('Error al obtener datos del usuario:', userResponse.statusText);
+            }
+
+            return res.json({ mensaje: 'Estado de verificación actualizado correctamente' });
+        }
     } catch (error) {
         console.error('Error al actualizar el estado de verificación:', error);
         res.status(500).json({ 

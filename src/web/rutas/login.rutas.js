@@ -34,7 +34,7 @@ loginRutas.post('/entrar', async (req, res) => {
     const [infoUsuario] = await usuario.json()
     
     if(!infoUsuario.autorizado) 
-        return res.redirect('/pendiente')
+        return res.redirect(`/pendiente?email=${encodeURIComponent(infoUsuario.email)}`)
 
     const token = await jwt.sign(infoUsuario,
         JWT_SECRET,
@@ -56,12 +56,16 @@ loginRutas.post('/enviar_solicitud', async (req, res) => {
     
     const crearUsuario = await peticion({ url: `${API_URL}/usuarios/crear`, metodo: 'POST', cuerpo: { nombre, apellido, email, contrasena } })
     if(crearUsuario.ok) 
-        return res.redirect('/pendiente')
+        return res.redirect(`/pendiente?email=${encodeURIComponent(email)}`)
 })
 
 // "SALA DE ESPERA"
 loginRutas.get('/pendiente', (req, res) => {
-    res.render('login/sala_espera', { titulo: 'AukaTech - Solicitud pendiente' })
+    const { email } = req.query;
+    res.render('login/sala_espera', { 
+        titulo: 'AukaTech - Solicitud pendiente',
+        email: email || ''
+    })
 })
 
 export default loginRutas
