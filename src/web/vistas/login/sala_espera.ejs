@@ -3,6 +3,19 @@
 <head>
     <%- include('../parciales/head.html') %>
     <link rel="stylesheet" href="logeo.css">
+    
+    <!-- ICONOS (Font Awesome) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
+    <!-- ANIMACIONES (Animate.css) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    
     <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
@@ -16,104 +29,96 @@
         </div>
     </div>
 
-    <!-- Notificación estilo toast -->
-    <div id="notificacion" style="display: none;">
-        <i id="notificacionIcono"></i>
-        <span id="notificacionMensaje"></span>
+    <!-- Notificación estilo directivos -->
+    <div
+      id="notificacion"
+      class="alerta animate__animated animate__fadeInRight"
+      style="display: none"
+    >
+      <i id="notificacionIcono"></i>
+      <span id="notificacionMensaje"></span>
     </div>
 
     <style>
-        /* Estilos para la notificación */
-        #notificacion {
+        :root {
+            --color-alerta-exito-fondo: #DCFCE7;
+            --color-alerta-exito-borde: #86EFAC;
+            --color-alerta-exito-texto: #1C8B45;
+
+            --color-alerta-error-fondo: #FEE2E2;
+            --color-alerta-error-borde: #FCA5A5;
+            --color-alerta-error-texto: #EF4444;
+
+            --color-alerta-info-fondo: #DBEAFE;
+            --color-alerta-info-borde: #93C5FD;
+            --color-alerta-info-texto: #3070D7;
+        }
+
+        .alerta {
             position: fixed;
-            right: 24px;
-            top: 24px;
-            display: none;
+            right: 70px;
+            top: 60px;
+            padding: 20px;
+            display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 12px 20px;
-            background: linear-gradient(90deg, #4f46e5, #6366f1);
-            color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 12px 34px rgba(2,6,23,0.12);
-            z-index: 1200;
+            gap: 15px;
+            max-width: 350px;
+        }
+          
+        .alerta i {
+            font-size: 36px;
+        }
+          
+        .alerta span {
+            font-size: 15px;
             font-weight: 600;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+         
+        .alerta-exito {
+            background-color: var(--color-alerta-exito-fondo);
+            border: 1px solid var(--color-alerta-exito-borde);
+            color: var(--color-alerta-exito-texto);
+            border-radius: 10px;
+        } 
+
+        .alerta-error {
+            background-color: var(--color-alerta-error-fondo);
+            border: 1px solid var(--color-alerta-error-borde);
+            color: var(--color-alerta-error-texto);
+            border-radius: 10px;
         }
 
-        #notificacion i {
-            font-size: 18px;
-        }
-
-        #notificacion.alerta-exito {
-            background: linear-gradient(90deg, #10b981, #34d399);
-        }
-
-        #notificacion.alerta-error {
-            background: linear-gradient(90deg, #ef4444, #f87171);
-        }
-
-        #notificacion.alerta-info {
-            background: linear-gradient(90deg, #3b82f6, #60a5fa);
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        @keyframes fadeOut {
-            to {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
+        .alerta-info {
+            background-color: var(--color-alerta-info-fondo);
+            border: 1px solid var(--color-alerta-info-borde);
+            color: var(--color-alerta-info-texto);
+            border-radius: 10px;
         }
     </style>
 
     <script type="module">
-        // Función para mostrar notificaciones
+        // Función para mostrar notificación
         function mostrarNotificacion(tipo, mensaje) {
             const notificacion = document.getElementById('notificacion');
             const notificacionIcono = document.getElementById('notificacionIcono');
             const notificacionMensaje = document.getElementById('notificacionMensaje');
-            
-            if (!notificacion || !notificacionIcono || !notificacionMensaje) {
-                console.error('Elementos de notificación no encontrados');
-                return;
-            }
-            
-            // Resetear clases
-            notificacion.className = '';
+
+            notificacion.classList.remove('alerta-exito', 'alerta-error');
             notificacionIcono.className = '';
-            
-            // Configurar según el tipo
-            notificacion.classList.add(tipo === 'exito' ? 'alerta-exito' : 
-                                    tipo === 'error' ? 'alerta-error' : 'alerta-info');
-            
-            // Configurar icono
-            notificacionIcono.classList.add('fas', 
-                tipo === 'exito' ? 'fa-check-circle' : 
-                tipo === 'error' ? 'fa-times-circle' : 'fa-info-circle');
-            
-            // Configurar mensaje
+
+            if (tipo === 'exito') {
+                notificacion.classList.add('alerta-exito');
+                notificacionIcono.classList.add('fas', 'fa-check-circle');
+            } else {
+                notificacion.classList.add('alerta-error');
+                notificacionIcono.classList.add('fas', 'fa-times-circle');
+            }
+
             notificacionMensaje.textContent = mensaje;
-            
-            // Mostrar con animación
             notificacion.style.display = 'flex';
-            notificacion.style.animation = 'slideIn 0.3s ease-out forwards';
-            
-            // Ocultar después de 3 segundos
+
             setTimeout(() => {
-                notificacion.style.animation = 'fadeOut 0.3s ease-out forwards';
-                setTimeout(() => {
-                    notificacion.style.display = 'none';
-                }, 300);
+                notificacion.style.display = 'none';
             }, 3000);
         }
         
