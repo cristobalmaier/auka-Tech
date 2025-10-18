@@ -21,6 +21,8 @@ export async function query(sql, valores) {
     }
 }
 
+console.log(CONFIGURACION)
+
 export async function pruebaConexion() {
     try {
         const conexion = await mysql.createConnection(CONFIGURACION)
