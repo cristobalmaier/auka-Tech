@@ -207,6 +207,7 @@ socket.on('nuevo-llamado', async (data) => {
                 <div class="llamado-cabecera">
                     <p class="llamado-titulo">${empleado.nombre} ${empleado.apellido}</p>
                     <p class="llamado-mensaje">${solicitud.mensaje}</p>
+                    <p class="llamado-area">${solicitud.area}</p>
                 </div>
                 <hr>
                 <div class="llamado-cuerpo">

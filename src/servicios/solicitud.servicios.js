@@ -14,7 +14,7 @@ class SolicitudServicio {
     }
 
     static async obtenerSolicitudPorId({ id }) {
-        const resultado = await query(`SELECT * FROM solicitudes WHERE id_solicitud = ?`, id)
+        const resultado = await query(`SELECT s.*, a.area FROM solicitudes s JOIN areas a ON s.id_area = a.id_area WHERE id_solicitud = ?`, id)
         return resultado
     }
 

@@ -194,8 +194,8 @@ botonLlamado.addEventListener('click', async () => {
 
     const llamadoInfo = await resultado.json()
 
-    console.log("Julian");
-    console.log(llamadoInfo);
+    const areaSelect = formulario.area;
+    const areaNombre = areaSelect.options[areaSelect.selectedIndex].text;
 
     socket.emit('nuevo-llamado', {
         usuario: {
@@ -208,7 +208,8 @@ botonLlamado.addEventListener('click', async () => {
             id: llamadoInfo.data.id,
             fecha_envio: new Date(),
             numero_nivel: nivel,
-            mensaje
+            mensaje,
+            area: areaNombre
         }
     })
 

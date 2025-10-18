@@ -308,6 +308,11 @@ hr {
   word-break: break-word;
 }
 
+.llamado-area {
+    margin-top: 10px;
+    font-size: 18px;
+}
+
 .llamado-cuerpo {
   font-size: 18px;
 }
